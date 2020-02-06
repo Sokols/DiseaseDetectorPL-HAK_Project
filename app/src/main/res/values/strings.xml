@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Wykrywacz Chorób</string>
     <string name="hello">Witaj %s</string>
+    <string name="password">Hasło</string>
+    <string name="login">Zaloguj</string>
+    <string name="logout">Wyloguj</string>
+    <string name="panel">Panel logowania</string>
+    <string name="remember">Zapamiętaj mnie</string>
+    <string name="examine">Zbadaj pacjenta</string>
 </resources>
