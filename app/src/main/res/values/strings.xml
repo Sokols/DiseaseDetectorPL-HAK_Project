@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Wykrywacz Chorób</string>
+    <string name="hello">Witaj %s</string>
+</resources>
