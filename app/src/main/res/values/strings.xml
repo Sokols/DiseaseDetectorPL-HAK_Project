@@ -7,4 +7,6 @@
     <string name="panel">Panel logowania</string>
     <string name="remember">Zapamiętaj mnie</string>
     <string name="examine">Zbadaj pacjenta</string>
+    <string name="database">Baza pacjentów</string>
+    <string name="alldata">Podaj wszystkie dane</string>
 </resources>

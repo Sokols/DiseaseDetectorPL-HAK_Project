@@ -8,5 +8,7 @@
     <string name="panel">Login panel</string>
     <string name="remember">Remember me</string>
     <string name="examine">Examine the patient</string>
+    <string name="database">Patient database</string>
+    <string name="alldata">Enter all data</string>
 
 </resources>

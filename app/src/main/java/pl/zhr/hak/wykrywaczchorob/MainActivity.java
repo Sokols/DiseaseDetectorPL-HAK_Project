@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean remember = checkBoxRemember.isChecked();
                 if(name.isEmpty() || password.isEmpty())
                     Toast.makeText(MainActivity.this,
-                            "Podaj wszystkie dane",
+                            getString(R.string.alldata),
                             Toast.LENGTH_SHORT).show();
                 else {
                     sharedPreferences.edit().putBoolean("remember",
