@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
@@ -16,6 +17,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView textViewHello;
     Button buttonLogout;
     SharedPreferences sharedPreferences;
+    ImageButton imageButtonAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +28,22 @@ public class HomeActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String name = extras.getString("name");
         textViewHello = findViewById(R.id.textViewHello);
+        imageButtonAdd = findViewById(R.id.imageButtonAdd);
+        buttonLogout = findViewById(R.id.buttonLogout);
         textViewHello.setText(getString(R.string.hello, name));
 
-        buttonLogout = findViewById(R.id.buttonLogout);
+        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent examination1Activity = new Intent(HomeActivity.this,
+                        Examination1Activity.class);
+                startActivity(examination1Activity);
+            }
+        });
+
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent mainActivity = new Intent(HomeActivity.this,
                         MainActivity.class);
                 sharedPreferences.edit().putBoolean("remember",

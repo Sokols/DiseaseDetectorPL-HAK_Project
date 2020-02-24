@@ -9,4 +9,8 @@
     <string name="examine">Zbadaj pacjenta</string>
     <string name="database">Baza pacjentów</string>
     <string name="alldata">Podaj wszystkie dane</string>
+    <string name="provideSymptoms">Podaj objawy pacjenta</string>
+    <string name="cancel">Anuluj</string>
+    <string name="confirm">Zatwierdź</string>
+    <string name="diagnosis">Diagnoza</string>
 </resources>

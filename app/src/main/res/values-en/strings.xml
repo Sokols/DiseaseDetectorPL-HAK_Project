@@ -10,5 +10,9 @@
     <string name="examine">Examine the patient</string>
     <string name="database">Patient database</string>
     <string name="alldata">Enter all data</string>
+    <string name="provideSymptoms">Provide patient symptoms</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="diagnosis">Diagnosis</string>
 
 </resources>

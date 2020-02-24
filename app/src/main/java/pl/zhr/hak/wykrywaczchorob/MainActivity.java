@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
+
+        // zmiana języka na przeciwny
         if (sharedPreferences.getBoolean("language", false))
             setAppLocale("en");
         else
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         imageButtonLanguage = findViewById(R.id.imageButtonLanguage);
 
+        // uruchom HomeActivity jeśli pierwotnie zaznaczono checkbox zapamiętania
         boolean rememberFlag = sharedPreferences.getBoolean("remember", false);
         String ownerName = sharedPreferences.getString("name", "");
         if (rememberFlag && !ownerName.isEmpty()) {
