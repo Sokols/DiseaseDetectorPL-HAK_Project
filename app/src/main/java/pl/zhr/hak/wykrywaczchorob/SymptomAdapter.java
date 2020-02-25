@@ -1,10 +1,12 @@
 package pl.zhr.hak.wykrywaczchorob;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,16 +14,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomViewHolder> {
     class SymptomViewHolder extends RecyclerView.ViewHolder {
+
+
         private final CheckBox checkBoxCheckSymptom;
         private final TextView textViewSymptomName;
+
         public SymptomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.checkBoxCheckSymptom = itemView.findViewById(R.id.checkBoxCheckSymptom);
             this.textViewSymptomName = itemView.findViewById(R.id.textViewSymptomName);
+
+            checkBoxCheckSymptom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    // jeśli symptom został zaznaczony zmień jego flagę w shared preferences na true
+                    if (isChecked) {
+                        String key = textViewSymptomName.getText().toString();
+                        sharedPreferences.edit().putBoolean(key,
+                                true).apply();
+                    }
+                    // jeśli symptom został odznaczony zmień jego flagę w shared preferences na false
+                    else {
+                        String key = textViewSymptomName.getText().toString();
+                        sharedPreferences.edit().putBoolean(key,
+                                false).apply();
+                    }
+                }
+            });
         }
     }
+    SharedPreferences sharedPreferences;
+    public static final String sharedPreferencesName = "data";
 
     private List<Symptom> mSymptomList;
     private final LayoutInflater mInflater;
@@ -30,6 +57,7 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
         this.mSymptomList = symptomList;
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
+        sharedPreferences = context.getSharedPreferences(sharedPreferencesName, 0);
     }
 
     @NonNull
@@ -42,14 +70,9 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
     @Override
     public void onBindViewHolder(@NonNull SymptomViewHolder holder, int position) {
         holder.textViewSymptomName.setText(mSymptomList.get(position).getSymptomName());
-        holder.checkBoxCheckSymptom.setChecked(holder.checkBoxCheckSymptom.isChecked());
 
-        holder.checkBoxCheckSymptom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-
-            }
-        });
+        // ustaw na starcie wszystkie symptomy na false w shared preferences
+        sharedPreferences.edit().putBoolean(mSymptomList.get(position).getSymptomName(), false).apply();
     }
 
     @Override

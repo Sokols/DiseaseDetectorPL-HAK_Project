@@ -13,4 +13,18 @@
     <string name="cancel">Anuluj</string>
     <string name="confirm">Zatwierdź</string>
     <string name="diagnosis">Diagnoza</string>
+    <string name="cough">Kaszel</string>
+    <string name="vomiting">Wymioty</string>
+    <string name="headache">Ból głowy</string>
+    <string name="fever">Gorączka</string>
+    <string name="dyspnoea">Duszność</string>
+    <string name="chills">Dreszcze</string>
+    <string name="sore_throat">Ból gardła</string>
+    <string name="diarrhea">Biegunka</string>
+    <string name="stomach_ache">Ból brzucha</string>
+    <string name="patientDiagnose">Pacjent prawdopodobnie choruje na:</string>
+    <string name="coronavirus">Koronawirus</string>
+    <string name="food_poisoning">Zatrucie pokarmowe</string>
+    <string name="angina">Angina</string>
+    <string name="flu">Grypa</string>
 </resources>

@@ -14,5 +14,19 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="diagnosis">Diagnosis</string>
+    <string name="cough">Cough</string>
+    <string name="vomiting">Vomiting</string>
+    <string name="headache">Headache</string>
+    <string name="fever">Fever</string>
+    <string name="dyspnoea">Dyspnoea</string>
+    <string name="chills">Chills</string>
+    <string name="sore_throat">Sore throat</string>
+    <string name="diarrhea">Diarrhea</string>
+    <string name="stomach_ache">Stomach ache</string>
+    <string name="patientDiagnose">The patient probably has:</string>
+    <string name="coronavirus">Coronavirus</string>
+    <string name="food_poisoning">Food poisoning</string>
+    <string name="angina">Angina</string>
+    <string name="flu">Flu</string>
 
 </resources>
