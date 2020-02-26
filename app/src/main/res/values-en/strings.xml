@@ -31,5 +31,9 @@
     <string name="back_to_menu">Back to menu</string>
     <string name="add">Add</string>
     <string name="please_only4">Select up to 4 symptoms</string>
+    <string name="data_base">Patient database</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="disease">Disease</string>
 
 </resources>

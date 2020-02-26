@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ImageButton imageButtonExit;
     ImageButton imageButtonAdd;
+    ImageButton imageButtonDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         textViewHello = findViewById(R.id.textViewHello);
         imageButtonExit = findViewById(R.id.imageButtonExit);
         imageButtonAdd = findViewById(R.id.imageButtonAdd);
+        imageButtonDB = findViewById(R.id.imageButtonDB);
         buttonLogout = findViewById(R.id.buttonLogout);
         textViewHello.setText(getString(R.string.hello, name));
 
@@ -47,6 +49,15 @@ public class HomeActivity extends AppCompatActivity {
                 Intent examination1Activity = new Intent(HomeActivity.this,
                         Examination1Activity.class);
                 startActivity(examination1Activity);
+            }
+        });
+
+        imageButtonDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent patientActivity = new Intent(HomeActivity.this,
+                        PatientsActivity.class);
+                startActivity(patientActivity);
             }
         });
 

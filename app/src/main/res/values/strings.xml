@@ -30,4 +30,8 @@
     <string name="back_to_menu">Wróć do menu</string>
     <string name="add">Dodaj</string>
     <string name="please_only4">Zaznacz maksymalnie 4 symptomy</string>
+    <string name="data_base">Baza danych pacjentów</string>
+    <string name="name">Imię</string>
+    <string name="surname">Nazwisko</string>
+    <string name="disease">Choroba</string>
 </resources>
