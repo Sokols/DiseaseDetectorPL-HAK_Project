@@ -35,5 +35,8 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="disease">Disease</string>
+    <string name="add_patient">Add patient</string>
+    <string name="cannot_add">You cannot add a patient without disease to the database</string>
+    <string name="nullable"></string>
 
 </resources>

@@ -22,15 +22,20 @@ public class PatientsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients);
 
-        patientList.add(new Patient(1, "Igor", "Sokol", "Łak"));
-        patientList.add(new Patient(1, "Bolo", "Sokol", "Koronawirus"));
-        patientList.add(new Patient(1, "Artur", "Sokol", "Ebola"));
+        patientList.add(new Patient("Igor", "Sokol", "Łak"));
+        patientList.add(new Patient("Artur", "Sokol", "Ebola"));
         RecyclerView recyclerView = findViewById(R.id.recyclerView1);
         patientAdapter = new PatientAdapter(patientList, PatientsActivity.this);
         recyclerView.setAdapter(patientAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
-
-
+        patientViewModel.insert(new Patient("Bolo", "Sokol", "Ebe ebe ebe"));
+        patientViewModel.getPatientList().observe(this, new Observer<List<Patient>>(){
+            @Override
+            public void onChanged(List<Patient> patients) {
+                patientList = patients;
+                patientAdapter.setPatients(patientList);
+            }
+        });
     }
 }

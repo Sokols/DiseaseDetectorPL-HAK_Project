@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
 
@@ -68,13 +69,18 @@ public class Examination2Activity extends AppCompatActivity {
         buttonAddPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent addPatientActivity = new Intent(Examination2Activity.this,
-                        AddPatientActivity.class);
-                // podanie do nowej aktywności nazwy zdiagnozowanej choroby
-                addPatientActivity.putExtra("diseaseName",
-                        textViewDiagnosedDisease.getText().toString());
-                startActivity(addPatientActivity);
-                finish();
+                if (textViewDiagnosedDisease.getText().toString() == getString(R.string.nullable)) {
+                    Toast.makeText(Examination2Activity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent addPatientActivity = new Intent(Examination2Activity.this,
+                            AddPatientActivity.class);
+                    // podanie do nowej aktywności nazwy zdiagnozowanej choroby
+                    addPatientActivity.putExtra("diseaseName",
+                            textViewDiagnosedDisease.getText().toString());
+                    startActivity(addPatientActivity);
+                    finish();
+                }
             }
         });
     }

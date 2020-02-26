@@ -2,6 +2,7 @@ package pl.zhr.hak.wykrywaczchorob;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -18,6 +19,13 @@ public class Patient {
 
     @ColumnInfo
     private String disease;
+
+    @Ignore
+    public Patient(String name, String surname, String disease) {
+        this.name = name;
+        this.surname = surname;
+        this.disease = disease;
+    }
 
     public Patient(int patientID, String name, String surname, String disease) {
         this.patientID = patientID;

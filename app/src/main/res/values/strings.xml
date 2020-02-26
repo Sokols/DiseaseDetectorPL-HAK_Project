@@ -34,4 +34,8 @@
     <string name="name">Imię</string>
     <string name="surname">Nazwisko</string>
     <string name="disease">Choroba</string>
+    <string name="add_patient">Dodaj pacjenta</string>
+    <string name="cannot_add">Nie możesz dodać do bazy pacjenta bez choroby</string>
+    <string name="nullable"></string>
+
 </resources>
