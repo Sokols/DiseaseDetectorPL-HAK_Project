@@ -19,7 +19,6 @@ import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomViewHolder> {
     class SymptomViewHolder extends RecyclerView.ViewHolder {
 
-
         private final CheckBox checkBoxCheckSymptom;
         private final TextView textViewSymptomName;
 
@@ -31,25 +30,28 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
             checkBoxCheckSymptom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // jeśli symptom został zaznaczony zmień jego flagę w shared preferences na true
+                    // jeśli symptom został zaznaczony zmień jego flagę w shared preferences na true i inkrementuj licznik zaznaocznych symptomów
                     if (isChecked) {
                         String key = textViewSymptomName.getText().toString();
                         sharedPreferences.edit().putBoolean(key,
                                 true).apply();
+                        sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) + 1).apply();
                     }
-                    // jeśli symptom został odznaczony zmień jego flagę w shared preferences na false
+                    // jeśli symptom został odznaczony zmień jego flagę w shared preferences na false i dekrementuj licznik zaznaczonych symptomów
                     else {
                         String key = textViewSymptomName.getText().toString();
                         sharedPreferences.edit().putBoolean(key,
                                 false).apply();
+                        if (sharedPreferences.getInt("symptomCounter", 0) > 0) {
+                            sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) - 1).apply();
+                        }
                     }
                 }
             });
         }
     }
-    SharedPreferences sharedPreferences;
-    public static final String sharedPreferencesName = "data";
 
+    SharedPreferences sharedPreferences;
     private List<Symptom> mSymptomList;
     private final LayoutInflater mInflater;
     private Context mContext;
@@ -73,6 +75,9 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
 
         // ustaw na starcie wszystkie symptomy na false w shared preferences
         sharedPreferences.edit().putBoolean(mSymptomList.get(position).getSymptomName(), false).apply();
+
+        // ustaw na starcie licznik zaznaczonych symptomów na 0
+        sharedPreferences.edit().putInt("symptomCounter", 0).apply();
     }
 
     @Override

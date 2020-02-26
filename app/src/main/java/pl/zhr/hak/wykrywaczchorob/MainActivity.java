@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     CheckBox checkBoxRemember;
     Button buttonLogin;
     ImageButton imageButtonLanguage;
+    ImageButton imageButtonExit1;
 
     SharedPreferences sharedPreferences;
     public static final String sharedPreferencesName = "data";
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         checkBoxRemember = findViewById(R.id.checkBoxRemember);
         buttonLogin = findViewById(R.id.buttonLogin);
         imageButtonLanguage = findViewById(R.id.imageButtonLanguage);
+        imageButtonExit1 = findViewById(R.id.imageButtonExit1);
 
         // uruchom HomeActivity jeśli pierwotnie zaznaczono checkbox zapamiętania
         boolean rememberFlag = sharedPreferences.getBoolean("remember", false);
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
         if (rememberFlag && !ownerName.isEmpty()) {
             homeReady(ownerName);
         }
+
+        imageButtonExit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

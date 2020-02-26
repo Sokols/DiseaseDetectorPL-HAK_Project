@@ -26,11 +26,11 @@
         android:layout_width="270dp"
         android:layout_height="281dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProvideSymptoms" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPleaseOnly4" />
 
     <Button
         android:id="@+id/buttonCancelSymptoms"
@@ -54,4 +54,18 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/buttonCancelSymptoms"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <TextView
+        android:id="@+id/textViewPleaseOnly4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:text="@string/please_only4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProvideSymptoms" />
 </androidx.constraintlayout.widget.ConstraintLayout>

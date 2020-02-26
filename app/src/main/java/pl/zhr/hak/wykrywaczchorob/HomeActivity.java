@@ -17,6 +17,7 @@ public class HomeActivity extends AppCompatActivity {
     TextView textViewHello;
     Button buttonLogout;
     SharedPreferences sharedPreferences;
+    ImageButton imageButtonExit;
     ImageButton imageButtonAdd;
 
     @Override
@@ -28,9 +29,17 @@ public class HomeActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String name = extras.getString("name");
         textViewHello = findViewById(R.id.textViewHello);
+        imageButtonExit = findViewById(R.id.imageButtonExit);
         imageButtonAdd = findViewById(R.id.imageButtonAdd);
         buttonLogout = findViewById(R.id.buttonLogout);
         textViewHello.setText(getString(R.string.hello, name));
+
+        imageButtonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         imageButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
