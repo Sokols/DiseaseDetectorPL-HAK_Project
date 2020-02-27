@@ -35,9 +35,12 @@
     <string name="surname">Nazwisko</string>
     <string name="disease">Choroba</string>
     <string name="add_patient">Dodaj pacjenta</string>
-    <string name="cannot_add">Nie możesz dodać do bazy pacjenta bez choroby</string>
+    <string name="cannot_add">Nie możesz dodać pacjenta bez choroby</string>
     <string name="nullable"></string>
     <string name="no_disease">Nie znaleziono choroby</string>
     <string name="delete_all">Usuń wszystko</string>
-
+    <string name="please_confirm">Jesteś pewien?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="more_disease">Nie możesz dodać pacjenta z więcej niż jedną chorobą</string>
 </resources>
