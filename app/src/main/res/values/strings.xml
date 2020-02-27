@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Wykrywacz Chorób</string>
+    <string name="log">Login</string>
     <string name="hello">Witaj %s</string>
-    <string name="password">Hasło</string>
     <string name="login">Zaloguj</string>
     <string name="logout">Wyloguj</string>
     <string name="panel">Panel logowania</string>
@@ -37,5 +37,7 @@
     <string name="add_patient">Dodaj pacjenta</string>
     <string name="cannot_add">Nie możesz dodać do bazy pacjenta bez choroby</string>
     <string name="nullable"></string>
+    <string name="no_disease">Nie znaleziono choroby</string>
+    <string name="delete_all">Usuń wszystko</string>
 
 </resources>

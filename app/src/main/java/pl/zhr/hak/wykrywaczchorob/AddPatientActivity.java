@@ -41,38 +41,33 @@ public class AddPatientActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         Bundle extras = getIntent().getExtras();
-        String disease = extras.getString("diseaseName");
+        String disease = extras.getString("diseaseName", "");
         textViewAddDisease.setText(getString(R.string.disease) + ": "
                 + disease);
 
-        buttonAddCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                finish();
-            }
-        });
+        buttonAddCancel.setOnClickListener(v -> finish());
 
-        buttonAddConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                String name = editTextAddName.getText().toString();
-                String surname = editTextAddSurname.getText().toString();
-                if (name.isEmpty() || surname.isEmpty()) {
-                    Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent patientsActivity = new Intent(AddPatientActivity.this,
-                            PatientsActivity.class);
-                    patientID = sharedPreferences.getInt("id", 1);
-                    patientsActivity.putExtra("id", patientID);
-                    sharedPreferences.edit().putInt("id", patientID + 1).apply();
-                    patientsActivity.putExtra("flag", true);
-                    patientsActivity.putExtra("name", name);
-                    patientsActivity.putExtra("surname", surname);
-                    patientsActivity.putExtra("disease", disease);
-                    startActivity(patientsActivity);
-                    finish();
-                }
+        buttonAddConfirm.setOnClickListener(v -> {
+            String name = editTextAddName.getText().toString();
+            String surname = editTextAddSurname.getText().toString();
+            // jeśli nie uzupełniono wszystkich danych pacjenta nie pozwól przejść dalej
+            if (name.isEmpty() || surname.isEmpty()) {
+                Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent patientsActivity = new Intent(AddPatientActivity.this,
+                        PatientsActivity.class);
+                // ręczne nadawanie ID pacjentom
+                patientID = sharedPreferences.getInt("id", 1);
+                patientsActivity.putExtra("id", patientID);
+                sharedPreferences.edit().putInt("id", patientID + 1).apply();
+                // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj istnieje potrzeba
+                patientsActivity.putExtra("flag", true);
+                patientsActivity.putExtra("name", name);
+                patientsActivity.putExtra("surname", surname);
+                patientsActivity.putExtra("disease", disease);
+                startActivity(patientsActivity);
+                finish();
             }
         });
     }

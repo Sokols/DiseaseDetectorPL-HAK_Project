@@ -33,7 +33,11 @@ public class PatientViewModel extends AndroidViewModel {
         executorService.execute(() -> patientDao.update(patient));
     }
 
-    public void delete(final Patient patient) {
+    public void delete(Patient patient) {
         executorService.execute(() -> patientDao.delete(patient));
+    }
+
+    public void deleteAll() {
+        executorService.execute(() -> patientDao.deleteAll());
     }
 }

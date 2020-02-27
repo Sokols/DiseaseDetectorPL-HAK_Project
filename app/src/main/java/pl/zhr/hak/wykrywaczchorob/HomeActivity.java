@@ -28,7 +28,8 @@ public class HomeActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
         Bundle extras = getIntent().getExtras();
-        String name = extras.getString("name");
+        String name = extras.getString("name", "");
+
         textViewHello = findViewById(R.id.textViewHello);
         imageButtonExit = findViewById(R.id.imageButtonExit);
         imageButtonAdd = findViewById(R.id.imageButtonAdd);
@@ -36,42 +37,29 @@ public class HomeActivity extends AppCompatActivity {
         buttonLogout = findViewById(R.id.buttonLogout);
         textViewHello.setText(getString(R.string.hello, name));
 
-        imageButtonExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        imageButtonExit.setOnClickListener(v -> finish());
+
+        imageButtonAdd.setOnClickListener(v -> {
+            Intent examination1Activity = new Intent(HomeActivity.this,
+                    Examination1Activity.class);
+            startActivity(examination1Activity);
         });
 
-        imageButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent examination1Activity = new Intent(HomeActivity.this,
-                        Examination1Activity.class);
-                startActivity(examination1Activity);
-            }
+        imageButtonDB.setOnClickListener(v -> {
+            Intent patientActivity = new Intent(HomeActivity.this,
+                    PatientsActivity.class);
+            // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj brak potrzeby
+            patientActivity.putExtra("flag", false);
+            startActivity(patientActivity);
         });
 
-        imageButtonDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent patientActivity = new Intent(HomeActivity.this,
-                        PatientsActivity.class);
-                patientActivity.putExtra("flag", false);
-                startActivity(patientActivity);
-            }
-        });
-
-        buttonLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent mainActivity = new Intent(HomeActivity.this,
-                        MainActivity.class);
-                sharedPreferences.edit().putBoolean("remember",
-                        false).apply();
-                startActivity(mainActivity);
-                finish();
-            }
+        buttonLogout.setOnClickListener(v -> {
+            Intent mainActivity = new Intent(HomeActivity.this,
+                    MainActivity.class);
+            sharedPreferences.edit().putBoolean("remember",
+                    false).apply();
+            startActivity(mainActivity);
+            finish();
         });
     }
 

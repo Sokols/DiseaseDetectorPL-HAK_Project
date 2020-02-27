@@ -21,7 +21,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     EditText editTextName;
-    EditText editTextPassword;
     CheckBox checkBoxRemember;
     Button buttonLogin;
     ImageButton imageButtonLanguage;
@@ -36,14 +35,16 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         // zmiana języka na przeciwny
-        if (sharedPreferences.getBoolean("language", false))
+        if (sharedPreferences.getBoolean("language", false)) {
             setAppLocale("en");
-        else
+        }
+        else {
             setAppLocale("values");
+        }
+
         setContentView(R.layout.activity_main);
 
         editTextName = findViewById(R.id.editTextName);
-        editTextPassword = findViewById(R.id.editTextPassword);
         checkBoxRemember = findViewById(R.id.checkBoxRemember);
         buttonLogin = findViewById(R.id.buttonLogin);
         imageButtonLanguage = findViewById(R.id.imageButtonLanguage);
@@ -56,44 +57,33 @@ public class MainActivity extends AppCompatActivity {
             homeReady(ownerName);
         }
 
-        imageButtonExit1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        imageButtonExit1.setOnClickListener(v -> finish());
+
+        buttonLogin.setOnClickListener(v -> {
+            String name = editTextName.getText().toString();
+            boolean remember = checkBoxRemember.isChecked();
+            if(name.isEmpty())
+                Toast.makeText(MainActivity.this,
+                        getString(R.string.alldata),
+                        Toast.LENGTH_SHORT).show();
+            else {
+                sharedPreferences.edit().putBoolean("remember",
+                        remember).apply();
+                sharedPreferences.edit().putString("name",
+                        name).apply();
+                homeReady(name);
             }
         });
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = editTextName.getText().toString();
-                String password = editTextPassword.getText().toString();
-                boolean remember = checkBoxRemember.isChecked();
-                if(name.isEmpty() || password.isEmpty())
-                    Toast.makeText(MainActivity.this,
-                            getString(R.string.alldata),
-                            Toast.LENGTH_SHORT).show();
-                else {
-                    sharedPreferences.edit().putBoolean("remember",
-                            remember).apply();
-                    sharedPreferences.edit().putString("name",
-                            name).apply();
-                    homeReady(name);
-                }
-            }
-        });
-
-        imageButtonLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sharedPreferences.edit().putBoolean("language",
-                        !sharedPreferences.getBoolean("language", true)).apply();
-                finish();
-                startActivity(getIntent());
-            }
+        imageButtonLanguage.setOnClickListener(v -> {
+            sharedPreferences.edit().putBoolean("language",
+                    !sharedPreferences.getBoolean("language", true)).apply();
+            finish();
+            startActivity(getIntent());
         });
     }
 
+    // zmiana języka
     private void setAppLocale(String localeCode) {
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Disease Detector</string>
+    <string name="log">Login</string>
     <string name="hello">Hello %s</string>
-    <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="panel">Login panel</string>
@@ -38,5 +38,7 @@
     <string name="add_patient">Add patient</string>
     <string name="cannot_add">You cannot add a patient without disease to the database</string>
     <string name="nullable"></string>
+    <string name="no_disease">No disease found</string>
+    <string name="delete_all">Delete all</string>
 
 </resources>

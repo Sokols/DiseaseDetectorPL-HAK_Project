@@ -39,25 +39,18 @@ public class Examination1Activity extends AppCompatActivity {
         buttonCancelSymptoms = findViewById(R.id.buttonCancelSymptoms);
         buttonConfirmSymptoms = findViewById(R.id.buttonConfirmSymptoms);
 
-        buttonCancelSymptoms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        buttonCancelSymptoms.setOnClickListener(v -> finish());
 
-        buttonConfirmSymptoms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sharedPreferences.getInt("symptomCounter", 0) > 4) {
-                    Toast.makeText(Examination1Activity.this, getString(R.string.please_only4), Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent examination2activity = new Intent(Examination1Activity.this,
-                            Examination2Activity.class);
-                    startActivity(examination2activity);
-                    finish();
-                }
+        buttonConfirmSymptoms.setOnClickListener(v -> {
+            // jeśli zaznaczono więcej niż 4 symptomy, nie pozwól przejść dalej
+            if (sharedPreferences.getInt("symptomCounter", 0) > 4) {
+                Toast.makeText(Examination1Activity.this, getString(R.string.please_only4), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent examination2activity = new Intent(Examination1Activity.this,
+                        Examination2Activity.class);
+                startActivity(examination2activity);
+                finish();
             }
         });
     }

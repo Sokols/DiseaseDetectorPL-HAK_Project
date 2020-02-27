@@ -59,28 +59,26 @@ public class Examination2Activity extends AppCompatActivity {
             textViewDiagnosedDisease.setText(getString(R.string.angina));
         }
 
-        buttonBackToMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        buttonBackToMenu.setOnClickListener(v -> finish());
 
-        buttonAddPatient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (textViewDiagnosedDisease.getText().toString() == getString(R.string.nullable)) {
-                    Toast.makeText(Examination2Activity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent addPatientActivity = new Intent(Examination2Activity.this,
-                            AddPatientActivity.class);
-                    // podanie do nowej aktywności nazwy zdiagnozowanej choroby
-                    addPatientActivity.putExtra("diseaseName",
-                            textViewDiagnosedDisease.getText().toString());
-                    startActivity(addPatientActivity);
-                    finish();
-                }
+        // zmien nazwe diagnozy jeśli nie znaleziono choroby
+        if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
+            textViewPatientDisease.setText(getString(R.string.no_disease));
+        }
+
+        buttonAddPatient.setOnClickListener(v -> {
+            // jeśli nie znaleziono choroby, nie można dodać pacjenta do bazy
+            if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
+                Toast.makeText(Examination2Activity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent addPatientActivity = new Intent(Examination2Activity.this,
+                        AddPatientActivity.class);
+                // podanie do nowej aktywności nazwy zdiagnozowanej choroby
+                addPatientActivity.putExtra("diseaseName",
+                        textViewDiagnosedDisease.getText().toString());
+                startActivity(addPatientActivity);
+                finish();
             }
         });
     }
