@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+
 public class AddPatientActivity extends AppCompatActivity {
 
     EditText editTextAddName;
@@ -22,10 +25,8 @@ public class AddPatientActivity extends AppCompatActivity {
     TextView textViewAddDisease;
     Button buttonAddCancel;
     Button buttonAddConfirm;
-
-    PatientViewModel patientViewModel;
-    List<Patient> patientList = new ArrayList<>();
-    PatientAdapter patientAdapter;
+    SharedPreferences sharedPreferences;
+    int patientID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class AddPatientActivity extends AppCompatActivity {
         textViewAddDisease = findViewById(R.id.textViewAddDisease);
         buttonAddCancel = findViewById(R.id.buttonAddCancel);
         buttonAddConfirm = findViewById(R.id.buttonAddConfirm);
+        sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         Bundle extras = getIntent().getExtras();
         String disease = extras.getString("diseaseName");
@@ -50,7 +52,6 @@ public class AddPatientActivity extends AppCompatActivity {
             }
         });
 
-        // patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
         buttonAddConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -60,17 +61,15 @@ public class AddPatientActivity extends AppCompatActivity {
                     Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    //patientAdapter = new PatientAdapter(patientList, AddPatientActivity.this);
-                    // patientViewModel.insert(new Patient(name, surname, disease));
-                   /* patientViewModel.getPatientList().observe(this, new Observer<List<Patient>>() {
-                        @Override
-                        public void onChanged(List<Patient> patients) {
-                            patientList = patients;
-                            patientAdapter.setPatients(patientList);
-                        }
-                    });*/
                     Intent patientsActivity = new Intent(AddPatientActivity.this,
                             PatientsActivity.class);
+                    patientID = sharedPreferences.getInt("id", 1);
+                    patientsActivity.putExtra("id", patientID);
+                    sharedPreferences.edit().putInt("id", patientID + 1).apply();
+                    patientsActivity.putExtra("flag", true);
+                    patientsActivity.putExtra("name", name);
+                    patientsActivity.putExtra("surname", surname);
+                    patientsActivity.putExtra("disease", disease);
                     startActivity(patientsActivity);
                     finish();
                 }

@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent patientActivity = new Intent(HomeActivity.this,
                         PatientsActivity.class);
+                patientActivity.putExtra("flag", false);
                 startActivity(patientActivity);
             }
         });

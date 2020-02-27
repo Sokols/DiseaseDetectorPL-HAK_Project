@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,20 +19,36 @@ public class PatientsActivity extends AppCompatActivity {
     List<Patient> patientList = new ArrayList<>();
     PatientAdapter patientAdapter;
     PatientViewModel patientViewModel;
+    Button buttonBackDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients);
 
-        patientList.add(new Patient("Igor", "Sokol", "Łak"));
-        patientList.add(new Patient("Artur", "Sokol", "Ebola"));
+        buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
+        buttonBackDataBase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView1);
         patientAdapter = new PatientAdapter(patientList, PatientsActivity.this);
         recyclerView.setAdapter(patientAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
-        patientViewModel.insert(new Patient("Bolo", "Sokol", "Ebe ebe ebe"));
+
+        Bundle data = getIntent().getExtras();
+        if (data.getBoolean("flag")) {
+            int patientID = data.getInt("id");
+            String name = data.getString("name");
+            String surname = data.getString("surname");
+            String disease = data.getString("disease");
+            patientViewModel.insert(new Patient(patientID, name, surname, disease));
+        }
+
         patientViewModel.getPatientList().observe(this, new Observer<List<Patient>>(){
             @Override
             public void onChanged(List<Patient> patients) {
