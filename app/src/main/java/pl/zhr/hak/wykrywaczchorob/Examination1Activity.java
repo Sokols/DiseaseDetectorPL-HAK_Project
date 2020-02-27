@@ -65,5 +65,7 @@ public class Examination1Activity extends AppCompatActivity {
         symptomList.add(new Symptom(7, getString(R.string.sore_throat)));
         symptomList.add(new Symptom(8, getString(R.string.diarrhea)));
         symptomList.add(new Symptom(9, getString(R.string.stomach_ache)));
+        symptomList.add(new Symptom(10, getString(R.string.fear)));
+        symptomList.add(new Symptom(11, getString(R.string.panic)));
     }
 }

@@ -21,7 +21,7 @@ public class Examination2Activity extends AppCompatActivity {
     Button buttonBackToMenu;
     Button buttonAddPatient;
     // tablica odpowiedzialna za przechowywanie potwierdzonych objawów
-    Boolean [] symptoms = new Boolean[10];
+    Boolean [] symptoms = new Boolean[12];
     // flaga sygnalizująca czy znaleziono tylko jedną chorobę
     Boolean oneDiseaseFlag = true;
 
@@ -80,6 +80,17 @@ public class Examination2Activity extends AppCompatActivity {
                 oneDiseaseFlag = false;
             }
         }
+        // HIPOCHONDRIA - NIEUZASADNIONY STRACH[10], NAPADY PANIKI[11]
+        if (symptoms[10] && symptoms[11]) {
+            if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
+                textViewDiagnosedDisease.setText(getString(R.string.hypochondria));
+            }
+            else {
+                textViewDiagnosedDisease.setText(textViewDiagnosedDisease.getText().toString()
+                        + ", " + getString(R.string.hypochondria));
+                oneDiseaseFlag = false;
+            }
+        }
 
         buttonBackToMenu.setOnClickListener(v -> finish());
 
@@ -120,5 +131,7 @@ public class Examination2Activity extends AppCompatActivity {
         symptoms[7] = sharedPreferences.getBoolean(getString(R.string.sore_throat), false);
         symptoms[8] = sharedPreferences.getBoolean(getString(R.string.diarrhea), false);
         symptoms[9] = sharedPreferences.getBoolean(getString(R.string.stomach_ache), false);
+        symptoms[10] = sharedPreferences.getBoolean(getString(R.string.fear), false);
+        symptoms[11] = sharedPreferences.getBoolean(getString(R.string.panic), false);
     }
 }

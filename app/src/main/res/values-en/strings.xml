@@ -44,4 +44,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="more_disease">You cannot add a patient with more than 1 disease</string>
+    <string name="fear">Unreasonable fear</string>
+    <string name="panic">Panic attack</string>
+    <string name="hypochondria">Hypochondria</string>
 </resources>

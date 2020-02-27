@@ -43,4 +43,7 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="more_disease">Nie możesz dodać pacjenta z więcej niż jedną chorobą</string>
+    <string name="fear">Nieuzasadniony lęk</string>
+    <string name="panic">Atak paniki</string>
+    <string name="hypochondria">Hipochondria</string>
 </resources>
