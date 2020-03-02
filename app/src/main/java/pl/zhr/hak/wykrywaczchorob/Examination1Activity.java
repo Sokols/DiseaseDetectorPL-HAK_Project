@@ -45,6 +45,10 @@ public class Examination1Activity extends AppCompatActivity {
             if (sharedPreferences.getInt("symptomCounter", 0) > 4) {
                 Toast.makeText(Examination1Activity.this, getString(R.string.please_only4), Toast.LENGTH_SHORT).show();
             }
+            // jeśli zaznaczono mniej niż 2 symptomy, nie pozwól przejść dalej
+            else if (sharedPreferences.getInt("symptomCounter", 0) < 2) {
+                Toast.makeText(this, getString(R.string.not_enough), Toast.LENGTH_SHORT).show();
+            }
             else {
                 Intent examination2activity = new Intent(Examination1Activity.this,
                         Examination2Activity.class);

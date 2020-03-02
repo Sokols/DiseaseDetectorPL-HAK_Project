@@ -51,4 +51,5 @@
     <string name="patient">%d. %s %s:</string>
     <string name="delete_selected">Delete\nselected</string>
     <string name="empty">Database is empty!</string>
+    <string name="not_enough">Select more symptoms!</string>
 </resources>
