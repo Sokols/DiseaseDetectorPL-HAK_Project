@@ -4,34 +4,38 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
-    class PatientViewHolder extends RecyclerView.ViewHolder {
+    static class PatientViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView textViewName;
-        private final TextView textViewSurname;
         private final TextView textViewDisease;
+        private final CheckBox checkBoxDelete;
 
         public PatientViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textViewName = itemView.findViewById(R.id.textViewName);
-            this.textViewSurname = itemView.findViewById(R.id.textViewSurname);
             this.textViewDisease = itemView.findViewById(R.id.textViewDisease);
+            this.checkBoxDelete = itemView.findViewById(R.id.checkBoxDelete);
         }
     }
 
+    private int DISEASE_COUNTER = 5;
     private List<Patient> mPatientList;
     private final LayoutInflater mInflater;
-    private Context mcontext;
+    private Context mContext;
+    private List<Patient> patientsToDelete = new ArrayList<>();
     public PatientAdapter(List<Patient> patientList, Context context) {
         this.mPatientList = patientList;
-        this.mcontext = context;
+        this.mContext = context;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -44,11 +48,21 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
-        String [] diseaseList = new String [6];
+        String [] diseaseList = new String [DISEASE_COUNTER + 1];
         setDiseases(diseaseList);
-        holder.textViewName.setText(mPatientList.get(position).getName());
-        holder.textViewSurname.setText(mPatientList.get(position).getSurname());
+        holder.textViewName.setText(mContext.getString(R.string.patient,
+                position + 1,
+                mPatientList.get(position).getName(),
+                mPatientList.get(position).getSurname()));
         holder.textViewDisease.setText(diseaseList[mPatientList.get(position).getDiseaseID()]);
+        holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                patientsToDelete.add(mPatientList.get(position));
+            }
+            else {
+                patientsToDelete.remove(mPatientList.get(position));
+            }
+        });
     }
 
     @Override
@@ -60,10 +74,17 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     }
 
     public void setDiseases(String [] diseases) {
-        diseases[1] = mcontext.getString(R.string.coronavirus);
-        diseases[2] = mcontext.getString(R.string.food_poisoning);
-        diseases[3] = mcontext.getString(R.string.flu);
-        diseases[4] = mcontext.getString(R.string.angina);
-        diseases[5] = mcontext.getString(R.string.hypochondria);
+        diseases[1] = mContext.getString(R.string.coronavirus);
+        diseases[2] = mContext.getString(R.string.food_poisoning);
+        diseases[3] = mContext.getString(R.string.flu);
+        diseases[4] = mContext.getString(R.string.angina);
+        diseases[5] = mContext.getString(R.string.hypochondria);
+    }
+
+    public void deleteSelected(PatientViewModel patientViewModel) {
+        for (Patient patient : patientsToDelete) {
+            patientViewModel.delete(patient);
+        }
     }
 }
+

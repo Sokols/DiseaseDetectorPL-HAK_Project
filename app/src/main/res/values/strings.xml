@@ -39,7 +39,7 @@
     <string name="cannot_add">Nie możesz dodać pacjenta bez choroby</string>
     <string name="nullable"></string>
     <string name="no_disease">Choroba o podanych symptomach nie istnieje w bazie</string>
-    <string name="delete_all">Usuń wszystko</string>
+    <string name="delete_all">Usuń\nwszystko</string>
     <string name="please_confirm">Jesteś pewien?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
@@ -47,4 +47,7 @@
     <string name="fear">Nieuzasadniony lęk</string>
     <string name="panic">Atak paniki</string>
     <string name="hypochondria">Hipochondria</string>
+    <string name="patient">%d. %s %s:</string>
+    <string name="delete_selected">Usuń\nwybrane</string>
+    <string name="empty">Baza danych jest pusta!</string>
 </resources>

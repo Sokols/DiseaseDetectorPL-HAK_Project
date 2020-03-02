@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,24 +26,21 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
             this.checkBoxCheckSymptom = itemView.findViewById(R.id.checkBoxCheckSymptom);
             this.textViewSymptomName = itemView.findViewById(R.id.textViewSymptomName);
 
-            checkBoxCheckSymptom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // jeśli symptom został zaznaczony zmień jego flagę w shared preferences na true i inkrementuj licznik zaznaocznych symptomów
-                    if (isChecked) {
-                        String key = textViewSymptomName.getText().toString();
-                        sharedPreferences.edit().putBoolean(key,
-                                true).apply();
-                        sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) + 1).apply();
-                    }
-                    // jeśli symptom został odznaczony zmień jego flagę w shared preferences na false i dekrementuj licznik zaznaczonych symptomów
-                    else {
-                        String key = textViewSymptomName.getText().toString();
-                        sharedPreferences.edit().putBoolean(key,
-                                false).apply();
-                        if (sharedPreferences.getInt("symptomCounter", 0) > 0) {
-                            sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) - 1).apply();
-                        }
+            checkBoxCheckSymptom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                // jeśli symptom został zaznaczony zmień jego flagę w shared preferences na true i inkrementuj licznik zaznaocznych symptomów
+                if (isChecked) {
+                    String key = textViewSymptomName.getText().toString();
+                    sharedPreferences.edit().putBoolean(key,
+                            true).apply();
+                    sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) + 1).apply();
+                }
+                // jeśli symptom został odznaczony zmień jego flagę w shared preferences na false i dekrementuj licznik zaznaczonych symptomów
+                else {
+                    String key = textViewSymptomName.getText().toString();
+                    sharedPreferences.edit().putBoolean(key,
+                            false).apply();
+                    if (sharedPreferences.getInt("symptomCounter", 0) > 0) {
+                        sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) - 1).apply();
                     }
                 }
             });

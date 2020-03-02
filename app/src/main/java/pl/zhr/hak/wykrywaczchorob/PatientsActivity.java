@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class PatientsActivity extends AppCompatActivity {
     PatientViewModel patientViewModel;
     Button buttonBackDataBase;
     Button buttonDeleteAll;
+    Button buttonDeleteSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class PatientsActivity extends AppCompatActivity {
 
         buttonDeleteAll = findViewById(R.id.buttonDeleteAll);
         buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
+        buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected);
+
         buttonBackDataBase.setOnClickListener(v -> finish());
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView1);
@@ -36,7 +40,23 @@ public class PatientsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
 
-        buttonDeleteAll.setOnClickListener(v -> dialogConfirm().show());
+        buttonDeleteAll.setOnClickListener(v -> {
+            if (patientList.isEmpty()) {
+                Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                dialogConfirmAll().show();
+            }
+        });
+
+        buttonDeleteSelected.setOnClickListener(v -> {
+            if (patientList.isEmpty()) {
+                Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                dialogConfirmSelected().show();
+            }
+        });
 
         Bundle data = getIntent().getExtras();
         if (data.getBoolean("flag", false)) {
@@ -53,15 +73,27 @@ public class PatientsActivity extends AppCompatActivity {
         });
     }
 
-    private Dialog dialogConfirm() {
+    private Dialog dialogConfirmAll() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setTitle(getString(R.string.confirm));
         dialogBuilder.setMessage(getString(R.string.please_confirm));
-        dialogBuilder.setCancelable(false);
         dialogBuilder.setPositiveButton(getString(R.string.yes),
                 (dialog, whichButton) -> patientViewModel.deleteAll());
         dialogBuilder.setNegativeButton(getString(R.string.no),
                 (dialog, whichButton) -> { /* nic nie rób */ });
+        return dialogBuilder.create();
+    }
+
+    private Dialog dialogConfirmSelected() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(getString(R.string.confirm));
+        dialogBuilder.setMessage(getString(R.string.please_confirm));
+        dialogBuilder.setPositiveButton(getString(R.string.yes),
+                (dialog, whichButton) ->
+                        patientAdapter.deleteSelected(patientViewModel));
+        dialogBuilder.setNegativeButton(getString(R.string.no),
+                (dialog, whichButton) ->
+                        { /* nic nie rób */ });
         return dialogBuilder.create();
     }
 }
