@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:text="@string/add_patient"
         android:textColor="#FFFFFF"
@@ -55,40 +55,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAddName" />
 
-    <TextView
-        android:id="@+id/textViewAddDisease"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/disease"
-        android:textColor="#FFFFFF"
-        android:background="#99000000"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddSurname" />
-
     <Button
         android:id="@+id/buttonAddCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="96dp"
         android:text="@string/cancel"
         app:layout_constraintEnd_toStartOf="@+id/buttonAddConfirm"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddDisease" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddSurname" />
 
     <Button
         android:id="@+id/buttonAddConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="80dp"
         android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddDisease" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddSurname" />
 </androidx.constraintlayout.widget.ConstraintLayout>

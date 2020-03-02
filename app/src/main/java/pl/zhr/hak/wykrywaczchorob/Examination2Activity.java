@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,8 @@ public class Examination2Activity extends AppCompatActivity {
     Boolean [] symptoms = new Boolean[12];
     // flaga sygnalizująca czy znaleziono tylko jedną chorobę
     Boolean oneDiseaseFlag = true;
+    // ID choroby, które zostanie przekazane do PatientActivity
+    int diseaseID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class Examination2Activity extends AppCompatActivity {
         buttonAddPatient = findViewById(R.id.buttonAddPatient);
 
         // zebranie zaznaczonych symptomów do tablicy
-        getSymptoms();
+        setSymptoms();
 
         // wnioskowanie chorób po zatwierdzeniu symptomów
         // jeśli zostanie wywnioskowana więcej niż jedna choroba, zostaną one zapisane razem po przecinku
@@ -46,11 +47,13 @@ public class Examination2Activity extends AppCompatActivity {
         // KORONAWIRUS - GORĄCZKA[4], KASZEL[1], DUSZNOŚCI[5]
         if (symptoms[4] && symptoms[1] && symptoms[5]) {
             textViewDiagnosedDisease.setText(getString(R.string.coronavirus));
+            diseaseID = 1;
         }
         // ZATRUCIE POKARMOWE - WYMIOTY[2], BÓL BRZUCHA[9], BIEGUNKA[8]
         if (symptoms[2] && symptoms[9] && symptoms[8]) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.food_poisoning));
+                diseaseID = 2;
             }
             else {
                 textViewDiagnosedDisease.setText(textViewDiagnosedDisease.getText().toString()
@@ -62,6 +65,7 @@ public class Examination2Activity extends AppCompatActivity {
         if (symptoms[3] && symptoms[6] && symptoms[4]) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.flu));
+                diseaseID = 3;
             }
             else {
                 textViewDiagnosedDisease.setText(textViewDiagnosedDisease.getText().toString()
@@ -73,6 +77,7 @@ public class Examination2Activity extends AppCompatActivity {
         if (symptoms[7] && symptoms[6] && symptoms[4]) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.angina));
+                diseaseID = 4;
             }
             else {
                 textViewDiagnosedDisease.setText(textViewDiagnosedDisease.getText().toString()
@@ -84,6 +89,7 @@ public class Examination2Activity extends AppCompatActivity {
         if (symptoms[10] && symptoms[11]) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.hypochondria));
+                diseaseID = 5;
             }
             else {
                 textViewDiagnosedDisease.setText(textViewDiagnosedDisease.getText().toString()
@@ -112,15 +118,14 @@ public class Examination2Activity extends AppCompatActivity {
                 Intent addPatientActivity = new Intent(Examination2Activity.this,
                         AddPatientActivity.class);
                 // podanie do nowej aktywności nazwy zdiagnozowanej choroby
-                addPatientActivity.putExtra("diseaseName",
-                        textViewDiagnosedDisease.getText().toString());
+                addPatientActivity.putExtra("diseaseID", diseaseID);
                 startActivity(addPatientActivity);
                 finish();
             }
         });
     }
 
-    private void getSymptoms() {
+    private void setSymptoms() {
         symptoms[0] = false; // blank
         symptoms[1] = sharedPreferences.getBoolean(getString(R.string.cough), false);
         symptoms[2] = sharedPreferences.getBoolean(getString(R.string.vomiting), false);

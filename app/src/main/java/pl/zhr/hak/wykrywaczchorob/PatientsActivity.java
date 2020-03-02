@@ -1,18 +1,13 @@
 package pl.zhr.hak.wykrywaczchorob;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Dao;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -41,17 +36,15 @@ public class PatientsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
 
-        buttonDeleteAll.setOnClickListener(v -> {
-            dialogConfirm().show();
-        });
+        buttonDeleteAll.setOnClickListener(v -> dialogConfirm().show());
 
         Bundle data = getIntent().getExtras();
         if (data.getBoolean("flag", false)) {
             int patientID = data.getInt("id");
             String name = data.getString("name");
             String surname = data.getString("surname");
-            String disease = data.getString("disease");
-            patientViewModel.insert(new Patient(patientID, name, surname, disease));
+            int diseaseID = data.getInt("diseaseID");
+            patientViewModel.insert(new Patient(patientID, name, surname, diseaseID));
         }
 
         patientViewModel.getPatientList().observe(this, patients -> {

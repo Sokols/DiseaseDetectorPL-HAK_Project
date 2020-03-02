@@ -44,9 +44,11 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
+        String [] diseaseList = new String [6];
+        setDiseases(diseaseList);
         holder.textViewName.setText(mPatientList.get(position).getName());
         holder.textViewSurname.setText(mPatientList.get(position).getSurname());
-        holder.textViewDisease.setText(mPatientList.get(position).getDisease());
+        holder.textViewDisease.setText(diseaseList[mPatientList.get(position).getDiseaseID()]);
     }
 
     @Override
@@ -55,5 +57,13 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     void setPatients(List<Patient> patients) {
         mPatientList = patients;
         notifyDataSetChanged();
+    }
+
+    public void setDiseases(String [] diseases) {
+        diseases[1] = mcontext.getString(R.string.coronavirus);
+        diseases[2] = mcontext.getString(R.string.food_poisoning);
+        diseases[3] = mcontext.getString(R.string.flu);
+        diseases[4] = mcontext.getString(R.string.angina);
+        diseases[5] = mcontext.getString(R.string.hypochondria);
     }
 }

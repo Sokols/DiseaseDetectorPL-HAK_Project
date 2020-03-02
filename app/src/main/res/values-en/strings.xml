@@ -2,15 +2,16 @@
 <resources>
     <string name="app_name">Disease Detector</string>
     <string name="log">Login</string>
-    <string name="hello">Hello %s</string>
+    <string name="user">User:\n%s</string>
+    <string name="hello">MENU</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="panel">Login panel</string>
     <string name="remember">Remember me</string>
-    <string name="examine">Examine the patient</string>
+    <string name="examine">Start an examine</string>
     <string name="database">Patient database</string>
     <string name="alldata">Enter all data</string>
-    <string name="provideSymptoms">Provide patient symptoms</string>
+    <string name="provideSymptoms">Provide the main patient symptoms</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="diagnosis">Diagnosis</string>
@@ -24,7 +25,7 @@
     <string name="diarrhea">Diarrhea</string>
     <string name="stomach_ache">Stomach ache</string>
     <string name="patientDiagnose">The patient probably has:</string>
-    <string name="coronavirus">Coronavirus</string>
+    <string name="coronavirus">COVID-19</string>
     <string name="food_poisoning">Food poisoning</string>
     <string name="angina">Angina</string>
     <string name="flu">Flu</string>
@@ -38,7 +39,7 @@
     <string name="add_patient">Add patient</string>
     <string name="cannot_add">You cannot add a patient without disease</string>
     <string name="nullable"></string>
-    <string name="no_disease">No disease found</string>
+    <string name="no_disease">The disease with the listed symptoms does not exist in the database</string>
     <string name="delete_all">Delete all</string>
     <string name="please_confirm">Are you sure?</string>
     <string name="yes">Yes</string>

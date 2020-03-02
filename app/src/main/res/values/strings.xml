@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">Wykrywacz Chorób</string>
     <string name="log">Login</string>
-    <string name="hello">Witaj %s</string>
+    <string name="user">Użytkownik:\n%s</string>
+    <string name="hello">MENU</string>
     <string name="login">Zaloguj</string>
     <string name="logout">Wyloguj</string>
     <string name="panel">Panel logowania</string>
     <string name="remember">Zapamiętaj mnie</string>
-    <string name="examine">Zbadaj pacjenta</string>
+    <string name="examine">Przeprowadź badanie</string>
     <string name="database">Baza pacjentów</string>
     <string name="alldata">Podaj wszystkie dane</string>
-    <string name="provideSymptoms">Podaj objawy pacjenta</string>
+    <string name="provideSymptoms">Podaj główne objawy pacjenta</string>
     <string name="cancel">Anuluj</string>
     <string name="confirm">Zatwierdź</string>
     <string name="diagnosis">Diagnoza</string>
@@ -23,7 +24,7 @@
     <string name="diarrhea">Biegunka</string>
     <string name="stomach_ache">Ból brzucha</string>
     <string name="patientDiagnose">Pacjent prawdopodobnie choruje na:</string>
-    <string name="coronavirus">Koronawirus</string>
+    <string name="coronavirus">COVID-19</string>
     <string name="food_poisoning">Zatrucie pokarmowe</string>
     <string name="angina">Angina</string>
     <string name="flu">Grypa</string>
@@ -37,7 +38,7 @@
     <string name="add_patient">Dodaj pacjenta</string>
     <string name="cannot_add">Nie możesz dodać pacjenta bez choroby</string>
     <string name="nullable"></string>
-    <string name="no_disease">Nie znaleziono choroby</string>
+    <string name="no_disease">Choroba o podanych symptomach nie istnieje w bazie</string>
     <string name="delete_all">Usuń wszystko</string>
     <string name="please_confirm">Jesteś pewien?</string>
     <string name="yes">Tak</string>

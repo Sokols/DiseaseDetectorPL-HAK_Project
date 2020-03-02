@@ -18,20 +18,20 @@ public class Patient {
     private String surname;
 
     @ColumnInfo
-    private String disease;
+    private int diseaseID;
 
     @Ignore
-    public Patient(String name, String surname, String disease) {
+    public Patient(String name, String surname, int diseaseID) {
         this.name = name;
         this.surname = surname;
-        this.disease = disease;
+        this.diseaseID = diseaseID;
     }
 
-    public Patient(int patientID, String name, String surname, String disease) {
+    public Patient(int patientID, String name, String surname, int diseaseID) {
         this.patientID = patientID;
         this.name = name;
         this.surname = surname;
-        this.disease = disease;
+        this.diseaseID = diseaseID;
     }
 
     public int getPatientID() {
@@ -58,11 +58,11 @@ public class Patient {
         this.surname = surname;
     }
 
-    public String getDisease() {
-        return disease;
+    public int getDiseaseID() {
+        return diseaseID;
     }
 
-    public void setDisease(String disease) {
-        this.disease = disease;
+    public void setDiseaseID(int diseaseID) {
+        this.diseaseID = diseaseID;
     }
 }
