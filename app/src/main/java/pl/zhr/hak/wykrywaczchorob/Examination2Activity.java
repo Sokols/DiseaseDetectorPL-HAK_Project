@@ -9,7 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.SymptomAdapter.getChecked;
 
 public class Examination2Activity extends AppCompatActivity {
 
@@ -19,12 +22,12 @@ public class Examination2Activity extends AppCompatActivity {
     TextView textViewDiagnosedDisease;
     Button buttonBackToMenu;
     Button buttonAddPatient;
-    // tablica odpowiedzialna za przechowywanie potwierdzonych objawów
-    Boolean [] symptoms = new Boolean[12];
     // flaga sygnalizująca czy znaleziono tylko jedną chorobę
     Boolean oneDiseaseFlag = true;
     // ID choroby, które zostanie przekazane do PatientActivity
     int diseaseID = 0;
+    // lista zaznaczonych symptomów
+    List<Symptom> sym;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +41,19 @@ public class Examination2Activity extends AppCompatActivity {
         buttonBackToMenu = findViewById(R.id.buttonBackToMenu);
         buttonAddPatient = findViewById(R.id.buttonAddPatient);
 
-        // zebranie zaznaczonych symptomów do tablicy
-        setSymptoms();
+        // zebranie zaznaczonych symptomów z adaptera
+        sym = getChecked();
 
         // wnioskowanie chorób po zatwierdzeniu symptomów
         // jeśli zostanie wywnioskowana więcej niż jedna choroba, zostaną one zapisane razem po przecinku
 
-        // KORONAWIRUS - GORĄCZKA[4], KASZEL[1], DUSZNOŚCI[5]
-        if (symptoms[4] && symptoms[1] && symptoms[5]) {
+        // KORONAWIRUS - GORĄCZKA[4 - 1], KASZEL[1 - 1], DUSZNOŚCI[5 - 1]
+        if (sym.get(3).getChecked() && sym.get(0).getChecked() && sym.get(4).getChecked()) {
             textViewDiagnosedDisease.setText(getString(R.string.coronavirus));
             diseaseID = 1;
         }
-        // ZATRUCIE POKARMOWE - WYMIOTY[2], BÓL BRZUCHA[9], BIEGUNKA[8]
-        if (symptoms[2] && symptoms[9] && symptoms[8]) {
+        // ZATRUCIE POKARMOWE - WYMIOTY[2 - 1], BÓL BRZUCHA[9 - 1], BIEGUNKA[8 - 1]
+        if (sym.get(1).getChecked() && sym.get(8).getChecked() && sym.get(7).getChecked()) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.food_poisoning));
                 diseaseID = 2;
@@ -61,8 +64,8 @@ public class Examination2Activity extends AppCompatActivity {
                 oneDiseaseFlag = false;
             }
         }
-        // GRYPA - BÓL GŁOWY[3], DRESZCZE[6], GORĄCZKA[4]
-        if (symptoms[3] && symptoms[6] && symptoms[4]) {
+        // GRYPA - BÓL GŁOWY[3 - 1], DRESZCZE[6 - 1], GORĄCZKA[4 - 1]
+        if ((sym.get(2).getChecked() && sym.get(5).getChecked() && sym.get(3).getChecked())) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.flu));
                 diseaseID = 3;
@@ -73,8 +76,8 @@ public class Examination2Activity extends AppCompatActivity {
                 oneDiseaseFlag = false;
             }
         }
-        // ANGINA - BÓL GARDŁA[7], DRESZCZE[6], GORĄCZKA[4]
-        if (symptoms[7] && symptoms[6] && symptoms[4]) {
+        // ANGINA - BÓL GARDŁA[7 - 1], DRESZCZE[6 - 1], GORĄCZKA[4 - 1]
+        if ((sym.get(6).getChecked() && sym.get(5).getChecked() && sym.get(3).getChecked())) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.angina));
                 diseaseID = 4;
@@ -85,8 +88,8 @@ public class Examination2Activity extends AppCompatActivity {
                 oneDiseaseFlag = false;
             }
         }
-        // HIPOCHONDRIA - NIEUZASADNIONY STRACH[10], NAPADY PANIKI[11]
-        if (symptoms[10] && symptoms[11]) {
+        // HIPOCHONDRIA - NIEUZASADNIONY STRACH[10 - 1], NAPADY PANIKI[11 - 1]
+        if (sym.get(9).getChecked() && sym.get(10).getChecked()) {
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
                 textViewDiagnosedDisease.setText(getString(R.string.hypochondria));
                 diseaseID = 5;
@@ -123,20 +126,5 @@ public class Examination2Activity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void setSymptoms() {
-        symptoms[0] = false; // blank
-        symptoms[1] = sharedPreferences.getBoolean(getString(R.string.cough), false);
-        symptoms[2] = sharedPreferences.getBoolean(getString(R.string.vomiting), false);
-        symptoms[3] = sharedPreferences.getBoolean(getString(R.string.headache), false);
-        symptoms[4] = sharedPreferences.getBoolean(getString(R.string.fever), false);
-        symptoms[5] = sharedPreferences.getBoolean(getString(R.string.dyspnoea), false);
-        symptoms[6] = sharedPreferences.getBoolean(getString(R.string.chills), false);
-        symptoms[7] = sharedPreferences.getBoolean(getString(R.string.sore_throat), false);
-        symptoms[8] = sharedPreferences.getBoolean(getString(R.string.diarrhea), false);
-        symptoms[9] = sharedPreferences.getBoolean(getString(R.string.stomach_ache), false);
-        symptoms[10] = sharedPreferences.getBoolean(getString(R.string.fear), false);
-        symptoms[11] = sharedPreferences.getBoolean(getString(R.string.panic), false);
     }
 }

@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
+
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
     static class PatientViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,7 +30,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         }
     }
 
-    private int DISEASE_COUNTER = 5;
+    private List<Disease> diseaseList;
     private List<Patient> mPatientList;
     private final LayoutInflater mInflater;
     private Context mContext;
@@ -48,13 +50,12 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
-        String [] diseaseList = new String [DISEASE_COUNTER + 1];
-        setDiseases(diseaseList);
+        diseaseList = getDiseases(mContext);
         holder.textViewName.setText(mContext.getString(R.string.patient,
                 position + 1,
                 mPatientList.get(position).getName(),
                 mPatientList.get(position).getSurname()));
-        holder.textViewDisease.setText(diseaseList[mPatientList.get(position).getDiseaseID()]);
+        holder.textViewDisease.setText(diseaseList.get(mPatientList.get(position).getDiseaseID() - 1).getDiseaseName());
         holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 patientsToDelete.add(mPatientList.get(position));
@@ -71,14 +72,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     void setPatients(List<Patient> patients) {
         mPatientList = patients;
         notifyDataSetChanged();
-    }
-
-    public void setDiseases(String [] diseases) {
-        diseases[1] = mContext.getString(R.string.coronavirus);
-        diseases[2] = mContext.getString(R.string.food_poisoning);
-        diseases[3] = mContext.getString(R.string.flu);
-        diseases[4] = mContext.getString(R.string.angina);
-        diseases[5] = mContext.getString(R.string.hypochondria);
     }
 
     public void deleteSelected(PatientViewModel patientViewModel) {

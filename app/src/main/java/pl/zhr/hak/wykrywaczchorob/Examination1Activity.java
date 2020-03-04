@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.Symptom.getSymptoms;
 
 public class Examination1Activity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class Examination1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_examination1);
 
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
-        addSymptoms();
+        symptomList = getSymptoms(Examination1Activity.this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         symptomAdapter = new SymptomAdapter(symptomList, Examination1Activity.this);
         recyclerView.setAdapter(symptomAdapter);
@@ -56,19 +57,5 @@ public class Examination1Activity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    public void addSymptoms() {
-        symptomList.add(new Symptom(1, getString(R.string.cough)));
-        symptomList.add(new Symptom(2, getString(R.string.vomiting)));
-        symptomList.add(new Symptom(3, getString(R.string.headache)));
-        symptomList.add(new Symptom(4, getString(R.string.fever)));
-        symptomList.add(new Symptom(5, getString(R.string.dyspnoea)));
-        symptomList.add(new Symptom(6, getString(R.string.chills)));
-        symptomList.add(new Symptom(7, getString(R.string.sore_throat)));
-        symptomList.add(new Symptom(8, getString(R.string.diarrhea)));
-        symptomList.add(new Symptom(9, getString(R.string.stomach_ache)));
-        symptomList.add(new Symptom(10, getString(R.string.fear)));
-        symptomList.add(new Symptom(11, getString(R.string.panic)));
     }
 }
