@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
 
 public class PatientsActivity extends AppCompatActivity {
 
@@ -22,11 +25,13 @@ public class PatientsActivity extends AppCompatActivity {
     Button buttonBackDataBase;
     Button buttonDeleteAll;
     Button buttonDeleteSelected;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients);
+        sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         buttonDeleteAll = findViewById(R.id.buttonDeleteAll);
         buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
@@ -63,8 +68,10 @@ public class PatientsActivity extends AppCompatActivity {
             int patientID = data.getInt("id");
             String name = data.getString("name");
             String surname = data.getString("surname");
+            String PESEL = data.getString("PESEL");
             int diseaseID = data.getInt("diseaseID");
-            patientViewModel.insert(new Patient(patientID, name, surname, diseaseID));
+            String addedBy = sharedPreferences.getString("name", "");
+            patientViewModel.insert(new Patient(patientID, name, surname, diseaseID, PESEL, addedBy));
         }
 
         patientViewModel.getPatientList().observe(this, patients -> {

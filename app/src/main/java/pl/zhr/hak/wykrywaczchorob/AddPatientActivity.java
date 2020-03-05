@@ -15,6 +15,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
     EditText editTextAddName;
     EditText editTextAddSurname;
+    EditText editTextPESEL;
     Button buttonAddCancel;
     Button buttonAddConfirm;
     SharedPreferences sharedPreferences;
@@ -28,6 +29,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
         editTextAddName = findViewById(R.id.editTextAddName);
         editTextAddSurname = findViewById(R.id.editTextAddSurname);
+        editTextPESEL = findViewById(R.id.editTextPESEL);
         buttonAddCancel = findViewById(R.id.buttonAddCancel);
         buttonAddConfirm = findViewById(R.id.buttonAddConfirm);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
@@ -40,8 +42,9 @@ public class AddPatientActivity extends AppCompatActivity {
         buttonAddConfirm.setOnClickListener(v -> {
             String name = editTextAddName.getText().toString();
             String surname = editTextAddSurname.getText().toString();
+            String PESEL = editTextPESEL.getText().toString();
             // jeśli nie uzupełniono wszystkich danych pacjenta nie pozwól przejść dalej
-            if (name.isEmpty() || surname.isEmpty()) {
+            if (name.isEmpty() || surname.isEmpty() || PESEL.isEmpty()) {
                 Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
             }
             else {
@@ -55,6 +58,7 @@ public class AddPatientActivity extends AppCompatActivity {
                 patientsActivity.putExtra("flag", true);
                 patientsActivity.putExtra("name", name);
                 patientsActivity.putExtra("surname", surname);
+                patientsActivity.putExtra("PESEL", PESEL);
                 patientsActivity.putExtra("diseaseID", diseaseID);
                 startActivity(patientsActivity);
                 finish();

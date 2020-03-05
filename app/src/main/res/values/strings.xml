@@ -29,11 +29,13 @@
     <string name="angina">Angina</string>
     <string name="flu">Grypa</string>
     <string name="back_to_menu">Wróć do menu</string>
+    <string name="back">Wróć</string>
     <string name="add">Dodaj</string>
     <string name="please_only4">Zaznacz maksymalnie 4 symptomy</string>
     <string name="data_base">Baza danych pacjentów</string>
     <string name="name">Imię</string>
     <string name="surname">Nazwisko</string>
+    <string name="PESEL">PESEL</string>
     <string name="disease">Choroba</string>
     <string name="add_patient">Dodaj pacjenta</string>
     <string name="cannot_add">Nie możesz dodać pacjenta bez choroby</string>
@@ -51,4 +53,11 @@
     <string name="delete_selected">Usuń\nwybrane</string>
     <string name="empty">Baza danych jest pusta!</string>
     <string name="not_enough">Zaznacz więcej symptomów!</string>
+    <string name="patient_introduce">Pacjent</string>
+    <string name="name_introduce">Imię: %s</string>
+    <string name="surname_introduce">Nazwisko: %s</string>
+    <string name="PESEL_introduce">PESEL: %s</string>
+    <string name="disease_introduce">Choroba: %s</string>
+    <string name="added_by_introduce">Dodany przez: %s</string>
+    <string name="patientID_introduce">ID pacjenta: %d</string>
 </resources>

@@ -1,6 +1,7 @@
 package pl.zhr.hak.wykrywaczchorob;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,11 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 position + 1,
                 mPatientList.get(position).getName(),
                 mPatientList.get(position).getSurname()));
+        holder.textViewName.setOnClickListener(v -> {
+            Intent patientPresentationActivity = new Intent(mContext, PatientPresentationActivity.class);
+            patientPresentationActivity.putExtra("patient", mPatientList.get(position));
+            mContext.startActivity(patientPresentationActivity);
+        });
         holder.textViewDisease.setText(diseaseList.get(mPatientList.get(position).getDiseaseID() - 1).getDiseaseName());
         holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -78,6 +84,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         for (Patient patient : patientsToDelete) {
             patientViewModel.delete(patient);
         }
+
     }
 }
 
