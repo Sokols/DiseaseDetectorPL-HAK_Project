@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,11 +57,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         buttonLogout.setOnClickListener(v -> {
-            Intent mainActivity = new Intent(HomeActivity.this,
-                    MainActivity.class);
+            Intent loginActivity = new Intent(HomeActivity.this,
+                    LoginActivity.class);
             sharedPreferences.edit().putBoolean("remember",
                     false).apply();
-            startActivity(mainActivity);
+            startActivity(loginActivity);
             finish();
         });
     }
