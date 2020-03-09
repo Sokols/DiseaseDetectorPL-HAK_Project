@@ -1,4 +1,4 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,10 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.zhr.hak.wykrywaczchorob.Disease;
+import pl.zhr.hak.wykrywaczchorob.Patient;
+import pl.zhr.hak.wykrywaczchorob.R;
 
 import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 
@@ -36,9 +40,10 @@ public class PatientPresentationActivity extends AppCompatActivity {
         patientList.add(getString(R.string.patientID_introduce, patient.getPatientID()));
         patientList.add(getString(R.string.name_introduce, patient.getName()));
         patientList.add(getString(R.string.surname_introduce, patient.getSurname()));
-        patientList.add(getString(R.string.PESEL_introduce, patient.getPESEL()));
+        patientList.add(getString(R.string.age_introduce, patient.getAge()));
         patientList.add(getString(R.string.disease_introduce, diseaseList.get(patient.getDiseaseID() - 1).getDiseaseName()));
         patientList.add(getString(R.string.added_by_introduce, patient.getAddedBy()));
+        patientList.add(getString(R.string.date_added, patient.getDate()));
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, patientList);
         listViewInfo.setAdapter(arrayAdapter);

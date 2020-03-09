@@ -1,6 +1,7 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,16 +16,24 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
+import pl.zhr.hak.wykrywaczchorob.Patient;
+import pl.zhr.hak.wykrywaczchorob.PatientAdapter;
+import pl.zhr.hak.wykrywaczchorob.PatientViewModel;
+import pl.zhr.hak.wykrywaczchorob.R;
+
+import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class PatientsActivity extends AppCompatActivity {
 
     List<Patient> patientList = new ArrayList<>();
     PatientAdapter patientAdapter;
     PatientViewModel patientViewModel;
+    RecyclerView recyclerView;
     Button buttonBackDataBase;
     Button buttonDeleteAll;
     Button buttonDeleteSelected;
+    Button buttonSetAllPatients;
+    Button buttonSetMyPatients;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -36,14 +45,33 @@ public class PatientsActivity extends AppCompatActivity {
         buttonDeleteAll = findViewById(R.id.buttonDeleteAll);
         buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
         buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected);
+        buttonSetAllPatients = findViewById(R.id.buttonAllPatients);
+        buttonSetMyPatients = findViewById(R.id.buttonMyPatients);
 
-        buttonBackDataBase.setOnClickListener(v -> finish());
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView = findViewById(R.id.recyclerView1);
         patientAdapter = new PatientAdapter(patientList, PatientsActivity.this);
         recyclerView.setAdapter(patientAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
+
+        // dodaj pacjenta jeśli flaga jest ustawiona na true
+        Bundle data = getIntent().getExtras();
+        if (data.getBoolean("flag", false)) {
+            int patientID = data.getInt("id");
+            String name = data.getString("name");
+            String surname = data.getString("surname");
+            int age = data.getInt("age");
+            int diseaseID = data.getInt("diseaseID");
+            String date = data.getString("date");
+            String addedBy = sharedPreferences.getString("name", "");
+            patientViewModel.insert(new Patient(patientID, name, surname, diseaseID, age, addedBy, date));
+        }
+
+        // ustaw domyślny widok listy pacjentów
+        setPatients(patientViewModel.getPatientList());
+
+        // wróć do menu
+        buttonBackDataBase.setOnClickListener(v -> finish());
 
         buttonDeleteAll.setOnClickListener(v -> {
             if (patientList.isEmpty()) {
@@ -63,21 +91,9 @@ public class PatientsActivity extends AppCompatActivity {
             }
         });
 
-        Bundle data = getIntent().getExtras();
-        if (data.getBoolean("flag", false)) {
-            int patientID = data.getInt("id");
-            String name = data.getString("name");
-            String surname = data.getString("surname");
-            String PESEL = data.getString("PESEL");
-            int diseaseID = data.getInt("diseaseID");
-            String addedBy = sharedPreferences.getString("name", "");
-            patientViewModel.insert(new Patient(patientID, name, surname, diseaseID, PESEL, addedBy));
-        }
+        buttonSetMyPatients.setOnClickListener(v -> setPatients(patientViewModel.getItemsByAddedBy(sharedPreferences.getString("name", ""))));
 
-        patientViewModel.getPatientList().observe(this, patients -> {
-            patientList = patients;
-            patientAdapter.setPatients(patientList);
-        });
+        buttonSetAllPatients.setOnClickListener(v -> setPatients(patientViewModel.getPatientList()));
     }
 
     private Dialog dialogConfirmAll() {
@@ -102,5 +118,12 @@ public class PatientsActivity extends AppCompatActivity {
                 (dialog, whichButton) ->
                         { /* nic nie rób */ });
         return dialogBuilder.create();
+    }
+
+    private void setPatients(LiveData<List<Patient>> data) {
+        data.observe(this, patients -> {
+            patientList = patients;
+            patientAdapter.setPatients(patientList);
+        });
     }
 }

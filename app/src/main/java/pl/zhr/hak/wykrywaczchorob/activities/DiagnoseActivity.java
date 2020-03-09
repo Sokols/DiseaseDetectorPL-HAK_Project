@@ -1,4 +1,4 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
+import pl.zhr.hak.wykrywaczchorob.R;
+import pl.zhr.hak.wykrywaczchorob.Symptom;
+
+import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.SymptomAdapter.getChecked;
 
 public class DiagnoseActivity extends AppCompatActivity {

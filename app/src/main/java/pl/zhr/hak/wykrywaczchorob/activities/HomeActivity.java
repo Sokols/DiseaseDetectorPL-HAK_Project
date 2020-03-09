@@ -1,4 +1,4 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
+import pl.zhr.hak.wykrywaczchorob.R;
+
+import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class HomeActivity extends AppCompatActivity {
 

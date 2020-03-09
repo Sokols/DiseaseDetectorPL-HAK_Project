@@ -25,4 +25,7 @@ public interface PatientDao {
 
     @Query("DELETE FROM Patient")
     void deleteAll();
+
+    @Query("SELECT * FROM Patient WHERE addedBy = :addedBy")
+    LiveData<List<Patient>> getItemsByAddedBy(String addedBy);
 }

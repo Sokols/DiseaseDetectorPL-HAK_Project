@@ -40,4 +40,6 @@ public class PatientViewModel extends AndroidViewModel {
     public void deleteAll() {
         executorService.execute(() -> patientDao.deleteAll());
     }
+
+    public LiveData<List<Patient>> getItemsByAddedBy(String addedBy) { return patientDao.getItemsByAddedBy(addedBy); }
 }

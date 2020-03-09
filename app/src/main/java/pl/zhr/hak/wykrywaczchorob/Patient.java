@@ -24,27 +24,32 @@ public class Patient implements Parcelable {
     private int diseaseID;
 
     @ColumnInfo
-    private String PESEL;
+    private int age;
 
     @ColumnInfo
     private String addedBy;
 
+    @ColumnInfo
+    private String date;
+
     @Ignore
-    public Patient(String name, String surname, int diseaseID, String PESEL, String addedBy) {
+    public Patient(String name, String surname, int diseaseID, int age, String addedBy, String date) {
         this.name = name;
         this.surname = surname;
         this.diseaseID = diseaseID;
-        this.PESEL = PESEL;
+        this.age = age;
         this.addedBy = addedBy;
+        this.date = date;
     }
 
-    public Patient(int patientID, String name, String surname, int diseaseID, String PESEL, String addedBy) {
+    public Patient(int patientID, String name, String surname, int diseaseID, int age, String addedBy, String date) {
         this.patientID = patientID;
         this.name = name;
         this.surname = surname;
         this.diseaseID = diseaseID;
-        this.PESEL = PESEL;
+        this.age = age;
         this.addedBy = addedBy;
+        this.date = date;
     }
 
     public int getPatientID() {
@@ -79,12 +84,12 @@ public class Patient implements Parcelable {
         this.diseaseID = diseaseID;
     }
 
-    public String getPESEL() {
-        return PESEL;
+    public int getAge() {
+        return age;
     }
 
-    public void setPESEL(String PESEL) {
-        this.PESEL = PESEL;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getAddedBy() {
@@ -93,6 +98,14 @@ public class Patient implements Parcelable {
 
     public void setAddedBy(String addedBy) {
         this.addedBy = addedBy;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
@@ -106,8 +119,9 @@ public class Patient implements Parcelable {
         out.writeString(name);
         out.writeString(surname);
         out.writeInt(diseaseID);
-        out.writeString(PESEL);
+        out.writeInt(age);
         out.writeString(addedBy);
+        out.writeString(date);
     }
 
     public static final Parcelable.Creator<Patient> CREATOR = new Parcelable.Creator<Patient>() {
@@ -125,9 +139,8 @@ public class Patient implements Parcelable {
         name = in.readString();
         surname = in.readString();
         diseaseID = in.readInt();
-        PESEL = in.readString();
+        age = in.readInt();
         addedBy = in.readString();
+        date = in.readString();
     }
-
-
 }

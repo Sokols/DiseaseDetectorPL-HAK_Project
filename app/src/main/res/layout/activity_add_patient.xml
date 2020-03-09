@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/health"
-    tools:context=".AddPatientActivity">
+    tools:context=".activities.AddPatientActivity">
 
     <TextView
         android:id="@+id/textViewAddPatient"
@@ -53,7 +53,26 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddName"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/editTextAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/age"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextAddSurname"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/buttonAddCancel"
@@ -65,7 +84,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonAddConfirm"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPESEL" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAge" />
 
     <Button
         android:id="@+id/buttonAddConfirm"
@@ -75,22 +94,7 @@
         android:layout_marginEnd="80dp"
         android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPESEL" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAge" />
 
-    <EditText
-        android:id="@+id/editTextPESEL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/PESEL"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddSurname" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

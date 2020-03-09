@@ -1,4 +1,4 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +13,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
+import pl.zhr.hak.wykrywaczchorob.R;
+import pl.zhr.hak.wykrywaczchorob.Symptom;
+import pl.zhr.hak.wykrywaczchorob.SymptomAdapter;
+
+import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.Symptom.getSymptoms;
 
 public class ExaminationActivity extends AppCompatActivity {

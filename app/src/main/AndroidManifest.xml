@@ -10,16 +10,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".PatientPresentationActivity" />
-        <activity android:name=".PatientsActivity" />
-        <activity android:name=".AddPatientActivity" />
-        <activity android:name=".DiagnoseActivity" />
-        <activity android:name=".ExaminationActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        android:screenOrientation="portrait"
+        tools:ignore="GoogleAppIndexingWarning"
+        android:fullBackupContent="@xml/backup_descriptor">
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.PatientPresentationActivity" />
+        <activity android:name=".activities.PatientsActivity" />
+        <activity android:name=".activities.AddPatientActivity" />
+        <activity android:name=".activities.DiagnoseActivity" />
+        <activity android:name=".activities.ExaminationActivity" />
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

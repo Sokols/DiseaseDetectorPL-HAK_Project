@@ -5,7 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/health"
-    tools:context=".PatientsActivity">
+    tools:context=".activities.PatientsActivity">
+
+    <Button
+        android:id="@+id/buttonMyPatients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/my_patients"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
+
+    <Button
+        android:id="@+id/buttonAllPatients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/all_patients"
+        app:layout_constraintStart_toEndOf="@+id/buttonMyPatients"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
 
     <TextView
         android:id="@+id/textViewDataBase"
@@ -23,49 +43,46 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView1"
-        android:layout_width="332dp"
-        android:layout_height="324dp"
+        android:layout_width="337dp"
+        android:layout_height="373dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDataBase" />
 
     <Button
+        android:id="@+id/buttonDeleteAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/delete_all"
+        app:layout_constraintEnd_toStartOf="@+id/buttonDeleteSelected"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
+
+    <Button
         android:id="@+id/buttonBackDataBase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:text="@string/back_to_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonDeleteAll" />
-
-    <Button
-        android:id="@+id/buttonDeleteAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/delete_all"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAllPatients" />
 
     <Button
         android:id="@+id/buttonDeleteSelected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/delete_selected"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/buttonDeleteAll"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView1" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

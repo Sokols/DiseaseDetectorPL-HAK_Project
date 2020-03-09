@@ -1,4 +1,4 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
+
+import pl.zhr.hak.wykrywaczchorob.R;
+import pl.zhr.hak.wykrywaczchorob.User;
+import pl.zhr.hak.wykrywaczchorob.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 

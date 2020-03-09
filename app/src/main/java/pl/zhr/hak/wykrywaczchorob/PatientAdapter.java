@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.zhr.hak.wykrywaczchorob.activities.PatientPresentationActivity;
+
 import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
@@ -53,9 +55,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
         List<Disease> diseaseList = getDiseases(mContext);
         holder.textViewName.setText(mContext.getString(R.string.patient,
-                position + 1,
-                mPatientList.get(position).getName(),
-                mPatientList.get(position).getSurname()));
+                position + 1, mPatientList.get(position).getName(), mPatientList.get(position).getSurname()));
         holder.textViewName.setPaintFlags(holder.textViewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.textViewName.setOnClickListener(v -> {
             Intent patientPresentationActivity = new Intent(mContext, PatientPresentationActivity.class);
@@ -63,6 +63,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
             mContext.startActivity(patientPresentationActivity);
         });
         holder.textViewDisease.setText(diseaseList.get(mPatientList.get(position).getDiseaseID() - 1).getDiseaseName());
+        // po usunięciu zaznacoznych pacjentów wszystkie checkboxy ustawione na false
+        holder.checkBoxDelete.setChecked(false);
         holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 patientsToDelete.add(mPatientList.get(position));
@@ -76,7 +78,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     @Override
     public int getItemCount() { return mPatientList.size(); }
 
-    void setPatients(List<Patient> patients) {
+    public void setPatients(List<Patient> patients) {
         mPatientList = patients;
         notifyDataSetChanged();
     }

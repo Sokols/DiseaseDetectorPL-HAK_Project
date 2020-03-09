@@ -1,4 +1,4 @@
-package pl.zhr.hak.wykrywaczchorob;
+package pl.zhr.hak.wykrywaczchorob.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import pl.zhr.hak.wykrywaczchorob.R;
+import pl.zhr.hak.wykrywaczchorob.User;
+import pl.zhr.hak.wykrywaczchorob.UserViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 
