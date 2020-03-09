@@ -42,5 +42,9 @@ public class UserViewModel extends AndroidViewModel {
         executorService.execute(() -> userDao.deleteAll());
     }
 
-    public User getItemByName(String name) { return userDao.getItemByName(name); }
+    public User getItemByName(String login) { return userDao.getItemByName(login); }
+
+    public int checkItemByName(String login) {
+        return userDao.checkItemByName(login);
+    }
 }

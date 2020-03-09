@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             else {
                 user = userViewModel.getItemByName(name);
                 // sprawdź czy podany login istnieje w bazie danych
-                if (user.getLogin().equals(name)) {
+                if (userViewModel.checkItemByName(name) == 1) {
                     // sprawdź czy dla podanego loginu wpisano odpowiednie hasło
                     if (user.getPassword().equals(password)) {
                         sharedPreferences.edit().putBoolean("remember", remember).apply();

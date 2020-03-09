@@ -43,12 +43,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
             else {
                 // sprawdź czy podany login istnieje w bazie
-                if (user.getLogin().equals(login)){
+                if (userViewModel.checkItemByName(login) == 1) {
                     Toast.makeText(this, getString(R.string.double_login), Toast.LENGTH_SHORT).show();
                 }
                 else {
                     // sprawdź poprawność hasła
-                    if (password != password2) {
+                    if (!password.equals(password2)) {
                         Toast.makeText(this, getString(R.string.wrong_password_repeat), Toast.LENGTH_SHORT).show();
                     }
                     else {
