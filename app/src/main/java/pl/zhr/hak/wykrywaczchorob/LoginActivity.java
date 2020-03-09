@@ -3,10 +3,13 @@ package pl.zhr.hak.wykrywaczchorob;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import java.util.Locale;
 public class LoginActivity extends AppCompatActivity {
 
     int REQUEST_CODE = 123;
+    String LANGUAGE_CODE;
     EditText editTextName;
     EditText editTextPassword;
     CheckBox checkBoxRemember;
@@ -41,10 +45,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // sprawdź poprawność ID rezultatu
-        if (requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             // sprawdź poprawność wykonania
             if (resultCode == RESULT_OK) {
                 // dodaj użytkownika do bazy danych zdalnie dodając ID z sharedpref
+                Toast.makeText(this, getString(R.string.registration_confirm), Toast.LENGTH_SHORT).show();
                 String login = data.getStringExtra("login");
                 String password = data.getStringExtra("password");
                 userID = sharedPreferences.getInt("userID", 1);
@@ -59,13 +64,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
-        // zmiana języka na przeciwny
-        if (sharedPreferences.getBoolean("language", false)) {
-            setAppLocale("en");
-        }
-        else {
-            setAppLocale("values");
-        }
+        LANGUAGE_CODE = sharedPreferences.getString("language", "values");
+        // ustaw język aplikacji
+        setAppLocale(LANGUAGE_CODE);
 
         setContentView(R.layout.activity_login);
 
@@ -76,61 +77,64 @@ public class LoginActivity extends AppCompatActivity {
         imageButtonLanguage = findViewById(R.id.imageButtonLanguage);
         imageButtonExit1 = findViewById(R.id.imageButtonExit1);
         textViewRegister = findViewById(R.id.textViewRegistration);
+        textViewRegister.setPaintFlags(textViewRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // uruchom HomeActivity jeśli pierwotnie zaznaczono checkbox zapamiętania
         boolean rememberFlag = sharedPreferences.getBoolean("remember", false);
-        String ownerName = sharedPreferences.getString("name", "");
-        if (rememberFlag && !ownerName.isEmpty()) {
-            homeReady(ownerName);
+        if (rememberFlag) {
+            homeReady();
         }
 
-        imageButtonExit1.setOnClickListener(v -> finish());
+        // wyjdź z aplikacji
+        imageButtonExit1.setOnClickListener(v -> dialogConfirmExit().show());
 
+        // zaloguj się
         buttonLogin.setOnClickListener(v -> {
-            String name = editTextName.getText().toString();
+            String login = editTextName.getText().toString();
             String password = editTextPassword.getText().toString();
             boolean remember = checkBoxRemember.isChecked();
             // sprawdź czy wszsystkie pola zostały wypełnione
-            if(name.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this,
-                        getString(R.string.alldata),
-                        Toast.LENGTH_SHORT).show();
+            if (login.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, getString(R.string.alldata), Toast.LENGTH_SHORT).show();
             }
             else {
-                user = userViewModel.getItemByName(name);
+                user = userViewModel.getItemByName(login);
                 // sprawdź czy podany login istnieje w bazie danych
-                if (userViewModel.checkItemByName(name) == 1) {
+                if (userViewModel.checkItemByName(login) == 1) {
                     // sprawdź czy dla podanego loginu wpisano odpowiednie hasło
                     if (user.getPassword().equals(password)) {
                         sharedPreferences.edit().putBoolean("remember", remember).apply();
-                        sharedPreferences.edit().putString("name", name).apply();
-                        homeReady(name);
+                        sharedPreferences.edit().putString("name", login).apply();
+                        homeReady();
                     }
                     else {
-                        Toast.makeText(LoginActivity.this,
-                                getString(R.string.wrong_password),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    Toast.makeText(LoginActivity.this,
-                            getString(R.string.wrong_login),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.wrong_login), Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        // przejdź do rejestracji
         textViewRegister.setOnClickListener(v -> {
             Intent registerActivity = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivityForResult(registerActivity, REQUEST_CODE);
         });
 
+        // zmień język aplikacji i odśwież
         imageButtonLanguage.setOnClickListener(v -> {
-            sharedPreferences.edit().putBoolean("language",
-                    !sharedPreferences.getBoolean("language", true)).apply();
+            if (LANGUAGE_CODE.equals("values")) {
+                LANGUAGE_CODE = "en";
+            }
+            else {
+                LANGUAGE_CODE = "values";
+            }
             finish();
+            sharedPreferences.edit().putString("language", LANGUAGE_CODE).apply();
             startActivity(getIntent());
         });
     }
@@ -144,11 +148,24 @@ public class LoginActivity extends AppCompatActivity {
         res.updateConfiguration(conf, dm);
     }
 
-    public void homeReady(String name){
-        Intent homeActivity = new Intent(LoginActivity.this,
-                HomeActivity.class);
-        homeActivity.putExtra("name", name);
+    // uruchomienie nowej aktywności
+    public void homeReady(){
+        Intent homeActivity = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(homeActivity);
         finish();
+    }
+
+    // okno dialogowe potwierdzające wyjście z aplikacji
+    private Dialog dialogConfirmExit() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(getString(R.string.confirm));
+        dialogBuilder.setMessage(getString(R.string.please_confirm));
+        dialogBuilder.setPositiveButton(getString(R.string.yes),
+                (dialog, whichButton) ->
+                        finish());
+        dialogBuilder.setNegativeButton(getString(R.string.no),
+                (dialog, whichButton) ->
+                { /* nic nie rób */ });
+        return dialogBuilder.create();
     }
 }

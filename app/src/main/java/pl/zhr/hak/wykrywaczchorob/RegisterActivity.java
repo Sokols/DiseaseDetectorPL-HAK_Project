@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextPassword2 = findViewById(R.id.editTextRegisterPassword2);
         buttonRegister = findViewById(R.id.buttonRegister);
         textViewLoginNow = findViewById(R.id.textViewLoginNow);
+        textViewLoginNow.setPaintFlags(textViewLoginNow.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         buttonRegister.setOnClickListener(v -> {

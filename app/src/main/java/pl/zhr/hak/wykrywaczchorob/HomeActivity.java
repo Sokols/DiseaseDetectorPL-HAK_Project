@@ -2,6 +2,8 @@ package pl.zhr.hak.wykrywaczchorob;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +15,6 @@ import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView textViewHello;
     TextView textViewUser;
     Button buttonLogout;
     SharedPreferences sharedPreferences;
@@ -27,43 +28,55 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
-        Bundle extras = getIntent().getExtras();
-        String name = extras.getString("name", "");
+        String name = sharedPreferences.getString("name", "");
 
-        textViewHello = findViewById(R.id.textViewHello);
         textViewUser = findViewById(R.id.textViewUser);
         imageButtonExit = findViewById(R.id.imageButtonExit);
         imageButtonAdd = findViewById(R.id.imageButtonAdd);
         imageButtonDB = findViewById(R.id.imageButtonDB);
         buttonLogout = findViewById(R.id.buttonLogout);
 
-        textViewHello.setText(getString(R.string.hello));
         textViewUser.setText(getString(R.string.user, name));
 
-        imageButtonExit.setOnClickListener(v -> finish());
+        // wyjdź z aplikacji
+        imageButtonExit.setOnClickListener(v -> dialogConfirmExit().show());
 
+        // rozpocznij badanie
         imageButtonAdd.setOnClickListener(v -> {
-            Intent examination1Activity = new Intent(HomeActivity.this,
-                    ExaminationActivity.class);
-            startActivity(examination1Activity);
+            Intent examinationActivity = new Intent(HomeActivity.this, ExaminationActivity.class);
+            startActivity(examinationActivity);
         });
 
+        // przejdź do bazy danych
         imageButtonDB.setOnClickListener(v -> {
-            Intent patientActivity = new Intent(HomeActivity.this,
-                    PatientsActivity.class);
+            Intent patientActivity = new Intent(HomeActivity.this, PatientsActivity.class);
             // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj brak potrzeby
             patientActivity.putExtra("flag", false);
             startActivity(patientActivity);
         });
 
+        // wyloguj się
         buttonLogout.setOnClickListener(v -> {
-            Intent loginActivity = new Intent(HomeActivity.this,
-                    LoginActivity.class);
-            sharedPreferences.edit().putBoolean("remember",
-                    false).apply();
+            Intent loginActivity = new Intent(HomeActivity.this, LoginActivity.class);
+            // odznacz flagę pamiętania użytkownika
+            sharedPreferences.edit().putBoolean("remember", false).apply();
             startActivity(loginActivity);
             finish();
         });
+    }
+
+    // okno dialogowe potwierdzające wyjście z aplikacji
+    private Dialog dialogConfirmExit() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(getString(R.string.confirm));
+        dialogBuilder.setMessage(getString(R.string.please_confirm));
+        dialogBuilder.setPositiveButton(getString(R.string.yes),
+                (dialog, whichButton) ->
+                        finish());
+        dialogBuilder.setNegativeButton(getString(R.string.no),
+                (dialog, whichButton) ->
+                { /* nic nie rób */ });
+        return dialogBuilder.create();
     }
 
 }

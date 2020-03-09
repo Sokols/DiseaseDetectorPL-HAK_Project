@@ -2,6 +2,7 @@ package pl.zhr.hak.wykrywaczchorob;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         }
     }
 
-    private List<Disease> diseaseList;
     private List<Patient> mPatientList;
     private final LayoutInflater mInflater;
     private Context mContext;
@@ -51,11 +51,12 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
-        diseaseList = getDiseases(mContext);
+        List<Disease> diseaseList = getDiseases(mContext);
         holder.textViewName.setText(mContext.getString(R.string.patient,
                 position + 1,
                 mPatientList.get(position).getName(),
                 mPatientList.get(position).getSurname()));
+        holder.textViewName.setPaintFlags(holder.textViewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.textViewName.setOnClickListener(v -> {
             Intent patientPresentationActivity = new Intent(mContext, PatientPresentationActivity.class);
             patientPresentationActivity.putExtra("patient", mPatientList.get(position));
@@ -84,7 +85,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         for (Patient patient : patientsToDelete) {
             patientViewModel.delete(patient);
         }
-
     }
 }
 
