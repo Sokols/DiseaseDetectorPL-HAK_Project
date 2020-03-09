@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
 
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomViewHolder> {
     class SymptomViewHolder extends RecyclerView.ViewHolder {

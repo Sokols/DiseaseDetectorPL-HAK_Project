@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.Symptom.getSymptoms;
 
 public class ExaminationActivity extends AppCompatActivity {

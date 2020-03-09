@@ -1,7 +1,6 @@
 package pl.zhr.hak.wykrywaczchorob;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
 
 public class AddPatientActivity extends AppCompatActivity {
 

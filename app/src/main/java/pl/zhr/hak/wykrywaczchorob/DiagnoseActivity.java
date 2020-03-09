@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
+import static pl.zhr.hak.wykrywaczchorob.LoginActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.SymptomAdapter.getChecked;
 
 public class DiagnoseActivity extends AppCompatActivity {
