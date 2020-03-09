@@ -35,7 +35,7 @@ public class DiagnoseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_examination2);
+        setContentView(R.layout.activity_diagnose);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         textViewDiagnosis = findViewById(R.id.textViewDiagnosis);

@@ -28,14 +28,12 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
         }
     }
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private static List<Symptom> mSymptomList;
     private final LayoutInflater mInflater;
-    private Context mContext;
 
     public SymptomAdapter(List<Symptom> symptomList, Context context) {
         this.mSymptomList = symptomList;
-        this.mContext = context;
         mInflater = LayoutInflater.from(context);
         sharedPreferences = context.getSharedPreferences(sharedPreferencesName, 0);
     }
@@ -51,7 +49,6 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
     public void onBindViewHolder(@NonNull SymptomViewHolder holder, int position) {
         // ustaw na starcie licznik zaznaczonych symptomów na 0
         sharedPreferences.edit().putInt("symptomCounter", 0).apply();
-
         holder.textViewSymptomName.setText(mSymptomList.get(position).getSymptomName());
         holder.checkBoxCheckSymptom.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // jeśli symptom został zaznaczony zmień jego flagę isChecked na true i inkrementuj licznik zaznaocznych symptomów
@@ -75,4 +72,12 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
     }
 
     public static List<Symptom> getChecked() { return mSymptomList; }
+
+    public void uncheckAll() {
+        for (Symptom symptom : mSymptomList) {
+            if (symptom.getChecked()) {
+                symptom.setChecked(false);
+            }
+        }
+    }
 }

@@ -79,4 +79,6 @@
     <string name="date_added">Date added: %s</string>
     <string name="all_patients">All\npatients</string>
     <string name="my_patients">My\npatients</string>
+    <string name="wrong_age">Age must be a number!</string>
+    <string name="uncheck_all">Uncheck\nall</string>
 </resources>

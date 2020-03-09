@@ -26,22 +26,23 @@ public class ExaminationActivity extends AppCompatActivity {
     SymptomAdapter symptomAdapter;
     Button buttonCancelSymptoms;
     Button buttonConfirmSymptoms;
+    Button buttonUncheckSymptoms;
     SharedPreferences sharedPreferences;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_examination1);
+        setContentView(R.layout.activity_examination);
 
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
-        symptomList = getSymptoms(ExaminationActivity.this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        symptomAdapter = new SymptomAdapter(symptomList, ExaminationActivity.this);
-        recyclerView.setAdapter(symptomAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         buttonCancelSymptoms = findViewById(R.id.buttonCancelSymptoms);
         buttonConfirmSymptoms = findViewById(R.id.buttonConfirmSymptoms);
+        buttonUncheckSymptoms = findViewById(R.id.buttonUncheckSymptoms);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        setSymptoms();
 
         buttonCancelSymptoms.setOnClickListener(v -> finish());
 
@@ -61,5 +62,18 @@ public class ExaminationActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        buttonUncheckSymptoms.setOnClickListener(v -> {
+            symptomAdapter.uncheckAll();
+            setSymptoms();
+        });
     }
+
+    private void setSymptoms() {
+        symptomList = getSymptoms(ExaminationActivity.this);
+        symptomAdapter = new SymptomAdapter(symptomList, ExaminationActivity.this);
+        recyclerView.setAdapter(symptomAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
 }

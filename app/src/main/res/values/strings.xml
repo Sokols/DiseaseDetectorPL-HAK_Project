@@ -78,4 +78,6 @@
     <string name="date_added">Data dodania: %s</string>
     <string name="all_patients">Wszyscy\npacjenci</string>
     <string name="my_patients">Moi\npacjenci</string>
+    <string name="wrong_age">Wiek musi być liczbą!</string>
+    <string name="uncheck_all">Odznacz\nwszystko</string>
 </resources>

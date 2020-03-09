@@ -57,14 +57,17 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         holder.textViewName.setText(mContext.getString(R.string.patient,
                 position + 1, mPatientList.get(position).getName(), mPatientList.get(position).getSurname()));
         holder.textViewName.setPaintFlags(holder.textViewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        holder.textViewDisease.setText(diseaseList.get(mPatientList.get(position).getDiseaseID() - 1).getDiseaseName());
+
         holder.textViewName.setOnClickListener(v -> {
             Intent patientPresentationActivity = new Intent(mContext, PatientPresentationActivity.class);
             patientPresentationActivity.putExtra("patient", mPatientList.get(position));
             mContext.startActivity(patientPresentationActivity);
         });
-        holder.textViewDisease.setText(diseaseList.get(mPatientList.get(position).getDiseaseID() - 1).getDiseaseName());
+
         // po usunięciu zaznacoznych pacjentów wszystkie checkboxy ustawione na false
         holder.checkBoxDelete.setChecked(false);
+
         holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 patientsToDelete.add(mPatientList.get(position));
