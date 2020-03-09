@@ -5,6 +5,7 @@
     <string name="hello">MENU</string>
     <string name="login">Zaloguj</string>
     <string name="logout">Wyloguj</string>
+    <string name="password">Hasło</string>
     <string name="panel">Panel logowania</string>
     <string name="remember">Zapamiętaj mnie</string>
     <string name="examine">Przeprowadź badanie</string>
@@ -60,4 +61,17 @@
     <string name="disease_introduce">Choroba: %s</string>
     <string name="added_by_introduce">Dodany przez: %s</string>
     <string name="patientID_introduce">ID pacjenta: %d</string>
+    <string name="wrong_login">Podany login nie istnieje</string>
+    <string name="wrong_password">Niepoprawne hasło</string>
+    <string name="registration">Rejestracja</string>
+    <string name="registration_login">Podaj login</string>
+    <string name="registration_password">Podaj hasło</string>
+    <string name="registration_password2">Powtórz hasło</string>
+    <string name="register">Zarejestruj</string>
+    <string name="double_login">Podany login już istnieje</string>
+    <string name="wrong_password_repeat">Niepoprawnie powtórzone hasło</string>
+    <string name="registration_question">Nie masz jeszcze konta?</string>
+    <string name="registration_now">Zarejestruj się</string>
+    <string name="login_question">Masz już konto?</string>
+    <string name="login_now">Zaloguj się</string>
 </resources>

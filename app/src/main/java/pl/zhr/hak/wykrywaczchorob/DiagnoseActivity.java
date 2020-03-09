@@ -14,7 +14,7 @@ import java.util.List;
 import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.SymptomAdapter.getChecked;
 
-public class Examination2Activity extends AppCompatActivity {
+public class DiagnoseActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     TextView textViewDiagnosis;
@@ -111,14 +111,14 @@ public class Examination2Activity extends AppCompatActivity {
         buttonAddPatient.setOnClickListener(v -> {
             // jeśli nie znaleziono choroby, nie można dodać pacjenta do bazy
             if (textViewDiagnosedDisease.getText().toString().equals(getString(R.string.nullable))) {
-                Toast.makeText(Examination2Activity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DiagnoseActivity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
             }
             // jeśli znaleziono więcej niż jedną chorobę, nie można dodać pacjenta do bazy
             else if(!oneDiseaseFlag) {
-                Toast.makeText(Examination2Activity.this, getString(R.string.more_disease), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DiagnoseActivity.this, getString(R.string.more_disease), Toast.LENGTH_SHORT).show();
             }
             else {
-                Intent addPatientActivity = new Intent(Examination2Activity.this,
+                Intent addPatientActivity = new Intent(DiagnoseActivity.this,
                         AddPatientActivity.class);
                 // podanie do nowej aktywności nazwy zdiagnozowanej choroby
                 addPatientActivity.putExtra("diseaseID", diseaseID);

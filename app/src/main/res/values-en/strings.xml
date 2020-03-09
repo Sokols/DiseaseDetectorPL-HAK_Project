@@ -6,6 +6,7 @@
     <string name="hello">MENU</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="password">Password</string>
     <string name="panel">Login panel</string>
     <string name="remember">Remember me</string>
     <string name="examine">Start an examine</string>
@@ -36,7 +37,7 @@
     <string name="data_base">Patient database</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="PESEL">PESEL</string>
+    <string name="PESEL">Social security number</string>
     <string name="disease">Disease</string>
     <string name="add_patient">Add patient</string>
     <string name="cannot_add">You cannot add a patient without disease</string>
@@ -57,8 +58,21 @@
     <string name="patient_introduce">Patient</string>
     <string name="name_introduce">Name: %s</string>
     <string name="surname_introduce">Surname: %s</string>
-    <string name="PESEL_introduce">PESEL: %s</string>
+    <string name="PESEL_introduce">Social security number: %s</string>
     <string name="disease_introduce">Disease: %s</string>
     <string name="added_by_introduce">Added by: %s</string>
     <string name="patientID_introduce">Patient ID: %d</string>
+    <string name="wrong_login">Login does not exist</string>
+    <string name="wrong_password">Incorrect password</string>
+    <string name="registration">Registration</string>
+    <string name="registration_login">Enter your login</string>
+    <string name="registration_password">Enter your password</string>
+    <string name="registration_password2">Confirm your password</string>
+    <string name="register">Register</string>
+    <string name="double_login">Login already exists</string>
+    <string name="wrong_password_repeat">Incorrectly repeated password</string>
+    <string name="registration_question">You do not have an account yet?</string>
+    <string name="registration_now">Register now</string>
+    <string name="login_question">Do you already have an account?</string>
+    <string name="login_now">Log in now</string>
 </resources>

@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
         imageButtonAdd.setOnClickListener(v -> {
             Intent examination1Activity = new Intent(HomeActivity.this,
-                    Examination1Activity.class);
+                    ExaminationActivity.class);
             startActivity(examination1Activity);
         });
 

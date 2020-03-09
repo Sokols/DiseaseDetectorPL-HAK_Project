@@ -8,7 +8,8 @@ import androidx.room.RoomDatabase;
 
 @Database(
         entities = {
-                Patient.class
+                Patient.class,
+                User.class
         },
         version = 1
 )
@@ -28,7 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    public static void destroyInstance() { INSTANCE = null; }
-
     public abstract PatientDao patientDao();
+
+    public abstract UserDao userDao();
 }

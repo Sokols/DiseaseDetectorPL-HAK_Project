@@ -16,7 +16,7 @@ import java.util.List;
 import static pl.zhr.hak.wykrywaczchorob.MainActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.Symptom.getSymptoms;
 
-public class Examination1Activity extends AppCompatActivity {
+public class ExaminationActivity extends AppCompatActivity {
 
     List<Symptom> symptomList = new ArrayList<>();
     SymptomAdapter symptomAdapter;
@@ -30,9 +30,9 @@ public class Examination1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_examination1);
 
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
-        symptomList = getSymptoms(Examination1Activity.this);
+        symptomList = getSymptoms(ExaminationActivity.this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        symptomAdapter = new SymptomAdapter(symptomList, Examination1Activity.this);
+        symptomAdapter = new SymptomAdapter(symptomList, ExaminationActivity.this);
         recyclerView.setAdapter(symptomAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -44,16 +44,16 @@ public class Examination1Activity extends AppCompatActivity {
         buttonConfirmSymptoms.setOnClickListener(v -> {
             // jeśli zaznaczono więcej niż 4 symptomy, nie pozwól przejść dalej
             if (sharedPreferences.getInt("symptomCounter", 0) > 4) {
-                Toast.makeText(Examination1Activity.this, getString(R.string.please_only4), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExaminationActivity.this, getString(R.string.please_only4), Toast.LENGTH_SHORT).show();
             }
             // jeśli zaznaczono mniej niż 2 symptomy, nie pozwól przejść dalej
             else if (sharedPreferences.getInt("symptomCounter", 0) < 2) {
                 Toast.makeText(this, getString(R.string.not_enough), Toast.LENGTH_SHORT).show();
             }
             else {
-                Intent examination2activity = new Intent(Examination1Activity.this,
-                        Examination2Activity.class);
-                startActivity(examination2activity);
+                Intent diagnoseActivity = new Intent(ExaminationActivity.this,
+                        DiagnoseActivity.class);
+                startActivity(diagnoseActivity);
                 finish();
             }
         });
