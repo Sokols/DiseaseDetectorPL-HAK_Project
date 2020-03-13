@@ -25,7 +25,10 @@
     <string name="sore_throat">Sore throat</string>
     <string name="diarrhea">Diarrhea</string>
     <string name="stomach_ache">Stomach ache</string>
-    <string name="patientDiagnose">The patient probably has:</string>
+    <string name="patient_diagnose">%s probability of getting sick with:\n%s</string>
+    <string name="high">High</string>
+    <string name="medium">Medium</string>
+    <string name="low">Low</string>
     <string name="coronavirus">COVID-19</string>
     <string name="food_poisoning">Food poisoning</string>
     <string name="angina">Angina</string>
@@ -51,6 +54,8 @@
     <string name="fear">Unreasonable fear</string>
     <string name="panic">Panic attack</string>
     <string name="hypochondria">Hypochondria</string>
+    <string name="cold">Cold</string>
+    <string name="runny_nose">Runny nose</string>
     <string name="patient">%d. %s %s:</string>
     <string name="delete_selected">Delete\nselected</string>
     <string name="empty">Database is empty!</string>
@@ -81,4 +86,5 @@
     <string name="my_patients">My\npatients</string>
     <string name="wrong_age">Age must be a number!</string>
     <string name="uncheck_all">Uncheck\nall</string>
+    <string name="click_on_patient">Click on a patient to view its data</string>
 </resources>

@@ -56,8 +56,7 @@ public class ExaminationActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.not_enough), Toast.LENGTH_SHORT).show();
             }
             else {
-                Intent diagnoseActivity = new Intent(ExaminationActivity.this,
-                        DiagnoseActivity.class);
+                Intent diagnoseActivity = new Intent(ExaminationActivity.this, DiagnoseActivity.class);
                 startActivity(diagnoseActivity);
                 finish();
             }

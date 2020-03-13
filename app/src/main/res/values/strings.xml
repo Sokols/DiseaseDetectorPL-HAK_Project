@@ -24,7 +24,10 @@
     <string name="sore_throat">Ból gardła</string>
     <string name="diarrhea">Biegunka</string>
     <string name="stomach_ache">Ból brzucha</string>
-    <string name="patientDiagnose">Pacjent prawdopodobnie choruje na:</string>
+    <string name="patient_diagnose">%s prawdopodobieństwo zachorowania na:\n%s</string>
+    <string name="high">Wysokie</string>
+    <string name="medium">Średnie</string>
+    <string name="low">Niskie</string>
     <string name="coronavirus">COVID-19</string>
     <string name="food_poisoning">Zatrucie pokarmowe</string>
     <string name="angina">Angina</string>
@@ -50,6 +53,8 @@
     <string name="fear">Nieuzasadniony lęk</string>
     <string name="panic">Atak paniki</string>
     <string name="hypochondria">Hipochondria</string>
+    <string name="cold">Przeziębienie</string>
+    <string name="runny_nose">Katar</string>
     <string name="patient">%d. %s %s:</string>
     <string name="delete_selected">Usuń\nwybrane</string>
     <string name="empty">Baza danych jest pusta!</string>
@@ -80,4 +85,6 @@
     <string name="my_patients">Moi\npacjenci</string>
     <string name="wrong_age">Wiek musi być liczbą!</string>
     <string name="uncheck_all">Odznacz\nwszystko</string>
+    <string name="click_on_patient">Kliknij na pacjenta, aby wyświetlić jego dane</string>
+
 </resources>

@@ -52,8 +52,7 @@ public class Symptom {
         symptomList.add(new Symptom(7, context.getString(R.string.sore_throat), false));
         symptomList.add(new Symptom(8, context.getString(R.string.diarrhea), false));
         symptomList.add(new Symptom(9, context.getString(R.string.stomach_ache), false));
-        symptomList.add(new Symptom(10, context.getString(R.string.fear), false));
-        symptomList.add(new Symptom(11, context.getString(R.string.panic), false));
+        symptomList.add(new Symptom(10, context.getString(R.string.runny_nose), false));
         return symptomList;
     }
 }

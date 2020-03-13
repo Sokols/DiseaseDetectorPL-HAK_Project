@@ -16,6 +16,7 @@
         android:layout_marginEnd="32dp"
         android:background="#99000000"
         android:text="@string/diagnosis"
+        android:gravity="center"
         android:textColor="#FFFFFF"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,13 +24,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewPatientDisease"
+        android:id="@+id/textViewPatientDisease1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/patientDiagnose"
+        android:text="@string/patient_diagnose"
         android:textColor="#FFFFFF"
         android:gravity="center"
         android:background="#99000000"
@@ -39,40 +40,59 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewDiagnosis" />
 
     <TextView
-        android:id="@+id/textViewDiagnosedDisease"
+        android:id="@+id/textViewPatientDisease2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/nullable"
-        android:textColor="#FFFFFF"
         android:background="#99000000"
-        android:textSize="26sp"
+        android:gravity="center"
+        android:text="@string/patient_diagnose"
+        android:textColor="#FFFFFF"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPatientDisease" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPatientDisease1" />
+
+    <TextView
+        android:id="@+id/textViewPatientDisease3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:background="#99000000"
+        android:gravity="center"
+        android:text="@string/patient_diagnose"
+        android:textColor="#FFFFFF"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPatientDisease2" />
 
     <Button
         android:id="@+id/buttonBackToMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:text="@string/back_to_menu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDiagnosedDisease" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPatientDisease3" />
 
     <Button
         android:id="@+id/buttonAddPatient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="80dp"
         android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/buttonBackToMenu"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDiagnosedDisease" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPatientDisease3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
