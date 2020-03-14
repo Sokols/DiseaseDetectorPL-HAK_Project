@@ -24,7 +24,7 @@
     <string name="sore_throat">Ból gardła</string>
     <string name="diarrhea">Biegunka</string>
     <string name="stomach_ache">Ból brzucha</string>
-    <string name="patient_diagnose">%s prawdopodobieństwo zachorowania na:\n%s</string>
+    <string name="patient_diagnose">%s prawdopodobieństwo\nzachorowania na:\n%s</string>
     <string name="high">Wysokie</string>
     <string name="medium">Średnie</string>
     <string name="low">Niskie</string>
@@ -42,14 +42,13 @@
     <string name="age">Wiek</string>
     <string name="disease">Choroba</string>
     <string name="add_patient">Dodaj pacjenta</string>
-    <string name="cannot_add">Nie możesz dodać pacjenta bez choroby</string>
+    <string name="cannot_add">Diagnoza jest nieprecyzyjna</string>
     <string name="nullable"></string>
     <string name="no_disease">Choroba o podanych symptomach nie istnieje w bazie</string>
     <string name="delete_all">Usuń\nwszystko</string>
     <string name="please_confirm">Jesteś pewien?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
-    <string name="more_disease">Nie możesz dodać pacjenta z więcej niż jedną chorobą</string>
     <string name="fear">Nieuzasadniony lęk</string>
     <string name="panic">Atak paniki</string>
     <string name="hypochondria">Hipochondria</string>

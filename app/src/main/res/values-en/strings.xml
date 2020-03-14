@@ -25,7 +25,7 @@
     <string name="sore_throat">Sore throat</string>
     <string name="diarrhea">Diarrhea</string>
     <string name="stomach_ache">Stomach ache</string>
-    <string name="patient_diagnose">%s probability of getting sick with:\n%s</string>
+    <string name="patient_diagnose">%s probability\nof getting sick with:\n%s</string>
     <string name="high">High</string>
     <string name="medium">Medium</string>
     <string name="low">Low</string>
@@ -43,14 +43,13 @@
     <string name="age">Age</string>
     <string name="disease">Disease</string>
     <string name="add_patient">Add patient</string>
-    <string name="cannot_add">You cannot add a patient without disease</string>
+    <string name="cannot_add">The diagnosis is imprecise</string>
     <string name="nullable"></string>
     <string name="no_disease">The disease with the listed symptoms does not exist in the database</string>
     <string name="delete_all">Delete\nall</string>
     <string name="please_confirm">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="more_disease">You cannot add a patient with more than 1 disease</string>
     <string name="fear">Unreasonable fear</string>
     <string name="panic">Panic attack</string>
     <string name="hypochondria">Hypochondria</string>

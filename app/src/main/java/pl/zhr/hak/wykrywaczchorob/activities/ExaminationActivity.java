@@ -69,7 +69,7 @@ public class ExaminationActivity extends AppCompatActivity {
     }
 
     private void setSymptoms() {
-        symptomList = getSymptoms(ExaminationActivity.this);
+        symptomList = getSymptoms(this);
         symptomAdapter = new SymptomAdapter(symptomList, ExaminationActivity.this);
         recyclerView.setAdapter(symptomAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
