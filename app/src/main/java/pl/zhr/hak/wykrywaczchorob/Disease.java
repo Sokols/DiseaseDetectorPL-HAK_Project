@@ -8,10 +8,10 @@ import java.util.List;
 public class Disease {
     private int diseaseID;
     private String diseaseName;
-    private int[] symptoms;
-    private Boolean[] symptomConfirm;
+    private List<Integer> symptoms;
+    private int symptomConfirm;
 
-    public Disease(int diseaseID, String diseaseName, int[] symptoms, Boolean[] symptomConfirm) {
+    public Disease(int diseaseID, String diseaseName, List<Integer> symptoms, int symptomConfirm) {
         this.diseaseID = diseaseID;
         this.diseaseName = diseaseName;
         this.symptoms = symptoms;
@@ -34,33 +34,36 @@ public class Disease {
         this.diseaseName = diseaseName;
     }
 
-    public int[] getSymptoms() {
+    public List<Integer> getSymptoms() {
         return symptoms;
     }
 
-    public void setSymptoms(int[] symptoms) {
+    public void setSymptoms(List<Integer> symptoms) {
         this.symptoms = symptoms;
     }
 
-    public Boolean[] getSymptomConfirm() {
-        return symptomConfirm;
+    public int getSymptomConfirm() {
+        return this.symptomConfirm;
     }
 
-    public void setSymptomConfirm(Boolean[] symptomConfirm) {
-        this.symptomConfirm = symptomConfirm;
-    }
+    public void setSymptomConfirm (int symptomConfirm) { this.symptomConfirm = symptomConfirm; }
 
-    public void setSymptomConfirmByPosition(int position, Boolean set) { this.symptomConfirm[position] = set; }
-
-    public static List<Disease> getDiseases(Context context) {
+       public static List<Disease> getDiseases(Context context) {
         List<Disease> diseaseList = new ArrayList<>();
-        Boolean[] negative = new Boolean[] {false, false, false};
-        diseaseList.add(new Disease(1, context.getString(R.string.coronavirus), new int[] {1, 4, 5}, negative));
-        diseaseList.add(new Disease(2, context.getString(R.string.food_poisoning), new int[] {2, 8, 9}, negative));
-        diseaseList.add(new Disease(3, context.getString(R.string.flu), new int[] {3, 6, 4}, negative));
-        diseaseList.add(new Disease(4, context.getString(R.string.angina), new int[] {7, 6, 4}, negative));
-        diseaseList.add(new Disease(5, context.getString(R.string.cold), new int[] {7, 1, 10}, negative));
+        diseaseList.add(new Disease(1, context.getString(R.string.coronavirus), fillSymptomList(1, 4, 5),0));
+        diseaseList.add(new Disease(2, context.getString(R.string.food_poisoning), fillSymptomList(2, 8, 9), 0));
+        diseaseList.add(new Disease(3, context.getString(R.string.flu), fillSymptomList(3, 6, 4), 0));
+        diseaseList.add(new Disease(4, context.getString(R.string.angina), fillSymptomList(7, 6, 4), 0));
+        diseaseList.add(new Disease(5, context.getString(R.string.cold), fillSymptomList(7, 1, 10), 0));
         return diseaseList;
+    }
+
+    public static List<Integer> fillSymptomList(int a, int b, int c) {
+        List<Integer> symptomList = new ArrayList<>();
+        symptomList.add(a);
+        symptomList.add(b);
+        symptomList.add(c);
+        return symptomList;
     }
 
 

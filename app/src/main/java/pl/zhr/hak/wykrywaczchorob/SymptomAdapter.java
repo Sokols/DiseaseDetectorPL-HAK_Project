@@ -33,7 +33,7 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
     private final LayoutInflater mInflater;
 
     public SymptomAdapter(List<Symptom> symptomList, Context context) {
-        this.mSymptomList = symptomList;
+        mSymptomList = symptomList;
         mInflater = LayoutInflater.from(context);
         sharedPreferences = context.getSharedPreferences(sharedPreferencesName, 0);
     }

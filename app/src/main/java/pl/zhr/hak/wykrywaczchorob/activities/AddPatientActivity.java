@@ -9,14 +9,18 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
+import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.R;
 
+import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class AddPatientActivity extends AppCompatActivity {
@@ -24,11 +28,13 @@ public class AddPatientActivity extends AppCompatActivity {
     EditText editTextAddName;
     EditText editTextAddSurname;
     EditText editTextAge;
+    TextView textViewAddDisease;
     Button buttonAddCancel;
     Button buttonAddConfirm;
     SharedPreferences sharedPreferences;
     int patientID;
     int diseaseID;
+    List<Disease> diseaseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +44,16 @@ public class AddPatientActivity extends AppCompatActivity {
         editTextAddName = findViewById(R.id.editTextAddName);
         editTextAddSurname = findViewById(R.id.editTextAddSurname);
         editTextAge = findViewById(R.id.editTextAge);
+        textViewAddDisease = findViewById(R.id.textViewAddDisease);
         buttonAddCancel = findViewById(R.id.buttonAddCancel);
         buttonAddConfirm = findViewById(R.id.buttonAddConfirm);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         Bundle extras = getIntent().getExtras();
         diseaseID = extras.getInt("diseaseID", 0);
+        diseaseList = getDiseases(this);
+
+        textViewAddDisease.setText(getString(R.string.disease_introduce, diseaseList.get(diseaseID - 1).getDiseaseName()));
 
         buttonAddCancel.setOnClickListener(v -> finish());
 

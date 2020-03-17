@@ -52,15 +52,11 @@ public class DiagnoseActivity extends AppCompatActivity {
         buttonBackToMenu = findViewById(R.id.buttonBackToMenu);
         buttonAddPatient = findViewById(R.id.buttonAddPatient);
 
-        // zebranie zaznaczonych symptomów z adaptera oraz listy chorób
-        symptomList = getChecked();
-        diseaseList = getDiseases(this);
-
         // są 3 stopnie prawdopodobieństwa zachorowania - wysokie, średnie, niskie
         // pojawić się może maksymalnie 3 poziomy, minimalnie 1
         // poziom 2 i 3 na starcie wyłączamy
-         textViewPatientDisease2.setVisibility(View.GONE);
-         textViewPatientDisease3.setVisibility(View.GONE);
+        textViewPatientDisease2.setVisibility(View.GONE);
+        textViewPatientDisease3.setVisibility(View.GONE);
 
         startInference();
 
@@ -82,39 +78,32 @@ public class DiagnoseActivity extends AppCompatActivity {
     }
 
     public void startInference() {
+        // zebranie zaznaczonych symptomów z adaptera oraz listy chorób
+        symptomList = getChecked();
+        diseaseList = getDiseases(this);
         // USTAWIENIE WYSTĄPIEŃ SYMPTOMÓW W POSZCZEGÓLNYCH CHOROBACH
-        // sprawdzamy listę zaznaczonych symptomów
+        // sprawdzamy listę zaznaczonych symptomówq
         for (Symptom symptom : symptomList) {
             // przechodzimy dalej tylko jeśli symptom był zaznaczony
             if (symptom.getChecked()) {
                 // sprawdzamy listę chorób
                 for (Disease disease : diseaseList) {
                     // sprawdzamy każdy symptom choroby
-                    int position = 0;
-                    for (int symptomInDisease : disease.getSymptoms()) {
+                    for (int symptomIndex : disease.getSymptoms()) {
                         // sprawdzamy czy zaznaczony symptom odpowiada któremuś z symptomów choroby
-                        if (symptom.getSymptomID() == symptomInDisease) {
+                        if (symptom.getSymptomID() == symptomIndex) {
                             // jeśli tak, ustawiamy w chorobie
-                            disease.setSymptomConfirmByPosition(position, true);
+                            disease.setSymptomConfirm(disease.getSymptomConfirm() + 1);
                         }
-                        position++;
                     }
                 }
             }
         }
 
         // PODZIELENIE CHORÓB NA TRZY LISTY - WYSOKIE, ŚREDNIE I NISKIE PRAWDOPODOBIEŃSTWO WYSTĄPIENIA
-        // sprawdzenie wszystkich chorób z listy
         for (Disease disease : diseaseList) {
-            int counter = 0;
-            // sprawdzenie tablicy potwierdzeń choroby
-            for (Boolean isChecked : disease.getSymptomConfirm()) {
-                if (isChecked) {
-                    counter++;
-                }
-            }
             // dodaj chorobę do odpowiedniej listy na podstawie zliczonych objawów
-            switch(counter) {
+            switch(disease.getSymptomConfirm()) {
                 case 1:
                     lowProbability.add(disease);
                     break;
@@ -213,11 +202,6 @@ public class DiagnoseActivity extends AppCompatActivity {
                 textViewPatientDisease3.setVisibility(View.VISIBLE);
                 textViewPatientDisease3.setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
             }
-        }
-
-        // wyzeruj spowrotem tablicę potwierdzeń wystąpień symptomów
-        for (Disease disease : diseaseList) {
-            disease.setSymptomConfirm(new Boolean[] {false, false, false});
         }
     }
 }
