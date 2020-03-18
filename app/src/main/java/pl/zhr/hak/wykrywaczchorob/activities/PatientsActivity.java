@@ -60,11 +60,12 @@ public class PatientsActivity extends AppCompatActivity {
             int patientID = data.getInt("id");
             String name = data.getString("name");
             String surname = data.getString("surname");
+            String sex = data.getString("sex");
             int age = data.getInt("age");
             int diseaseID = data.getInt("diseaseID");
             String date = data.getString("date");
             String addedBy = sharedPreferences.getString("name", "");
-            patientViewModel.insert(new Patient(patientID, name, surname, diseaseID, age, addedBy, date));
+            patientViewModel.insert(new Patient(patientID, name, surname, sex, diseaseID, age, addedBy, date));
         }
 
         // ustaw domyślny widok listy pacjentów

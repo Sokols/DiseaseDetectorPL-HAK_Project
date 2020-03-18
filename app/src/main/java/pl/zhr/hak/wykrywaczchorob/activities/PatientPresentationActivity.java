@@ -37,9 +37,11 @@ public class PatientPresentationActivity extends AppCompatActivity {
         diseaseList = getDiseases(PatientPresentationActivity.this);
         patient = extras.getParcelable("patient");
         listViewInfo = findViewById(R.id.listViewInfo);
+
         patientList.add(getString(R.string.patientID_introduce, patient.getPatientID()));
         patientList.add(getString(R.string.name_introduce, patient.getName()));
         patientList.add(getString(R.string.surname_introduce, patient.getSurname()));
+        patientList.add(getString(R.string.sex) + " " + patient.getRealSex(this, patient.getSex()));
         patientList.add(getString(R.string.age_introduce, patient.getAge()));
         patientList.add(getString(R.string.disease_introduce, diseaseList.get(patient.getDiseaseID() - 1).getDiseaseName()));
         patientList.add(getString(R.string.added_by_introduce, patient.getAddedBy()));

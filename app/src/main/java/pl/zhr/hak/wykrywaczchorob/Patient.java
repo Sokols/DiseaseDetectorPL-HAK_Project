@@ -1,5 +1,6 @@
 package pl.zhr.hak.wykrywaczchorob;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,6 +22,9 @@ public class Patient implements Parcelable {
     private String surname;
 
     @ColumnInfo
+    private String sex;
+
+    @ColumnInfo
     private int diseaseID;
 
     @ColumnInfo
@@ -33,19 +37,21 @@ public class Patient implements Parcelable {
     private String date;
 
     @Ignore
-    public Patient(String name, String surname, int diseaseID, int age, String addedBy, String date) {
+    public Patient(String name, String surname, String sex, int diseaseID, int age, String addedBy, String date) {
         this.name = name;
         this.surname = surname;
+        this.sex = sex;
         this.diseaseID = diseaseID;
         this.age = age;
         this.addedBy = addedBy;
         this.date = date;
     }
 
-    public Patient(int patientID, String name, String surname, int diseaseID, int age, String addedBy, String date) {
+    public Patient(int patientID, String name, String surname, String sex, int diseaseID, int age, String addedBy, String date) {
         this.patientID = patientID;
         this.name = name;
         this.surname = surname;
+        this.sex = sex;
         this.diseaseID = diseaseID;
         this.age = age;
         this.addedBy = addedBy;
@@ -74,6 +80,14 @@ public class Patient implements Parcelable {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public int getDiseaseID() {
@@ -108,6 +122,15 @@ public class Patient implements Parcelable {
         this.date = date;
     }
 
+    public String getRealSex(Context context, String sex) {
+        if (sex.equals("female")) {
+            return context.getString(R.string.female);
+        }
+        else {
+            return context.getString(R.string.male);
+        }
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -118,6 +141,7 @@ public class Patient implements Parcelable {
         out.writeInt(patientID);
         out.writeString(name);
         out.writeString(surname);
+        out.writeString(sex);
         out.writeInt(diseaseID);
         out.writeInt(age);
         out.writeString(addedBy);
@@ -138,6 +162,7 @@ public class Patient implements Parcelable {
         patientID = in.readInt();
         name = in.readString();
         surname = in.readString();
+        sex = in.readString();
         diseaseID = in.readInt();
         age = in.readInt();
         addedBy = in.readString();

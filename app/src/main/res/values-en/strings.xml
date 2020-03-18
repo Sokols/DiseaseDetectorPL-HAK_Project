@@ -86,4 +86,7 @@
     <string name="wrong_age">Age must be a number!</string>
     <string name="uncheck_all">Uncheck\nall</string>
     <string name="click_on_patient">Click on a patient to view its data</string>
+    <string name="male">Man</string>
+    <string name="female">Woman</string>
+    <string name="sex">Sex:</string>
 </resources>

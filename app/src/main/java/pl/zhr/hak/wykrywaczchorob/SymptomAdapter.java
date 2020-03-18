@@ -48,7 +48,7 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
     @Override
     public void onBindViewHolder(@NonNull SymptomViewHolder holder, int position) {
         // ustaw na starcie licznik zaznaczonych symptomów na 0
-        sharedPreferences.edit().putInt("symptomCounter", 0).apply();
+        sharedPreferences.edit().putInt("symptomFlag", 0).apply();
         holder.textViewSymptomName.setText(mSymptomList.get(position).getSymptomName());
         holder.checkBoxCheckSymptom.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // jeśli symptom został zaznaczony zmień jego flagę isChecked na true i inkrementuj licznik zaznaocznych symptomów

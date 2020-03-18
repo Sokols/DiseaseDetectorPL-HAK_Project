@@ -42,19 +42,16 @@ public class ExaminationActivity extends AppCompatActivity {
         buttonUncheckSymptoms = findViewById(R.id.buttonUncheckSymptoms);
         recyclerView = findViewById(R.id.recyclerView);
 
+        // załaduj symptomy do adaptera
         setSymptoms();
 
         buttonCancelSymptoms.setOnClickListener(v -> finish());
 
         buttonConfirmSymptoms.setOnClickListener(v -> {
-            // jeśli zaznaczono więcej niż 4 symptomy, nie pozwól przejść dalej
-            if (sharedPreferences.getInt("symptomCounter", 0) > 4) {
-                Toast.makeText(ExaminationActivity.this, getString(R.string.please_only4), Toast.LENGTH_SHORT).show();
+            // jeśli nie zaznaczono symptomów, nie pozwól przejść dalej
+            if (sharedPreferences.getInt("symptomCounter", 0) == 0) {
+                Toast.makeText(ExaminationActivity.this, getString(R.string.not_enough), Toast.LENGTH_SHORT).show();
             }
-            // jeśli zaznaczono mniej niż 2 symptomy, nie pozwól przejść dalej
-//            else if (sharedPreferences.getInt("symptomCounter", 0) < 2) {
-//                Toast.makeText(this, getString(R.string.not_enough), Toast.LENGTH_SHORT).show();
-//            }
             else {
                 Intent diagnoseActivity = new Intent(ExaminationActivity.this, DiagnoseActivity.class);
                 startActivity(diagnoseActivity);
