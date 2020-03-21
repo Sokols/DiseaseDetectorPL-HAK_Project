@@ -6,15 +6,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import pl.zhr.hak.wykrywaczchorob.Patient;
 import pl.zhr.hak.wykrywaczchorob.PatientAdapter;
@@ -36,19 +39,20 @@ public class PatientsActivity extends AppCompatActivity {
     Button buttonSetMyPatients;
     SharedPreferences sharedPreferences;
 
+    @SuppressLint("StringFormatMatches")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
+        recyclerView = findViewById(R.id.recyclerView1);
         buttonDeleteAll = findViewById(R.id.buttonDeleteAll);
         buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
         buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected);
         buttonSetAllPatients = findViewById(R.id.buttonAllPatients);
         buttonSetMyPatients = findViewById(R.id.buttonMyPatients);
 
-        recyclerView = findViewById(R.id.recyclerView1);
         patientAdapter = new PatientAdapter(patientList, PatientsActivity.this);
         recyclerView.setAdapter(patientAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,7 +60,7 @@ public class PatientsActivity extends AppCompatActivity {
 
         // dodaj pacjenta jeśli flaga jest ustawiona na true
         Bundle data = getIntent().getExtras();
-        if (data.getBoolean("flag", false)) {
+        if (Objects.requireNonNull(data).getBoolean("flag", false)) {
             int patientID = data.getInt("id");
             String name = data.getString("name");
             String surname = data.getString("surname");
