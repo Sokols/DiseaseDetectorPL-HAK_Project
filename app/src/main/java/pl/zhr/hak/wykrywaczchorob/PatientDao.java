@@ -5,7 +5,6 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
@@ -19,12 +18,6 @@ public interface PatientDao {
 
     @Delete
     void delete(Patient patient);
-
-    @Update
-    void update(Patient patient);
-
-    @Query("DELETE FROM Patient")
-    void deleteAll();
 
     @Query("SELECT * FROM Patient WHERE addedBy = :addedBy")
     LiveData<List<Patient>> getItemsByAddedBy(String addedBy);

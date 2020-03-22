@@ -33,7 +33,7 @@ public class PatientsActivity extends AppCompatActivity {
     PatientViewModel patientViewModel;
     RecyclerView recyclerView;
     Button buttonBackDataBase;
-    Button buttonDeleteAll;
+    Button buttonCheckAll;
     Button buttonDeleteSelected;
     Button buttonSetAllPatients;
     Button buttonSetMyPatients;
@@ -47,7 +47,7 @@ public class PatientsActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         recyclerView = findViewById(R.id.recyclerView1);
-        buttonDeleteAll = findViewById(R.id.buttonDeleteAll);
+        buttonCheckAll = findViewById(R.id.buttonCheckAll);
         buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
         buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected);
         buttonSetAllPatients = findViewById(R.id.buttonAllPatients);
@@ -69,7 +69,7 @@ public class PatientsActivity extends AppCompatActivity {
             int diseaseID = data.getInt("diseaseID");
             String date = data.getString("date");
             String addedBy = sharedPreferences.getString("name", "");
-            patientViewModel.insert(new Patient(patientID, name, surname, sex, diseaseID, age, addedBy, date));
+            patientViewModel.insert(new Patient(patientID, name, surname, sex, diseaseID, age, addedBy, date, false));
         }
 
         // ustaw domyślny widok listy pacjentów
@@ -78,12 +78,15 @@ public class PatientsActivity extends AppCompatActivity {
         // wróć do menu
         buttonBackDataBase.setOnClickListener(v -> finish());
 
-        buttonDeleteAll.setOnClickListener(v -> {
-            if (patientList.isEmpty()) {
-                Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
+        // zaznacz / odznacz wszystkie checkboxy
+        buttonCheckAll.setOnClickListener(v -> {
+            patientAdapter.checkAll(buttonCheckAll.getText().toString());
+            // zmień tekst przycisku na przeciwny
+            if (buttonCheckAll.getText().toString().equals(getString(R.string.check_all))) {
+                buttonCheckAll.setText(R.string.uncheck_all);
             }
             else {
-                dialogConfirmAll().show();
+                buttonCheckAll.setText(R.string.check_all);
             }
         });
 
@@ -96,20 +99,15 @@ public class PatientsActivity extends AppCompatActivity {
             }
         });
 
-        buttonSetMyPatients.setOnClickListener(v -> setPatients(patientViewModel.getItemsByAddedBy(sharedPreferences.getString("name", ""))));
+        buttonSetMyPatients.setOnClickListener(v -> {
+            setPatients(patientViewModel.getItemsByAddedBy(sharedPreferences.getString("name", "")));
+            buttonCheckAll.setText(R.string.check_all);
+        });
 
-        buttonSetAllPatients.setOnClickListener(v -> setPatients(patientViewModel.getPatientList()));
-    }
-
-    private Dialog dialogConfirmAll() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle(getString(R.string.confirm));
-        dialogBuilder.setMessage(getString(R.string.please_confirm));
-        dialogBuilder.setPositiveButton(getString(R.string.yes),
-                (dialog, whichButton) -> patientViewModel.deleteAll());
-        dialogBuilder.setNegativeButton(getString(R.string.no),
-                (dialog, whichButton) -> { /* nic nie rób */ });
-        return dialogBuilder.create();
+        buttonSetAllPatients.setOnClickListener(v -> {
+            setPatients(patientViewModel.getPatientList());
+            buttonCheckAll.setText(R.string.check_all);
+        });
     }
 
     private Dialog dialogConfirmSelected() {

@@ -1,9 +1,11 @@
 package pl.zhr.hak.wykrywaczchorob;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -36,8 +38,10 @@ public class Patient implements Parcelable {
     @ColumnInfo
     private String date;
 
+    private boolean isChecked;
+
     @Ignore
-    public Patient(String name, String surname, String sex, int diseaseID, int age, String addedBy, String date) {
+    public Patient(String name, String surname, String sex, int diseaseID, int age, String addedBy, String date, boolean isChecked) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
@@ -45,9 +49,10 @@ public class Patient implements Parcelable {
         this.age = age;
         this.addedBy = addedBy;
         this.date = date;
+        this.isChecked = isChecked;
     }
 
-    public Patient(int patientID, String name, String surname, String sex, int diseaseID, int age, String addedBy, String date) {
+    public Patient(int patientID, String name, String surname, String sex, int diseaseID, int age, String addedBy, String date, boolean isChecked) {
         this.patientID = patientID;
         this.name = name;
         this.surname = surname;
@@ -56,6 +61,7 @@ public class Patient implements Parcelable {
         this.age = age;
         this.addedBy = addedBy;
         this.date = date;
+        this.isChecked = isChecked;
     }
 
     public int getPatientID() {
@@ -122,6 +128,14 @@ public class Patient implements Parcelable {
         this.date = date;
     }
 
+    public boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public String getRealSex(Context context, String sex) {
         if (sex.equals("female")) {
             return context.getString(R.string.female);
@@ -136,6 +150,7 @@ public class Patient implements Parcelable {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(patientID);
@@ -146,9 +161,11 @@ public class Patient implements Parcelable {
         out.writeInt(age);
         out.writeString(addedBy);
         out.writeString(date);
+        out.writeBoolean(isChecked);
     }
 
     public static final Parcelable.Creator<Patient> CREATOR = new Parcelable.Creator<Patient>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         public Patient createFromParcel(Parcel in) {
             return new Patient(in);
         }
@@ -158,6 +175,7 @@ public class Patient implements Parcelable {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     private Patient(Parcel in) {
         patientID = in.readInt();
         name = in.readString();
@@ -167,5 +185,6 @@ public class Patient implements Parcelable {
         age = in.readInt();
         addedBy = in.readString();
         date = in.readString();
+        isChecked = in.readBoolean();
     }
 }

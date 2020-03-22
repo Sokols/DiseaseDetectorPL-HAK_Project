@@ -37,7 +37,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     private List<Patient> mPatientList;
     private final LayoutInflater mInflater;
     private Context mContext;
-    private List<Patient> patientsToDelete = new ArrayList<>();
     public PatientAdapter(List<Patient> patientList, Context context) {
         this.mPatientList = patientList;
         this.mContext = context;
@@ -58,22 +57,19 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 position + 1, mPatientList.get(position).getName(), mPatientList.get(position).getSurname()));
         holder.textViewName.setPaintFlags(holder.textViewName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.textViewDisease.setText(diseaseList.get(mPatientList.get(position).getDiseaseID() - 1).getDiseaseName());
-
+        holder.checkBoxDelete.setChecked(mPatientList.get(position).getIsChecked());
         holder.textViewName.setOnClickListener(v -> {
             Intent patientPresentationActivity = new Intent(mContext, PatientPresentationActivity.class);
             patientPresentationActivity.putExtra("patient", mPatientList.get(position));
             mContext.startActivity(patientPresentationActivity);
         });
 
-        // po usunięciu zaznacoznych pacjentów wszystkie checkboxy ustawione na false
-        holder.checkBoxDelete.setChecked(false);
-
         holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                patientsToDelete.add(mPatientList.get(position));
+                mPatientList.get(position).setIsChecked(true);
             }
             else {
-                patientsToDelete.remove(mPatientList.get(position));
+                mPatientList.get(position).setIsChecked(false);
             }
         });
     }
@@ -87,9 +83,25 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     }
 
     public void deleteSelected(PatientViewModel patientViewModel) {
-        for (Patient patient : patientsToDelete) {
-            patientViewModel.delete(patient);
+        for (Patient patient : mPatientList) {
+            if (patient.getIsChecked()) {
+                patientViewModel.delete(patient);
+            }
         }
+    }
+
+    public void checkAll(String buttonText) {
+        if (buttonText.equals(mContext.getString(R.string.check_all))) {
+            for (Patient patient : mPatientList) {
+                patient.setIsChecked(true);
+            }
+        }
+        else {
+            for (Patient patient : mPatientList) {
+                patient.setIsChecked(false);
+            }
+        }
+        notifyDataSetChanged();
     }
 }
 

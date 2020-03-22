@@ -29,16 +29,8 @@ public class PatientViewModel extends AndroidViewModel {
         executorService.execute(() -> patientDao.insert(patient));
     }
 
-    public void update(Patient patient) {
-        executorService.execute(() -> patientDao.update(patient));
-    }
-
     public void delete(Patient patient) {
         executorService.execute(() -> patientDao.delete(patient));
-    }
-
-    public void deleteAll() {
-        executorService.execute(() -> patientDao.deleteAll());
     }
 
     public LiveData<List<Patient>> getItemsByAddedBy(String addedBy) { return patientDao.getItemsByAddedBy(addedBy); }
