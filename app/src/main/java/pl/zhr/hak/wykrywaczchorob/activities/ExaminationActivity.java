@@ -61,12 +61,14 @@ public class ExaminationActivity extends AppCompatActivity {
         }
     }
 
+    // odznacz wszystkie symptomy
     @OnClick(R.id.buttonUncheckSymptoms)
     public void buttonUncheckSymptoms() {
         symptomAdapter.uncheckAll();
         setSymptoms();
     }
 
+    // załaduj symptomy
     private void setSymptoms() {
         symptomList = getSymptoms(this);
         symptomAdapter = new SymptomAdapter(symptomList, ExaminationActivity.this);

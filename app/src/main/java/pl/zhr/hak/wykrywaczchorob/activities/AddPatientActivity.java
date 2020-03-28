@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -26,6 +24,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.R;
 
@@ -44,6 +43,8 @@ public class AddPatientActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     int patientID;
     int diseaseID;
+    String[] spinnerSexes;
+    ArrayAdapter<String> spinnerAdapter;
     List<Disease> diseaseList;
     String sex = "";
 
@@ -60,32 +61,33 @@ public class AddPatientActivity extends AppCompatActivity {
 
         textViewAddDisease.setText(getString(R.string.disease_introduce, diseaseList.get(diseaseID - 1).getDiseaseName()));
 
-        String[] spinnerSexes = {"-", female, male};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, spinnerSexes);
+        spinnerSexes = new String[]{"-", female, male};
+        spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, spinnerSexes);
         spinnerSex.setAdapter(spinnerAdapter);
-        spinnerSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        sex = "";
-                        break;
-                    case 1:
-                        sex = "female";
-                        break;
-                    case 2:
-                        sex = "male";
-                        break;
-                    default:
-                        break;
-                }
-            }
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // do nothing
-            }
-        });
+    // reakcja na interkację w spinnerze
+    @OnItemSelected(R.id.spinnerSex)
+    public void onItemSelected(int position) {
+        switch (position) {
+            case 0:
+                sex = "";
+                break;
+            case 1:
+                sex = "female";
+                break;
+            case 2:
+                sex = "male";
+                break;
+            default:
+                break;
+        }
+    }
+
+    // brak interakcji w spinnerze
+    @OnItemSelected(value = R.id.spinnerSex, callback = OnItemSelected.Callback.NOTHING_SELECTED)
+    public void onNothingSelected() {
+        // do nothing
     }
 
     // anuluj dodawanie pacjenta
