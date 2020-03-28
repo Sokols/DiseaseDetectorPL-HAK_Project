@@ -1,7 +1,5 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -11,46 +9,47 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.R;
 
 import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView textViewUser;
-    Button buttonLogout;
+    @BindView(R.id.textViewUser) TextView textViewUser;
+    @BindView(R.id.buttonLogout) Button buttonLogout;
+    @BindViews({R.id.imageButtonExit, R.id.imageButtonAdd, R.id.imageButtonDB})
+        List<ImageButton> imageButton;
     SharedPreferences sharedPreferences;
-    ImageButton imageButtonExit;
-    ImageButton imageButtonAdd;
-    ImageButton imageButtonDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
 
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
         String name = sharedPreferences.getString("name", "");
 
-        textViewUser = findViewById(R.id.textViewUser);
-        imageButtonExit = findViewById(R.id.imageButtonExit);
-        imageButtonAdd = findViewById(R.id.imageButtonAdd);
-        imageButtonDB = findViewById(R.id.imageButtonDB);
-        buttonLogout = findViewById(R.id.buttonLogout);
-
         textViewUser.setText(getString(R.string.user, name));
 
         // wyjdź z aplikacji
-        imageButtonExit.setOnClickListener(v -> dialogConfirmExit().show());
+        imageButton.get(0).setOnClickListener(v -> dialogConfirmExit().show());
 
         // rozpocznij badanie
-        imageButtonAdd.setOnClickListener(v -> {
+        imageButton.get(1).setOnClickListener(v -> {
             Intent examinationActivity = new Intent(HomeActivity.this, ExaminationActivity.class);
             startActivity(examinationActivity);
         });
 
         // przejdź do bazy danych
-        imageButtonDB.setOnClickListener(v -> {
+        imageButton.get(2).setOnClickListener(v -> {
             Intent patientActivity = new Intent(HomeActivity.this, PatientsActivity.class);
             // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj brak potrzeby
             patientActivity.putExtra("flag", false);

@@ -8,7 +8,7 @@
     tools:context=".activities.PatientsActivity">
 
     <Button
-        android:id="@+id/buttonMyPatients"
+        android:id="@+id/buttonSetMyPatients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,7 +60,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/buttonAllPatients"
+        android:id="@+id/buttonSetAllPatients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -70,7 +70,7 @@
         android:text="@string/all_patients"
         app:layout_constraintBottom_toTopOf="@+id/buttonBackDataBase"
         app:layout_constraintEnd_toStartOf="@+id/buttonCheckAll"
-        app:layout_constraintStart_toEndOf="@+id/buttonMyPatients"
+        app:layout_constraintStart_toEndOf="@+id/buttonSetMyPatients"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView1"
         app:layout_constraintVertical_bias="1.0" />
 

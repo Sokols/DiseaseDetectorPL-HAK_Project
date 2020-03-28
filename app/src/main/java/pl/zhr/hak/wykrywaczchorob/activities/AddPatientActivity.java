@@ -1,7 +1,5 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,11 +14,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.R;
 
@@ -29,13 +32,13 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 
 public class AddPatientActivity extends AppCompatActivity {
 
-    EditText editTextAddName;
-    EditText editTextAddSurname;
-    EditText editTextAge;
-    TextView textViewAddDisease;
-    Button buttonAddCancel;
-    Button buttonAddConfirm;
-    Spinner spinnerSex;
+    @BindViews({R.id.editTextAddName, R.id.editTextAddSurname, R.id.editTextAge})
+        List<EditText> editTexts;
+    @BindView(R.id.textViewAddDisease) TextView textViewAddDisease;
+    @BindViews({R.id.buttonAddCancel, R.id.buttonAddConfirm})
+        List<Button> buttons;
+    @BindView(R.id.spinnerSex) Spinner spinnerSex;
+
     SharedPreferences sharedPreferences;
     int patientID;
     int diseaseID;
@@ -46,14 +49,8 @@ public class AddPatientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
+        ButterKnife.bind(this);
 
-        editTextAddName = findViewById(R.id.editTextAddName);
-        editTextAddSurname = findViewById(R.id.editTextAddSurname);
-        editTextAge = findViewById(R.id.editTextAge);
-        textViewAddDisease = findViewById(R.id.textViewAddDisease);
-        buttonAddCancel = findViewById(R.id.buttonAddCancel);
-        buttonAddConfirm = findViewById(R.id.buttonAddConfirm);
-        spinnerSex = findViewById(R.id.spinnerSex);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         Bundle extras = getIntent().getExtras();
@@ -84,24 +81,24 @@ public class AddPatientActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // do nothing
             }
         });
 
-        buttonAddCancel.setOnClickListener(v -> finish());
+        buttons.get(0).setOnClickListener(v -> finish());
 
-        buttonAddConfirm.setOnClickListener(v -> {
-            String name = editTextAddName.getText().toString();
-            String surname = editTextAddSurname.getText().toString();
+        buttons.get(1).setOnClickListener(v -> {
+            String name = editTexts.get(0).getText().toString();
+            String surname = editTexts.get(1).getText().toString();
             // jeśli nie uzupełniono wszystkich danych pacjenta nie pozwól przejść dalej
-            if (name.isEmpty() || surname.isEmpty() || editTextAge.getText().toString().isEmpty() || sex.equals("")) {
+            if (name.isEmpty() || surname.isEmpty() || editTexts.get(2).getText().toString().isEmpty() || sex.equals("")) {
                 Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
             }
             else {
                 // sprawdzenie czy w pole wieku wpisano liczbę
-                boolean digitsOnly = TextUtils.isDigitsOnly(editTextAge.getText());
+                boolean digitsOnly = TextUtils.isDigitsOnly(editTexts.get(2).getText());
                 if (digitsOnly) {
-                    int age = Integer.parseInt(editTextAge.getText().toString());
+                    int age = Integer.parseInt(editTexts.get(2).getText().toString());
                     @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
                     String date = df.format(Calendar.getInstance().getTime());
                     Intent patientsActivity = new Intent(AddPatientActivity.this, PatientsActivity.class);

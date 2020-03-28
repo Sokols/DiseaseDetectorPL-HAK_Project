@@ -1,24 +1,26 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-
-import android.widget.Button;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.Patient;
 import pl.zhr.hak.wykrywaczchorob.PatientAdapter;
 import pl.zhr.hak.wykrywaczchorob.PatientViewModel;
@@ -28,34 +30,27 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 
 public class PatientsActivity extends AppCompatActivity {
 
+    @BindView(R.id.recyclerView1) RecyclerView recyclerView1;
+    @BindViews({R.id.buttonBackDataBase, R.id.buttonCheckAll, R.id.buttonDeleteSelected, R.id.buttonSetAllPatients, R.id.buttonSetMyPatients})
+        List<Button> buttons;
+
+    SharedPreferences sharedPreferences;
     List<Patient> patientList = new ArrayList<>();
     PatientAdapter patientAdapter;
     PatientViewModel patientViewModel;
-    RecyclerView recyclerView;
-    Button buttonBackDataBase;
-    Button buttonCheckAll;
-    Button buttonDeleteSelected;
-    Button buttonSetAllPatients;
-    Button buttonSetMyPatients;
-    SharedPreferences sharedPreferences;
 
     @SuppressLint("StringFormatMatches")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patients);
+        ButterKnife.bind(this);
+
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
-        recyclerView = findViewById(R.id.recyclerView1);
-        buttonCheckAll = findViewById(R.id.buttonCheckAll);
-        buttonBackDataBase = findViewById(R.id.buttonBackDataBase);
-        buttonDeleteSelected = findViewById(R.id.buttonDeleteSelected);
-        buttonSetAllPatients = findViewById(R.id.buttonAllPatients);
-        buttonSetMyPatients = findViewById(R.id.buttonMyPatients);
-
         patientAdapter = new PatientAdapter(patientList, PatientsActivity.this);
-        recyclerView.setAdapter(patientAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView1.setAdapter(patientAdapter);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
 
         // dodaj pacjenta jeśli flaga jest ustawiona na true
@@ -76,21 +71,21 @@ public class PatientsActivity extends AppCompatActivity {
         setPatients(patientViewModel.getPatientList());
 
         // wróć do menu
-        buttonBackDataBase.setOnClickListener(v -> finish());
+        buttons.get(0).setOnClickListener(v -> finish());
 
         // zaznacz / odznacz wszystkie checkboxy
-        buttonCheckAll.setOnClickListener(v -> {
-            patientAdapter.checkAll(buttonCheckAll.getText().toString());
+        buttons.get(1).setOnClickListener(v -> {
+            patientAdapter.checkAll(buttons.get(1).getText().toString());
             // zmień tekst przycisku na przeciwny
-            if (buttonCheckAll.getText().toString().equals(getString(R.string.check_all))) {
-                buttonCheckAll.setText(R.string.uncheck_all);
+            if (buttons.get(1).getText().toString().equals(getString(R.string.check_all))) {
+                buttons.get(1).setText(R.string.uncheck_all);
             }
             else {
-                buttonCheckAll.setText(R.string.check_all);
+                buttons.get(1).setText(R.string.check_all);
             }
         });
 
-        buttonDeleteSelected.setOnClickListener(v -> {
+        buttons.get(2).setOnClickListener(v -> {
             if (patientList.isEmpty()) {
                 Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
             }
@@ -99,14 +94,14 @@ public class PatientsActivity extends AppCompatActivity {
             }
         });
 
-        buttonSetMyPatients.setOnClickListener(v -> {
-            setPatients(patientViewModel.getItemsByAddedBy(sharedPreferences.getString("name", "")));
-            buttonCheckAll.setText(R.string.check_all);
+        buttons.get(3).setOnClickListener(v -> {
+            setPatients(patientViewModel.getPatientList());
+            buttons.get(1).setText(R.string.check_all);
         });
 
-        buttonSetAllPatients.setOnClickListener(v -> {
-            setPatients(patientViewModel.getPatientList());
-            buttonCheckAll.setText(R.string.check_all);
+        buttons.get(4).setOnClickListener(v -> {
+            setPatients(patientViewModel.getItemsByAddedBy(sharedPreferences.getString("name", "")));
+            buttons.get(1).setText(R.string.check_all);
         });
     }
 

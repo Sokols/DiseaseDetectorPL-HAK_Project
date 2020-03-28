@@ -1,8 +1,5 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,35 +16,39 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.R;
 import pl.zhr.hak.wykrywaczchorob.User;
 import pl.zhr.hak.wykrywaczchorob.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
+    @BindView(R.id.editTextName) EditText editTextName;
+    @BindView(R.id.editTextPassword) EditText editTextPassword;
+    @BindView(R.id.checkBoxRemember) CheckBox checkBoxRemember;
+    @BindView(R.id.buttonLogin) Button buttonLogin;
+    @BindView(R.id.imageButtonLanguage) ImageButton imageButtonLanguage;
+    @BindView(R.id.imageButtonExit1) ImageButton imageButtonExit1;
+    @BindView(R.id.textViewRegistration) TextView textViewRegister;
+
     int REQUEST_CODE = 123;
+    int userID;
     String LANGUAGE_CODE;
-    EditText editTextName;
-    EditText editTextPassword;
-    CheckBox checkBoxRemember;
-    Button buttonLogin;
-    ImageButton imageButtonLanguage;
-    ImageButton imageButtonExit1;
-    TextView textViewRegister;
-
     SharedPreferences sharedPreferences;
-    public static final String sharedPreferencesName = "data";
-
     UserViewModel userViewModel;
     User user;
-
-    int userID;
+    public static final String sharedPreferencesName = "data";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ButterKnife.bind(this);
         // sprawdź poprawność ID rezultatu
         if (requestCode == REQUEST_CODE) {
             // sprawdź poprawność wykonania
@@ -73,14 +74,9 @@ public class LoginActivity extends AppCompatActivity {
         setAppLocale(LANGUAGE_CODE);
 
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
-        editTextName = findViewById(R.id.editTextName);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        checkBoxRemember = findViewById(R.id.checkBoxRemember);
-        buttonLogin = findViewById(R.id.buttonLogin);
-        imageButtonLanguage = findViewById(R.id.imageButtonLanguage);
-        imageButtonExit1 = findViewById(R.id.imageButtonExit1);
-        textViewRegister = findViewById(R.id.textViewRegistration);
+        // podkreśl przycisk/tekst przejścia do rejestracji
         textViewRegister.setPaintFlags(textViewRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);

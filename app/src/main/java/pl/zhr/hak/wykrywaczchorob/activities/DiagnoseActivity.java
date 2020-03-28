@@ -1,7 +1,5 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,25 +8,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.R;
 import pl.zhr.hak.wykrywaczchorob.Symptom;
 
 import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
-import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 import static pl.zhr.hak.wykrywaczchorob.SymptomAdapter.getChecked;
+import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class DiagnoseActivity extends AppCompatActivity {
 
+    @BindViews({R.id.textViewPatientDisease1, R.id.textViewPatientDisease2, R.id.textViewPatientDisease3})
+        List<TextView> textViews;
+    @BindView(R.id.buttonBackToMenu) Button buttonBackToMenu;
+    @BindView(R.id.buttonAddPatient) Button buttonAddPatient;
+
     SharedPreferences sharedPreferences;
-    TextView textViewPatientDisease1;
-    TextView textViewPatientDisease2;
-    TextView textViewPatientDisease3;
-    Button buttonBackToMenu;
-    Button buttonAddPatient;
     // flaga sygnalizująca czy znaleziono tylko jedną chorobę o wysokim prawdopodobieństwie
     Boolean diseaseFlag = false;
     // ID choroby, które zostanie przekazane do PatientActivity
@@ -44,19 +47,15 @@ public class DiagnoseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnose);
-        sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
+        ButterKnife.bind(this);
 
-        textViewPatientDisease1 = findViewById(R.id.textViewPatientDisease1);
-        textViewPatientDisease2 = findViewById(R.id.textViewPatientDisease2);
-        textViewPatientDisease3 = findViewById(R.id.textViewPatientDisease3);
-        buttonBackToMenu = findViewById(R.id.buttonBackToMenu);
-        buttonAddPatient = findViewById(R.id.buttonAddPatient);
+        sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         // są 3 stopnie prawdopodobieństwa zachorowania - wysokie, średnie, niskie
         // pojawić się może maksymalnie 3 poziomy, minimalnie 1
         // poziom 2 i 3 na starcie wyłączamy
-        textViewPatientDisease2.setVisibility(View.GONE);
-        textViewPatientDisease3.setVisibility(View.GONE);
+        textViews.get(1).setVisibility(View.GONE);
+        textViews.get(2).setVisibility(View.GONE);
 
         startInference();
 
@@ -146,7 +145,7 @@ public class DiagnoseActivity extends AppCompatActivity {
                 }
             }
             // ustaw diagnozę dla wysokiego prawdopodobieństwa wystąpienia choroby
-            textViewPatientDisease1.setText(getString(R.string.patient_diagnose, getString(R.string.high), name));
+            textViews.get(0).setText(getString(R.string.patient_diagnose, getString(R.string.high), name));
         }
 
         if (!mediumProbability.isEmpty()) {
@@ -165,12 +164,12 @@ public class DiagnoseActivity extends AppCompatActivity {
             // ustaw diagnozę dla średniego prawdopodobieństwa wystąpienia choroby
             // jeśli wysokie prawdopodobieństwo nie istniało ustaw diagnozę w TextView1
             if (highProbability.isEmpty()) {
-                textViewPatientDisease1.setText(getString(R.string.patient_diagnose, getString(R.string.medium), name));
+                textViews.get(0).setText(getString(R.string.patient_diagnose, getString(R.string.medium), name));
             }
             // jeśli istniało, uwidocznij TextView2 i dodaj do niego diagnozę
             else {
-                textViewPatientDisease2.setVisibility(View.VISIBLE);
-                textViewPatientDisease2.setText(getString(R.string.patient_diagnose, getString(R.string.medium), name));
+                textViews.get(1).setVisibility(View.VISIBLE);
+                textViews.get(1).setText(getString(R.string.patient_diagnose, getString(R.string.medium), name));
             }
         }
 
@@ -190,17 +189,17 @@ public class DiagnoseActivity extends AppCompatActivity {
             // ustaw diagnozę dla niskiego prawdopodobieństwa wystąpienia choroby
             // jeśli wysokie i średnie prawdopodobieństwo nie istniało ustaw diagnozę w TextView1
             if (highProbability.isEmpty() && mediumProbability.isEmpty()) {
-                textViewPatientDisease1.setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
+                textViews.get(0).setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
             }
             // jeśli wysokie prawdopodobieństwo istniało, a średnie nie, uwidocznij TextView2 i dodaj do niego diagnozę
             else if (!highProbability.isEmpty() && mediumProbability.isEmpty()){
-                textViewPatientDisease2.setVisibility(View.VISIBLE);
-                textViewPatientDisease2.setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
+                textViews.get(1).setVisibility(View.VISIBLE);
+                textViews.get(1).setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
             }
             // jeśli nie istniało ani wysokie ani średnie uwidocznij TextView3 i dodaj do niego diagnozę
             else {
-                textViewPatientDisease3.setVisibility(View.VISIBLE);
-                textViewPatientDisease3.setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
+                textViews.get(2).setVisibility(View.VISIBLE);
+                textViews.get(2).setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
             }
         }
     }

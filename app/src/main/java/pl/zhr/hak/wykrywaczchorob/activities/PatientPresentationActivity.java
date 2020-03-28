@@ -1,15 +1,17 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Button;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.Patient;
 import pl.zhr.hak.wykrywaczchorob.R;
@@ -18,9 +20,10 @@ import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 
 public class PatientPresentationActivity extends AppCompatActivity {
 
+    @BindView(R.id.buttonIntroduceBack) Button buttonIntroduceBack;
+    @BindView(R.id.listViewInfo) ListView listViewInfo;
+
     Patient patient;
-    ListView listViewInfo;
-    Button buttonIntroduceBack;
     List<String> patientList = new ArrayList<>();
     List<Disease> diseaseList;
     ArrayAdapter arrayAdapter;
@@ -29,14 +32,13 @@ public class PatientPresentationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_presentation);
+        ButterKnife.bind(this);
 
-        buttonIntroduceBack = findViewById(R.id.buttonIntroduceBack);
         buttonIntroduceBack.setOnClickListener(v -> finish());
 
         Bundle extras = getIntent().getExtras();
         diseaseList = getDiseases(PatientPresentationActivity.this);
         patient = extras.getParcelable("patient");
-        listViewInfo = findViewById(R.id.listViewInfo);
 
         patientList.add(getString(R.string.patientID_introduce, patient.getPatientID()));
         patientList.add(getString(R.string.name_introduce, patient.getName()));

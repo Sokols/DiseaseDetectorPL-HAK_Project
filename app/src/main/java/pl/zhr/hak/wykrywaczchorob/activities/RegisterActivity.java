@@ -1,8 +1,5 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -11,37 +8,41 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.R;
 import pl.zhr.hak.wykrywaczchorob.User;
 import pl.zhr.hak.wykrywaczchorob.UserViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText editTextLogin;
-    EditText editTextPassword;
-    EditText editTextPassword2;
-    Button buttonRegister;
+    @BindViews({R.id.editTextRegisterName, R.id.editTextRegisterPassword, R.id.editTextRegisterPassword2})
+        List<EditText> editTexts;
+    @BindView(R.id.buttonRegister) Button buttonRegister;
+    @BindView(R.id.textViewLoginNow) TextView textViewLoginNow;
+
     UserViewModel userViewModel;
     User user;
-    TextView textViewLoginNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
 
-        editTextLogin = findViewById(R.id.editTextRegisterName);
-        editTextPassword = findViewById(R.id.editTextRegisterPassword);
-        editTextPassword2 = findViewById(R.id.editTextRegisterPassword2);
-        buttonRegister = findViewById(R.id.buttonRegister);
-        textViewLoginNow = findViewById(R.id.textViewLoginNow);
         textViewLoginNow.setPaintFlags(textViewLoginNow.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         buttonRegister.setOnClickListener(v -> {
-            String login = editTextLogin.getText().toString();
-            String password = editTextPassword.getText().toString();
-            String password2 = editTextPassword2.getText().toString();
+            String login = editTexts.get(0).getText().toString();
+            String password = editTexts.get(1).getText().toString();
+            String password2 = editTexts.get(2).getText().toString();
             user = userViewModel.getItemByName(login);
             // sprawdź czy uzupełniono wszystkie pola
             if (login.isEmpty() || password.isEmpty() || password2.isEmpty()) {
