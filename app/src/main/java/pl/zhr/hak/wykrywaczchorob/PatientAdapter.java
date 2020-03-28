@@ -12,9 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.zhr.hak.wykrywaczchorob.activities.PatientPresentationActivity;
 
 import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
@@ -22,15 +23,13 @@ import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
     static class PatientViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView textViewName;
-        private final TextView textViewDisease;
-        private final CheckBox checkBoxDelete;
+        @BindView(R.id.textViewName) TextView textViewName;
+        @BindView(R.id.textViewDisease) TextView textViewDisease;
+        @BindView(R.id.checkBoxDelete) CheckBox checkBoxDelete;
 
         public PatientViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.textViewName = itemView.findViewById(R.id.textViewName);
-            this.textViewDisease = itemView.findViewById(R.id.textViewDisease);
-            this.checkBoxDelete = itemView.findViewById(R.id.checkBoxDelete);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -77,11 +76,13 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     @Override
     public int getItemCount() { return mPatientList.size(); }
 
+    // przygotuj listę pacjentów
     public void setPatients(List<Patient> patients) {
         mPatientList = patients;
         notifyDataSetChanged();
     }
 
+    // usuwanie zaznaczonych pacjentów z bazy danych
     public void deleteSelected(PatientViewModel patientViewModel) {
         for (Patient patient : mPatientList) {
             if (patient.getIsChecked()) {
@@ -90,6 +91,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         }
     }
 
+    // zaznaczanie wszystkich pacjentów
     public void checkAll(String buttonText) {
         if (buttonText.equals(mContext.getString(R.string.check_all))) {
             for (Patient patient : mPatientList) {

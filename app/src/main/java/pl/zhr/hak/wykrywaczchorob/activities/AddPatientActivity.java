@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,10 +19,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.R;
 
@@ -35,9 +37,9 @@ public class AddPatientActivity extends AppCompatActivity {
     @BindViews({R.id.editTextAddName, R.id.editTextAddSurname, R.id.editTextAge})
         List<EditText> editTexts;
     @BindView(R.id.textViewAddDisease) TextView textViewAddDisease;
-    @BindViews({R.id.buttonAddCancel, R.id.buttonAddConfirm})
-        List<Button> buttons;
     @BindView(R.id.spinnerSex) Spinner spinnerSex;
+    @BindString(R.string.male) String male;
+    @BindString(R.string.female) String female;
 
     SharedPreferences sharedPreferences;
     int patientID;
@@ -50,15 +52,15 @@ public class AddPatientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
         ButterKnife.bind(this);
-
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         Bundle extras = getIntent().getExtras();
-        diseaseID = extras.getInt("diseaseID", 0);
+        diseaseID = Objects.requireNonNull(extras).getInt("diseaseID", 0);
         diseaseList = getDiseases(this);
 
         textViewAddDisease.setText(getString(R.string.disease_introduce, diseaseList.get(diseaseID - 1).getDiseaseName()));
-        String[] spinnerSexes = {"-", getString(R.string.female), getString(R.string.male)};
+
+        String[] spinnerSexes = {"-", female, male};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, spinnerSexes);
         spinnerSex.setAdapter(spinnerAdapter);
         spinnerSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -84,43 +86,52 @@ public class AddPatientActivity extends AppCompatActivity {
                 // do nothing
             }
         });
+    }
 
-        buttons.get(0).setOnClickListener(v -> finish());
+    // anuluj dodawanie pacjenta
+    @OnClick(R.id.buttonAddCancel)
+    public void buttonAddCancel() {
+        finish();
+    }
 
-        buttons.get(1).setOnClickListener(v -> {
-            String name = editTexts.get(0).getText().toString();
-            String surname = editTexts.get(1).getText().toString();
-            // jeśli nie uzupełniono wszystkich danych pacjenta nie pozwól przejść dalej
-            if (name.isEmpty() || surname.isEmpty() || editTexts.get(2).getText().toString().isEmpty() || sex.equals("")) {
-                Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
+    // potwierdź dodawanie pacjenta - sprawdź czy dodawanie będzie poprawne
+    @OnClick(R.id.buttonAddConfirm)
+    public void buttonAddConfirm() {
+        String name = editTexts.get(0).getText().toString();
+        String surname = editTexts.get(1).getText().toString();
+        // jeśli nie uzupełniono wszystkich danych pacjenta nie pozwól przejść dalej
+        if (name.isEmpty() || surname.isEmpty() || editTexts.get(2).getText().toString().isEmpty() || sex.equals("")) {
+            Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // sprawdzenie czy w pole wieku wpisano liczbę
+            boolean digitsOnly = TextUtils.isDigitsOnly(editTexts.get(2).getText());
+
+            if (digitsOnly) {
+                int age = Integer.parseInt(editTexts.get(2).getText().toString());
+                @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+                String date = df.format(Calendar.getInstance().getTime());
+                Intent patientsActivity = new Intent(AddPatientActivity.this, PatientsActivity.class);
+
+                // ręczne nadawanie ID pacjentom
+                patientID = sharedPreferences.getInt("id", 1);
+                patientsActivity.putExtra("id", patientID);
+                sharedPreferences.edit().putInt("id", patientID + 1).apply();
+
+                // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj istnieje potrzeba
+                patientsActivity.putExtra("flag", true);
+                patientsActivity.putExtra("name", name);
+                patientsActivity.putExtra("surname", surname);
+                patientsActivity.putExtra("sex", sex);
+                patientsActivity.putExtra("age", age);
+                patientsActivity.putExtra("diseaseID", diseaseID);
+                patientsActivity.putExtra("date", date);
+                startActivity(patientsActivity);
+                finish();
             }
             else {
-                // sprawdzenie czy w pole wieku wpisano liczbę
-                boolean digitsOnly = TextUtils.isDigitsOnly(editTexts.get(2).getText());
-                if (digitsOnly) {
-                    int age = Integer.parseInt(editTexts.get(2).getText().toString());
-                    @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
-                    String date = df.format(Calendar.getInstance().getTime());
-                    Intent patientsActivity = new Intent(AddPatientActivity.this, PatientsActivity.class);
-                    // ręczne nadawanie ID pacjentom
-                    patientID = sharedPreferences.getInt("id", 1);
-                    patientsActivity.putExtra("id", patientID);
-                    sharedPreferences.edit().putInt("id", patientID + 1).apply();
-                    // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj istnieje potrzeba
-                    patientsActivity.putExtra("flag", true);
-                    patientsActivity.putExtra("name", name);
-                    patientsActivity.putExtra("surname", surname);
-                    patientsActivity.putExtra("sex", sex);
-                    patientsActivity.putExtra("age", age);
-                    patientsActivity.putExtra("diseaseID", diseaseID);
-                    patientsActivity.putExtra("date", date);
-                    startActivity(patientsActivity);
-                    finish();
-                }
-                else {
-                    Toast.makeText(this, getString(R.string.wrong_age), Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(this, getString(R.string.wrong_age), Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 }

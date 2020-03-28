@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.zhr.hak.wykrywaczchorob.Disease;
 import pl.zhr.hak.wykrywaczchorob.R;
 import pl.zhr.hak.wykrywaczchorob.Symptom;
@@ -28,15 +27,13 @@ public class DiagnoseActivity extends AppCompatActivity {
 
     @BindViews({R.id.textViewPatientDisease1, R.id.textViewPatientDisease2, R.id.textViewPatientDisease3})
         List<TextView> textViews;
-    @BindView(R.id.buttonBackToMenu) Button buttonBackToMenu;
-    @BindView(R.id.buttonAddPatient) Button buttonAddPatient;
 
     SharedPreferences sharedPreferences;
     // flaga sygnalizująca czy znaleziono tylko jedną chorobę o wysokim prawdopodobieństwie
-    Boolean diseaseFlag = false;
+    Boolean isDiseaseFlag = false;
     // ID choroby, które zostanie przekazane do PatientActivity
     int diseaseID = 0;
-    // lista zaznaczonych symptomów
+
     List<Symptom> symptomList;
     List<Disease> diseaseList;
     List<Disease> highProbability = new ArrayList<>();
@@ -48,7 +45,6 @@ public class DiagnoseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnose);
         ButterKnife.bind(this);
-
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
         // są 3 stopnie prawdopodobieństwa zachorowania - wysokie, średnie, niskie
@@ -58,24 +54,31 @@ public class DiagnoseActivity extends AppCompatActivity {
         textViews.get(2).setVisibility(View.GONE);
 
         startInference();
-
-        buttonBackToMenu.setOnClickListener(v -> finish());
-
-        buttonAddPatient.setOnClickListener(v -> {
-            // jeśli nie znaleziono jednej choroby o wysokim prawdopodobieństwie zarażenia, nie można dodać pacjenta do bazy
-            if (diseaseID == 0) {
-                Toast.makeText(DiagnoseActivity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Intent addPatientActivity = new Intent(DiagnoseActivity.this, AddPatientActivity.class);
-                // podanie do nowej aktywności nazwy zdiagnozowanej choroby
-                addPatientActivity.putExtra("diseaseID", diseaseID);
-                startActivity(addPatientActivity);
-                finish();
-            }
-        });
     }
 
+    // wróć do menu
+    @OnClick(R.id.buttonBackToMenu)
+    public void buttonBackToMenu() {
+        finish();
+    }
+
+    // dodaj pacjenta
+    @OnClick(R.id.buttonAddPatient)
+    public void buttonAddPatient() {
+        // jeśli nie znaleziono jednej choroby o wysokim prawdopodobieństwie zarażenia, nie można dodać pacjenta do bazy
+        if (diseaseID == 0) {
+            Toast.makeText(DiagnoseActivity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Intent addPatientActivity = new Intent(DiagnoseActivity.this, AddPatientActivity.class);
+            // podanie do nowej aktywności nazwy zdiagnozowanej choroby
+            addPatientActivity.putExtra("diseaseID", diseaseID);
+            startActivity(addPatientActivity);
+            finish();
+        }
+    }
+
+    // algorytm odpowiadający za wnioskowanie
     public void startInference() {
         // zebranie zaznaczonych symptomów z adaptera oraz listy chorób
         symptomList = getChecked();
@@ -130,7 +133,7 @@ public class DiagnoseActivity extends AppCompatActivity {
                     // zasygnalizuj, że istnieje już jedna choroba
                     flag = false;
                     // zasygnalizuj, że na ten moment diagnoza nadaje się do dodania do bazy
-                    diseaseFlag = true;
+                    isDiseaseFlag = true;
                     // podaj ID zdiagnozowanej choroby
                     diseaseID = disease.getDiseaseID();
                 }
@@ -139,7 +142,7 @@ public class DiagnoseActivity extends AppCompatActivity {
                     // dodaj kolejną chorobę do nazw
                     name = name + ", " + disease.getDiseaseName();
                     // zasygnalizuj, że diagnoza nie nadaje się do dodania do bazy
-                    diseaseFlag = false;
+                    isDiseaseFlag = false;
                     // wyzeruj ID choroby - nie nadaje się do bazy
                     diseaseID = 0;
                 }

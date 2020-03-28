@@ -13,18 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomViewHolder> {
-    class SymptomViewHolder extends RecyclerView.ViewHolder {
+    static class SymptomViewHolder extends RecyclerView.ViewHolder {
 
-        private final CheckBox checkBoxCheckSymptom;
-        private final TextView textViewSymptomName;
+        @BindView(R.id.checkBoxCheckSymptom) CheckBox checkBoxCheckSymptom;
+        @BindView(R.id.textViewSymptomName) TextView textViewSymptomName;
 
         public SymptomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.checkBoxCheckSymptom = itemView.findViewById(R.id.checkBoxCheckSymptom);
-            this.textViewSymptomName = itemView.findViewById(R.id.textViewSymptomName);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -73,6 +75,7 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
 
     public static List<Symptom> getChecked() { return mSymptomList; }
 
+    // odznacz wszystkie symptomy
     public void uncheckAll() {
         for (Symptom symptom : mSymptomList) {
             if (symptom.getChecked()) {
