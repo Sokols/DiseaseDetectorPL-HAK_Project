@@ -20,17 +20,22 @@ import pl.zhr.hak.wykrywaczchorob.viewModels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
-    @BindView(R.id.editTextName) EditText editTextName;
-    @BindView(R.id.editTextPassword) EditText editTextPassword;
-    @BindView(R.id.checkBoxRemember) CheckBox checkBoxRemember;
-    @BindView(R.id.textViewRegistration) TextView textViewRegistration;
+    @BindView(R.id.editTextName)
+    EditText editTextName;
+    @BindView(R.id.editTextPassword)
+    EditText editTextPassword;
+    @BindView(R.id.checkBoxRemember)
+    CheckBox checkBoxRemember;
+    @BindView(R.id.textViewRegistration)
+    TextView textViewRegistration;
+
+    public static final int REQUEST_CODE = 123;
+    public static final String sharedPreferencesName = "data";
+    public static String LANGUAGE_CODE;
 
     private LoginViewModel loginViewModel;
     private UserViewModel userViewModel;
-    public static final int REQUEST_CODE = 123;
-    public static String LANGUAGE_CODE;
     private SharedPreferences sharedPreferences;
-    public static final String sharedPreferencesName = "data";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -49,23 +54,21 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        // podkreśl przycisk/tekst przejścia do rejestracji
+        // underline button / text to go to registration
         textViewRegistration.setPaintFlags(textViewRegistration.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        // uruchom HomeActivity jeśli pierwotnie zaznaczono checkbox zapamiętania
+        // run HomeActivity if the save checkbox was originally selected
         boolean rememberFlag = sharedPreferences.getBoolean("remember", false);
         if (rememberFlag) {
             loginViewModel.homeReady(this);
         }
     }
 
-    // wyjdź z aplikacji
     @OnClick(R.id.imageButtonExit1)
     public void imageButtonExit1() {
         loginViewModel.dialogConfirmExit(this).show();
     }
 
-    // zaloguj się
     @OnClick(R.id.buttonLogin)
     public void setButtonLogin() {
         String login = editTextName.getText().toString();
@@ -74,14 +77,12 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.checkLogin(this, userViewModel, login, password, remember);
     }
 
-    // przejdź do rejestracji
     @OnClick(R.id.textViewRegistration)
     public void setTextViewRegistration() {
-        Intent registerActivity = new Intent(LoginActivity.this, RegisterActivity.class);
-        startActivityForResult(registerActivity, REQUEST_CODE);
+        startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), REQUEST_CODE);
     }
 
-    // zmień język aplikacji i odśwież
+    // change the language of the application and refresh
     @OnClick(R.id.imageButtonLanguage)
     public void setImageButtonLanguage() {
         if (LANGUAGE_CODE.equals("values")) {

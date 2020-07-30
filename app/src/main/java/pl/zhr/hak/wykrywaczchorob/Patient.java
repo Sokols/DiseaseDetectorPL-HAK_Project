@@ -68,10 +68,6 @@ public class Patient implements Parcelable {
         return this.patientID;
     }
 
-    public void setPatientID(int patientID) {
-        this.patientID = patientID;
-    }
-
     public String getName() {
         return name;
     }
@@ -84,63 +80,38 @@ public class Patient implements Parcelable {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public String getSex() {
         return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public int getDiseaseID() {
         return diseaseID;
     }
 
-    public void setDiseaseID(int diseaseID) {
-        this.diseaseID = diseaseID;
-    }
-
     public int getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getAddedBy() {
         return addedBy;
     }
 
-    public void setAddedBy(String addedBy) {
-        this.addedBy = addedBy;
-    }
-
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public boolean getIsChecked() {
+    boolean getIsChecked() {
         return isChecked;
     }
 
-    public void setIsChecked(boolean checked) {
+    void setIsChecked(boolean checked) {
         isChecked = checked;
     }
 
     public String getRealSex(Context context, String sex) {
         if (sex.equals("female")) {
             return context.getString(R.string.female);
-        }
-        else {
+        } else {
             return context.getString(R.string.male);
         }
     }

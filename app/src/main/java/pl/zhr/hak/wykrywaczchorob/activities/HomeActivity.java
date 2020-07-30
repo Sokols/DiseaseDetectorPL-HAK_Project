@@ -18,9 +18,10 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 
 public class HomeActivity extends AppCompatActivity {
 
-    @BindView(R.id.textViewUser) TextView textViewUser;
+    @BindView(R.id.textViewUser)
+    TextView textViewUser;
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,39 +34,33 @@ public class HomeActivity extends AppCompatActivity {
         textViewUser.setText(getString(R.string.user, name));
     }
 
-    // wyjdź z aplikacji
     @OnClick(R.id.imageButtonExit)
     public void imageButtonExit() {
         dialogConfirmExit().show();
     }
 
-    // rozpocznij badanie
     @OnClick(R.id.imageButtonAdd)
     public void imageButtonAdd() {
-        Intent examinationActivity = new Intent(HomeActivity.this, ExaminationActivity.class);
-        startActivity(examinationActivity);
+        startActivity(new Intent(HomeActivity.this, ExaminationActivity.class));
     }
 
-    // przejdź do bazy danych
     @OnClick(R.id.imageButtonDB)
     public void imageButtonDB() {
         Intent patientActivity = new Intent(HomeActivity.this, PatientsActivity.class);
-        // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj brak potrzeby
+        // flag for signaling the need to add a patient - no need here
         patientActivity.putExtra("flag", false);
         startActivity(patientActivity);
     }
 
-    // wyloguj się
     @OnClick(R.id.buttonLogout)
     public void buttonLogout() {
-        Intent loginActivity = new Intent(HomeActivity.this, LoginActivity.class);
-        // odznacz flagę pamiętania użytkownika
+        // uncheck the remember user flag
         sharedPreferences.edit().putBoolean("remember", false).apply();
-        startActivity(loginActivity);
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
         finish();
     }
 
-    // okno dialogowe potwierdzające wyjście z aplikacji
+    // a dialog box confirming exiting the application
     private Dialog dialogConfirmExit() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setTitle(getString(R.string.confirm));
@@ -75,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
                         finish());
         dialogBuilder.setNegativeButton(getString(R.string.no),
                 (dialog, whichButton) ->
-                { /* nic nie rób */ });
+                { /* do nothing */ });
         return dialogBuilder.create();
     }
 }

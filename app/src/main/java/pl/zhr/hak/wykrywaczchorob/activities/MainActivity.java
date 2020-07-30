@@ -10,19 +10,18 @@ import pl.zhr.hak.wykrywaczchorob.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int SPLASH_TIME_OUT = 3000;
+    private final int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // opóźnij uruchomienie kolejnej aktywności
+        // delay the start of the next activity
         new Handler().postDelayed(this::activityReady, SPLASH_TIME_OUT);
     }
 
     public void activityReady(){
-        Intent activity = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(activity);
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
 }

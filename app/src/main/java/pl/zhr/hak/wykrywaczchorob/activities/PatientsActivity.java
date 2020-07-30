@@ -32,13 +32,14 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 public class PatientsActivity extends AppCompatActivity {
 
     @BindViews({R.id.buttonBackDataBase, R.id.buttonCheckAll, R.id.buttonDeleteSelected, R.id.buttonSetAllPatients, R.id.buttonSetMyPatients})
-        List<Button> buttons;
-    @BindView(R.id.recyclerView1) RecyclerView recyclerView1;
+    List<Button> buttons;
+    @BindView(R.id.recyclerView1)
+    RecyclerView recyclerView1;
 
-    SharedPreferences sharedPreferences;
-    List<Patient> patientList = new ArrayList<>();
-    PatientAdapter patientAdapter;
-    PatientViewModel patientViewModel;
+    private SharedPreferences sharedPreferences;
+    private List<Patient> patientList;
+    private PatientAdapter patientAdapter;
+    private PatientViewModel patientViewModel;
 
     @SuppressLint("StringFormatMatches")
     @Override
@@ -47,67 +48,59 @@ public class PatientsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_patients);
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
+        patientList = new ArrayList<>();
 
         patientAdapter = new PatientAdapter(patientList, PatientsActivity.this);
         recyclerView1.setAdapter(patientAdapter);
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         patientViewModel = new ViewModelProvider(this).get(PatientViewModel.class);
 
-        // dodaj pacjenta jeśli flaga jest ustawiona na true
+        // add a patient if the flag is set to true
         Bundle data = getIntent().getExtras();
         if (Objects.requireNonNull(data).getBoolean("flag", false)) {
             addPatient(data);
         }
 
-        // ustaw domyślny widok listy pacjentów
         setPatients(patientViewModel.getPatientList());
     }
 
-    // wróć do menu
     @OnClick(R.id.buttonBackDataBase)
     public void setButtonBackDataBase() {
         finish();
     }
 
-    // zaznacz / odznacz wszystkie checkboxy
     @OnClick(R.id.buttonCheckAll)
     public void setButtonCheckAll() {
         patientAdapter.checkAll(buttons.get(1).getText().toString());
-        // zmień tekst przycisku na przeciwny
         if (buttons.get(1).getText().toString().equals(getString(R.string.check_all))) {
             buttons.get(1).setText(R.string.uncheck_all);
-        }
-        else {
+        } else {
             buttons.get(1).setText(R.string.check_all);
         }
     }
 
-    // usuń zaznaczonych pacjentów
     @OnClick(R.id.buttonDeleteSelected)
     public void setButtonDeleteSelected() {
         if (patientList.isEmpty()) {
             Toast.makeText(this, getString(R.string.empty), Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             dialogConfirmSelected().show();
         }
     }
 
-    // wyświetl wszystkich pacjentów
     @OnClick(R.id.buttonSetAllPatients)
     public void setButtonSetAllPatients() {
         setPatients(patientViewModel.getPatientList());
         buttons.get(1).setText(R.string.check_all);
     }
 
-    // wyświetl moich pacjentów
     @OnClick(R.id.buttonSetMyPatients)
     public void setButtonSetMyPatients() {
         setPatients(patientViewModel.getItemsByAddedBy(sharedPreferences.getString("name", "")));
         buttons.get(1).setText(R.string.check_all);
     }
 
-    // dodawanie pacjenta - w arguemencie przesłane dane z AddPatientActivity
+    // adding a patient - in the argument sent data from AddPatientActivity
     public void addPatient(Bundle data) {
         int patientID = data.getInt("id");
         String name = data.getString("name");
@@ -120,7 +113,7 @@ public class PatientsActivity extends AppCompatActivity {
         patientViewModel.insert(new Patient(patientID, name, surname, sex, diseaseID, age, addedBy, date, false));
     }
 
-    // okno dialogowe potwierdzające usuwanie pacjentów
+    // dialog confirming the removal of patients
     private Dialog dialogConfirmSelected() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setTitle(getString(R.string.confirm));
@@ -130,11 +123,11 @@ public class PatientsActivity extends AppCompatActivity {
                         patientAdapter.deleteSelected(patientViewModel));
         dialogBuilder.setNegativeButton(getString(R.string.no),
                 (dialog, whichButton) ->
-                        { /* nic nie rób */ });
+                { /* do nothing */ });
         return dialogBuilder.create();
     }
 
-    // ustawianie widoku listy pacjentów
+    // setting the patient list view
     private void setPatients(LiveData<List<Patient>> data) {
         data.observe(this, patients -> {
             patientList = patients;

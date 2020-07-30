@@ -21,12 +21,13 @@ import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 
 public class PatientPresentationActivity extends AppCompatActivity {
 
-    @BindView(R.id.listViewInfo) ListView listViewInfo;
+    @BindView(R.id.listViewInfo)
+    ListView listViewInfo;
 
-    Patient patient;
-    List<String> patientList = new ArrayList<>();
-    List<Disease> diseaseList;
-    ArrayAdapter arrayAdapter;
+    private Patient patient;
+    private List<String> patientList;
+    private List<Disease> diseaseList;
+    private ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +38,21 @@ public class PatientPresentationActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         diseaseList = getDiseases(PatientPresentationActivity.this);
         patient = Objects.requireNonNull(extras).getParcelable("patient");
+        patientList = new ArrayList<>();
 
-        // przygotowanie listy zawierającej dane pacjenta
+        // preparation of a list containing patient's data
         setPatientInfo(patientList);
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, patientList);
         listViewInfo.setAdapter(arrayAdapter);
     }
 
-    // wróć do bazy pacjentów
     @OnClick(R.id.buttonIntroduceBack)
     public void setButtonIntroduceBack() {
         finish();
     }
 
-    // dodaj informacje o pacjencie do listy
+    // add patient information to the list
     public void setPatientInfo(List<String> patientList) {
         patientList.add(getString(R.string.patientID_introduce, patient.getPatientID()));
         patientList.add(getString(R.string.name_introduce, patient.getName()));

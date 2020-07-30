@@ -23,11 +23,14 @@ import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder> {
     static class PatientViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.textViewName) TextView textViewName;
-        @BindView(R.id.textViewDisease) TextView textViewDisease;
-        @BindView(R.id.checkBoxDelete) CheckBox checkBoxDelete;
+        @BindView(R.id.textViewName)
+        TextView textViewName;
+        @BindView(R.id.textViewDisease)
+        TextView textViewDisease;
+        @BindView(R.id.checkBoxDelete)
+        CheckBox checkBoxDelete;
 
-        public PatientViewHolder(@NonNull View itemView) {
+        PatientViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -36,6 +39,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     private List<Patient> mPatientList;
     private final LayoutInflater mInflater;
     private Context mContext;
+
     public PatientAdapter(List<Patient> patientList, Context context) {
         this.mPatientList = patientList;
         this.mContext = context;
@@ -66,23 +70,22 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         holder.checkBoxDelete.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 mPatientList.get(position).setIsChecked(true);
-            }
-            else {
+            } else {
                 mPatientList.get(position).setIsChecked(false);
             }
         });
     }
 
     @Override
-    public int getItemCount() { return mPatientList.size(); }
+    public int getItemCount() {
+        return mPatientList.size();
+    }
 
-    // przygotuj listę pacjentów
     public void setPatients(List<Patient> patients) {
         mPatientList = patients;
         notifyDataSetChanged();
     }
 
-    // usuwanie zaznaczonych pacjentów z bazy danych
     public void deleteSelected(PatientViewModel patientViewModel) {
         for (Patient patient : mPatientList) {
             if (patient.getIsChecked()) {
@@ -91,14 +94,12 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         }
     }
 
-    // zaznaczanie wszystkich pacjentów
     public void checkAll(String buttonText) {
         if (buttonText.equals(mContext.getString(R.string.check_all))) {
             for (Patient patient : mPatientList) {
                 patient.setIsChecked(true);
             }
-        }
-        else {
+        } else {
             for (Patient patient : mPatientList) {
                 patient.setIsChecked(false);
             }

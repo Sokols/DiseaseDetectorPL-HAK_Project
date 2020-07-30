@@ -34,19 +34,19 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 public class AddPatientActivity extends AppCompatActivity {
 
     @BindViews({R.id.editTextAddName, R.id.editTextAddSurname, R.id.editTextAge})
-        List<EditText> editTexts;
-    @BindView(R.id.textViewAddDisease) TextView textViewAddDisease;
-    @BindView(R.id.spinnerSex) Spinner spinnerSex;
-    @BindString(R.string.male) String male;
-    @BindString(R.string.female) String female;
+    List<EditText> editTexts;
+    @BindView(R.id.textViewAddDisease)
+    TextView textViewAddDisease;
+    @BindView(R.id.spinnerSex)
+    Spinner spinnerSex;
+    @BindString(R.string.male)
+    String male;
+    @BindString(R.string.female)
+    String female;
 
-    SharedPreferences sharedPreferences;
-    int patientID;
-    int diseaseID;
-    String[] spinnerSexes;
-    ArrayAdapter<String> spinnerAdapter;
-    List<Disease> diseaseList;
-    String sex = "";
+    private SharedPreferences sharedPreferences;
+    private int diseaseID;
+    private String sex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +54,20 @@ public class AddPatientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_patient);
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
+        sex = "";
 
         Bundle extras = getIntent().getExtras();
         diseaseID = Objects.requireNonNull(extras).getInt("diseaseID", 0);
-        diseaseList = getDiseases(this);
+        List<Disease> diseaseList = getDiseases(this);
 
         textViewAddDisease.setText(getString(R.string.disease_introduce, diseaseList.get(diseaseID - 1).getDiseaseName()));
 
-        spinnerSexes = new String[]{"-", female, male};
-        spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, spinnerSexes);
+        String[] spinnerSexes = new String[]{"-", female, male};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, spinnerSexes);
         spinnerSex.setAdapter(spinnerAdapter);
     }
 
-    // reakcja na interkację w spinnerze
+    // reaction to interaction in the spinner
     @OnItemSelected(R.id.spinnerSex)
     public void onItemSelected(int position) {
         switch (position) {
@@ -84,29 +85,28 @@ public class AddPatientActivity extends AppCompatActivity {
         }
     }
 
-    // brak interakcji w spinnerze
+    // no interaction in spinner
     @OnItemSelected(value = R.id.spinnerSex, callback = OnItemSelected.Callback.NOTHING_SELECTED)
     public void onNothingSelected() {
         // do nothing
     }
 
-    // anuluj dodawanie pacjenta
+    //cancel adding patient
     @OnClick(R.id.buttonAddCancel)
     public void buttonAddCancel() {
         finish();
     }
 
-    // potwierdź dodawanie pacjenta - sprawdź czy dodawanie będzie poprawne
+    // confirm adding patient - check if adding will be correct
     @OnClick(R.id.buttonAddConfirm)
     public void buttonAddConfirm() {
         String name = editTexts.get(0).getText().toString();
         String surname = editTexts.get(1).getText().toString();
-        // jeśli nie uzupełniono wszystkich danych pacjenta nie pozwól przejść dalej
+        // if you have not filled in all the patient's data, do not go further
         if (name.isEmpty() || surname.isEmpty() || editTexts.get(2).getText().toString().isEmpty() || sex.equals("")) {
             Toast.makeText(AddPatientActivity.this, R.string.alldata, Toast.LENGTH_SHORT).show();
-        }
-        else {
-            // sprawdzenie czy w pole wieku wpisano liczbę
+        } else {
+            // checking whether a number has been entered in the age field
             boolean digitsOnly = TextUtils.isDigitsOnly(editTexts.get(2).getText());
 
             if (digitsOnly) {
@@ -115,12 +115,12 @@ public class AddPatientActivity extends AppCompatActivity {
                 String date = df.format(Calendar.getInstance().getTime());
                 Intent patientsActivity = new Intent(AddPatientActivity.this, PatientsActivity.class);
 
-                // ręczne nadawanie ID pacjentom
-                patientID = sharedPreferences.getInt("id", 1);
+                // manually assigning IDs to patients
+                int patientID = sharedPreferences.getInt("id", 1);
                 patientsActivity.putExtra("id", patientID);
                 sharedPreferences.edit().putInt("id", patientID + 1).apply();
 
-                // flaga służąca do sygnalizowania potrzeby dodania pacjenta - tutaj istnieje potrzeba
+                // flag to signal the need to add a patient - there is a need here
                 patientsActivity.putExtra("flag", true);
                 patientsActivity.putExtra("name", name);
                 patientsActivity.putExtra("surname", surname);
@@ -130,8 +130,7 @@ public class AddPatientActivity extends AppCompatActivity {
                 patientsActivity.putExtra("date", date);
                 startActivity(patientsActivity);
                 finish();
-            }
-            else {
+            } else {
                 Toast.makeText(this, getString(R.string.wrong_age), Toast.LENGTH_SHORT).show();
             }
         }

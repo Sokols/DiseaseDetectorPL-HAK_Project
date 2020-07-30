@@ -1,7 +1,6 @@
 package pl.zhr.hak.wykrywaczchorob.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -21,80 +20,75 @@ import pl.zhr.hak.wykrywaczchorob.Symptom;
 
 import static pl.zhr.hak.wykrywaczchorob.Disease.getDiseases;
 import static pl.zhr.hak.wykrywaczchorob.SymptomAdapter.getChecked;
-import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferencesName;
 
 public class DiagnoseActivity extends AppCompatActivity {
 
     @BindViews({R.id.textViewPatientDisease1, R.id.textViewPatientDisease2, R.id.textViewPatientDisease3})
-        List<TextView> textViews;
+    List<TextView> textViews;
 
-    SharedPreferences sharedPreferences;
-    // flaga sygnalizująca czy znaleziono tylko jedną chorobę o wysokim prawdopodobieństwie
-    Boolean isDiseaseFlag = false;
-    // ID choroby, które zostanie przekazane do PatientActivity
-    int diseaseID = 0;
+    // The disease ID to pass to PatientActivity
+    private int diseaseID = 0;
 
-    List<Symptom> symptomList;
-    List<Disease> diseaseList;
-    List<Disease> highProbability = new ArrayList<>();
-    List<Disease> mediumProbability = new ArrayList<>();
-    List<Disease> lowProbability = new ArrayList<>();
+    private List<Disease> highProbability;
+    private List<Disease> mediumProbability;
+    private List<Disease> lowProbability;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnose);
         ButterKnife.bind(this);
-        sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
-        // są 3 stopnie prawdopodobieństwa zachorowania - wysokie, średnie, niskie
-        // pojawić się może maksymalnie 3 poziomy, minimalnie 1
-        // poziom 2 i 3 na starcie wyłączamy
+        highProbability = new ArrayList<>();
+        mediumProbability = new ArrayList<>();
+        lowProbability = new ArrayList<>();
+
+        // there are 3 levels of probability of getting sick - high, medium, low
+        // a maximum of 3 levels may appear, minimum 1
+        // turn level 2 and 3 off at the start
         textViews.get(1).setVisibility(View.GONE);
         textViews.get(2).setVisibility(View.GONE);
 
         startInference();
     }
 
-    // wróć do menu
     @OnClick(R.id.buttonBackToMenu)
     public void buttonBackToMenu() {
         finish();
     }
 
-    // dodaj pacjenta
     @OnClick(R.id.buttonAddPatient)
     public void buttonAddPatient() {
-        // jeśli nie znaleziono jednej choroby o wysokim prawdopodobieństwie zarażenia, nie można dodać pacjenta do bazy
+        // if no single disease is found with a high probability of being infected, the patient cannot be added to the database
         if (diseaseID == 0) {
             Toast.makeText(DiagnoseActivity.this, getString(R.string.cannot_add), Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             Intent addPatientActivity = new Intent(DiagnoseActivity.this, AddPatientActivity.class);
-            // podanie do nowej aktywności nazwy zdiagnozowanej choroby
+            // provide the name of the diagnosed disease to the new activity
             addPatientActivity.putExtra("diseaseID", diseaseID);
             startActivity(addPatientActivity);
             finish();
         }
     }
 
-    // algorytm odpowiadający za wnioskowanie
+    // the algorithm responsible for inference
     public void startInference() {
-        // zebranie zaznaczonych symptomów z adaptera oraz listy chorób
-        symptomList = getChecked();
-        diseaseList = getDiseases(this);
-        // USTAWIENIE WYSTĄPIEŃ SYMPTOMÓW W POSZCZEGÓLNYCH CHOROBACH
-        // sprawdzamy listę zaznaczonych symptomówq
+
+        // collect the selected symptoms from the adapter and the list of diseases
+        List<Symptom> symptomList = getChecked();
+        List<Disease> diseaseList = getDiseases(this);
+        // SET THE APPEARANCE OF SYMPTOMS IN INDIVIDUAL DISEASES
+        // check the list of marked symptoms
         for (Symptom symptom : symptomList) {
-            // przechodzimy dalej tylko jeśli symptom był zaznaczony
+            // only go forward if the symptom was marked
             if (symptom.getChecked()) {
-                // sprawdzamy listę chorób
+                // check the list of diseases
                 for (Disease disease : diseaseList) {
-                    // sprawdzamy każdy symptom choroby
+                    // check every symptom of the disease
                     for (int symptomIndex : disease.getSymptoms()) {
-                        // sprawdzamy czy zaznaczony symptom odpowiada któremuś z symptomów choroby
+                        // check whether the marked symptom corresponds to any of the symptoms of the disease
                         if (symptom.getSymptomID() == symptomIndex) {
-                            // jeśli tak, ustawiamy w chorobie
+                            // if so, we set in sickness
                             disease.setSymptomConfirm(disease.getSymptomConfirm() + 1);
                         }
                     }
@@ -102,10 +96,10 @@ public class DiagnoseActivity extends AppCompatActivity {
             }
         }
 
-        // PODZIELENIE CHORÓB NA TRZY LISTY - WYSOKIE, ŚREDNIE I NISKIE PRAWDOPODOBIEŃSTWO WYSTĄPIENIA
+        // PUT DISEASES INTO THREE LISTS - HIGH, MEDIUM AND LOW PROBABILITY OF OCCURRENCE
         for (Disease disease : diseaseList) {
-            // dodaj chorobę do odpowiedniej listy na podstawie zliczonych objawów
-            switch(disease.getSymptomConfirm()) {
+            // add the disease to the appropriate list based on the counted symptoms
+            switch (disease.getSymptomConfirm()) {
                 case 1:
                     lowProbability.add(disease);
                     break;
@@ -120,87 +114,73 @@ public class DiagnoseActivity extends AppCompatActivity {
             }
         }
 
-        // WYPISWANIE CHORÓB W TEXTVIEW NA PODSTAWIE UTWORZONYCH LIST PRAWDOPODOBIEŃSTW CHORÓB
+        // DISPLAYING OF DISEASES IN TEXTVIEW BASED ON THE CREATED LISTS OF DISEASE PROBABILITY
         if (!highProbability.isEmpty()) {
             String name = null;
-            // flaga sygnalizująca wystąpienienie więcej chorób w liście niż jedna
+            // flag signaling the occurrence of more than one disease in the list
             boolean flag = true;
             for (Disease disease : highProbability) {
-                // przejdź dalej jeśli jest to pierwsza choroba
+                //move on if this is the first disease
                 if (flag) {
-                    // ustaw nazwę choroby
                     name = disease.getDiseaseName();
-                    // zasygnalizuj, że istnieje już jedna choroba
                     flag = false;
-                    // zasygnalizuj, że na ten moment diagnoza nadaje się do dodania do bazy
-                    isDiseaseFlag = true;
-                    // podaj ID zdiagnozowanej choroby
                     diseaseID = disease.getDiseaseID();
                 }
-                // przejdź dalej jeśli jest to któraś choroba z kolei
+                // move on if this is another disease
                 else {
-                    // dodaj kolejną chorobę do nazw
+                    // add another disease to the names
                     name = name + ", " + disease.getDiseaseName();
-                    // zasygnalizuj, że diagnoza nie nadaje się do dodania do bazy
-                    isDiseaseFlag = false;
-                    // wyzeruj ID choroby - nie nadaje się do bazy
+                    // reset disease ID - not suitable for database
                     diseaseID = 0;
                 }
             }
-            // ustaw diagnozę dla wysokiego prawdopodobieństwa wystąpienia choroby
+            // set a diagnosis for a high probability of disease
             textViews.get(0).setText(getString(R.string.patient_diagnose, getString(R.string.high), name));
         }
 
+        //similarly
         if (!mediumProbability.isEmpty()) {
-            // analogicznie
             String name = null;
             boolean flag = true;
             for (Disease disease : mediumProbability) {
                 if (flag) {
                     name = disease.getDiseaseName();
                     flag = false;
-                }
-                else {
+                } else {
                     name = name + ", " + disease.getDiseaseName();
                 }
             }
-            // ustaw diagnozę dla średniego prawdopodobieństwa wystąpienia choroby
-            // jeśli wysokie prawdopodobieństwo nie istniało ustaw diagnozę w TextView1
+            // set the diagnosis for the average probability of disease occurrence
+            // if high probability did not exist set diagnosis in TextView1
             if (highProbability.isEmpty()) {
                 textViews.get(0).setText(getString(R.string.patient_diagnose, getString(R.string.medium), name));
             }
-            // jeśli istniało, uwidocznij TextView2 i dodaj do niego diagnozę
+            // if it existed, expose TextView2 and add a diagnosis to it
             else {
                 textViews.get(1).setVisibility(View.VISIBLE);
                 textViews.get(1).setText(getString(R.string.patient_diagnose, getString(R.string.medium), name));
             }
         }
 
+        // similarly
         if (!lowProbability.isEmpty()) {
-            // analogicznie
             String name = null;
             boolean flag = true;
             for (Disease disease : lowProbability) {
                 if (flag) {
                     name = disease.getDiseaseName();
                     flag = false;
-                }
-                else {
+                } else {
                     name = name + ", " + disease.getDiseaseName();
                 }
             }
-            // ustaw diagnozę dla niskiego prawdopodobieństwa wystąpienia choroby
-            // jeśli wysokie i średnie prawdopodobieństwo nie istniało ustaw diagnozę w TextView1
+
             if (highProbability.isEmpty() && mediumProbability.isEmpty()) {
                 textViews.get(0).setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
-            }
-            // jeśli wysokie prawdopodobieństwo istniało, a średnie nie, uwidocznij TextView2 i dodaj do niego diagnozę
-            else if (!highProbability.isEmpty() && mediumProbability.isEmpty()){
+            } else if (!highProbability.isEmpty() && mediumProbability.isEmpty()) {
                 textViews.get(1).setVisibility(View.VISIBLE);
                 textViews.get(1).setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
-            }
-            // jeśli nie istniało ani wysokie ani średnie uwidocznij TextView3 i dodaj do niego diagnozę
-            else {
+            } else {
                 textViews.get(2).setVisibility(View.VISIBLE);
                 textViews.get(2).setText(getString(R.string.patient_diagnose, getString(R.string.low), name));
             }

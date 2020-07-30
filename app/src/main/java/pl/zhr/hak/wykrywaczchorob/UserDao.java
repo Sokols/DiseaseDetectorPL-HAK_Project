@@ -8,7 +8,7 @@ import androidx.room.Query;
 public interface UserDao {
 
     @Insert
-    void insert (User user);
+    void insert(User user);
 
     @Query("SELECT * FROM User WHERE login = :login")
     User getItemByName(String login);

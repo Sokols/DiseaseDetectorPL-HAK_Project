@@ -29,12 +29,8 @@ public class User {
         this.password = password;
     }
 
-    public int getUserID() {
+    int getUserID() {
         return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     public String getLogin() {
@@ -47,9 +43,5 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

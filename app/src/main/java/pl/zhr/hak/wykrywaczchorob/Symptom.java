@@ -11,25 +11,17 @@ public class Symptom {
     private String symptomName;
     private Boolean isChecked;
 
-    public Symptom(int symptomID, String symptomName, Boolean isChecked) {
+    private Symptom(int symptomID, String symptomName, Boolean isChecked) {
         this.symptomID = symptomID;
         this.symptomName = symptomName;
         this.isChecked = isChecked;
-    }
-
-    public void setSymptomID(int symptomID) {
-        this.symptomID = symptomID;
-    }
-
-    public void setSymptomName(String symptomName) {
-        this.symptomName = symptomName;
     }
 
     public int getSymptomID() {
         return this.symptomID;
     }
 
-    public  String getSymptomName() {
+    String getSymptomName() {
         return this.symptomName;
     }
 
@@ -37,7 +29,7 @@ public class Symptom {
         return isChecked;
     }
 
-    public void setChecked(Boolean checked) {
+    void setChecked(Boolean checked) {
         isChecked = checked;
     }
 

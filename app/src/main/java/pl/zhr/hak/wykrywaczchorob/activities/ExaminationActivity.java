@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,11 +23,11 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 
 public class ExaminationActivity extends AppCompatActivity {
 
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
-    SymptomAdapter symptomAdapter;
-    SharedPreferences sharedPreferences;
-    List<Symptom> symptomList = new ArrayList<>();
+    private SymptomAdapter symptomAdapter;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,40 +36,33 @@ public class ExaminationActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences(sharedPreferencesName, 0);
 
-        // załaduj symptomy do adaptera
         setSymptoms();
     }
 
-    // anuluj i wróć do menu
     @OnClick(R.id.buttonCancelSymptoms)
     public void buttonCancelSymptoms() {
         finish();
     }
 
-    // zatwierdzenie symptomów
     @OnClick(R.id.buttonConfirmSymptoms)
     public void buttonConfirmSymptoms() {
-        // jeśli nie zaznaczono symptomów, nie pozwól przejść dalej
+        // if symptoms are not marked, do not move on
         if (sharedPreferences.getInt("symptomCounter", 0) == 0) {
             Toast.makeText(ExaminationActivity.this, getString(R.string.not_enough), Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Intent diagnoseActivity = new Intent(ExaminationActivity.this, DiagnoseActivity.class);
-            startActivity(diagnoseActivity);
+        } else {
+            startActivity(new Intent(ExaminationActivity.this, DiagnoseActivity.class));
             finish();
         }
     }
 
-    // odznacz wszystkie symptomy
     @OnClick(R.id.buttonUncheckSymptoms)
     public void buttonUncheckSymptoms() {
         symptomAdapter.uncheckAll();
         setSymptoms();
     }
 
-    // załaduj symptomy
     private void setSymptoms() {
-        symptomList = getSymptoms(this);
+        List<Symptom> symptomList = getSymptoms(this);
         symptomAdapter = new SymptomAdapter(symptomList, ExaminationActivity.this);
         recyclerView.setAdapter(symptomAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

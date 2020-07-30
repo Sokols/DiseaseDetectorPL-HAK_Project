@@ -23,11 +23,12 @@ import pl.zhr.hak.wykrywaczchorob.UserViewModel;
 public class RegisterActivity extends AppCompatActivity {
 
     @BindViews({R.id.editTextRegisterName, R.id.editTextRegisterPassword, R.id.editTextRegisterPassword2})
-        List<EditText> editTexts;
-    @BindView(R.id.textViewLoginNow) TextView textViewLoginNow;
+    List<EditText> editTexts;
+    @BindView(R.id.textViewLoginNow)
+    TextView textViewLoginNow;
 
-    UserViewModel userViewModel;
-    User user;
+    private UserViewModel userViewModel;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         textViewLoginNow.setPaintFlags(textViewLoginNow.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    // dodaj użytkownika do bazy - po drodze sprawdź czy dodanie jest możliwe
+    // add a user to the database - check if adding is possible
     @OnClick(R.id.buttonRegister)
     public void setButtonRegister() {
         String login = editTexts.get(0).getText().toString();
@@ -46,21 +47,18 @@ public class RegisterActivity extends AppCompatActivity {
         String password2 = editTexts.get(2).getText().toString();
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         user = userViewModel.getItemByName(login);
-        // sprawdź czy uzupełniono wszystkie pola
+        // check that all fields have been completed
         if (login.isEmpty() || password.isEmpty() || password2.isEmpty()) {
             Toast.makeText(this, getString(R.string.alldata), Toast.LENGTH_SHORT).show();
-        }
-        else {
-            // sprawdź czy podany login istnieje w bazie
+        } else {
+            // check if the given login exists in the database
             if (userViewModel.checkItemByName(login) == 1) {
                 Toast.makeText(this, getString(R.string.double_login), Toast.LENGTH_SHORT).show();
-            }
-            else {
-                // sprawdź poprawność hasła
+            } else {
+                // check the correctness of the password
                 if (!password.equals(password2)) {
                     Toast.makeText(this, getString(R.string.wrong_password_repeat), Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Intent mIntent = new Intent();
                     mIntent.putExtra("login", login);
                     mIntent.putExtra("password", password);

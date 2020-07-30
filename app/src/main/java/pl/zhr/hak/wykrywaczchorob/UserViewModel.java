@@ -23,7 +23,9 @@ public class UserViewModel extends AndroidViewModel {
         executorService.execute(() -> userDao.insert(user));
     }
 
-    public User getItemByName(String login) { return userDao.getItemByName(login); }
+    public User getItemByName(String login) {
+        return userDao.getItemByName(login);
+    }
 
     public int checkItemByName(String login) {
         return userDao.checkItemByName(login);

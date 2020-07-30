@@ -21,18 +21,20 @@ import static pl.zhr.hak.wykrywaczchorob.activities.LoginActivity.sharedPreferen
 public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomViewHolder> {
     static class SymptomViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.checkBoxCheckSymptom) CheckBox checkBoxCheckSymptom;
-        @BindView(R.id.textViewSymptomName) TextView textViewSymptomName;
+        @BindView(R.id.checkBoxCheckSymptom)
+        CheckBox checkBoxCheckSymptom;
+        @BindView(R.id.textViewSymptomName)
+        TextView textViewSymptomName;
 
-        public SymptomViewHolder(@NonNull View itemView) {
+        SymptomViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    private SharedPreferences sharedPreferences;
-    private static List<Symptom> mSymptomList;
     private final LayoutInflater mInflater;
+    private static List<Symptom> mSymptomList;
+    private SharedPreferences sharedPreferences;
 
     public SymptomAdapter(List<Symptom> symptomList, Context context) {
         mSymptomList = symptomList;
@@ -49,16 +51,16 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
 
     @Override
     public void onBindViewHolder(@NonNull SymptomViewHolder holder, int position) {
-        // ustaw na starcie licznik zaznaczonych symptomów na 0
+        // set the count of the selected symptoms to 0 at the start
         sharedPreferences.edit().putInt("symptomFlag", 0).apply();
         holder.textViewSymptomName.setText(mSymptomList.get(position).getSymptomName());
         holder.checkBoxCheckSymptom.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // jeśli symptom został zaznaczony zmień jego flagę isChecked na true i inkrementuj licznik zaznaocznych symptomów
+            // if a symptom was selected, change its isChecked flag to true and increment the counter of known symptoms
             if (isChecked) {
                 mSymptomList.get(position).setChecked(true);
                 sharedPreferences.edit().putInt("symptomCounter", sharedPreferences.getInt("symptomCounter", 0) + 1).apply();
             }
-            // jeśli symptom został odznaczony zmień jego flagę w isChecked na false i dekrementuj licznik zaznaczonych symptomów
+            // if a symptom was unchecked, change its flag in isChecked to false and decrement the count of selected symptoms
             else {
                 mSymptomList.get(position).setChecked(false);
                 if (sharedPreferences.getInt("symptomCounter", 0) > 0) {
@@ -73,9 +75,10 @@ public class SymptomAdapter extends RecyclerView.Adapter<SymptomAdapter.SymptomV
         return mSymptomList.size();
     }
 
-    public static List<Symptom> getChecked() { return mSymptomList; }
+    public static List<Symptom> getChecked() {
+        return mSymptomList;
+    }
 
-    // odznacz wszystkie symptomy
     public void uncheckAll() {
         for (Symptom symptom : mSymptomList) {
             if (symptom.getChecked()) {
