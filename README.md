@@ -12,4 +12,4 @@ See a short video showing how the application works here: https://youtu.be/XBugO
 ## Used technologies
 - <b>Java 8</b> in Android Studio
 - <b>Room</b> with SQLite
-- <b>ButterKnife<b> library
+- <b>ButterKnife</b> library
